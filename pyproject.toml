@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+# Without this, `pytest` (as CI runs it) cannot import `src`: pytest puts the test file's
+# own directory on sys.path, not the repository root. Running `python -m pytest` locally
+# hides the problem, because Python adds the working directory itself.
+pythonpath = ["."]
+testpaths = ["tests"]
