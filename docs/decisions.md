@@ -151,7 +151,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Rejected:** retrofitting the guard at the end of the repository, which is when the inconsistency has already had weeks to accumulate.
 
 ### D-012 · Published comparisons are recorded with the inputs each method used
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `1564f78`
 - **Status:** adopted
 - **Decision:** the comparison table carries an `inputs` column and states, per row, whether a published figure is a like-for-like comparison with the primary models here.
 - **Why:** the primary models are frozen at CGM, insulin and meals (D-010). A published method that also consumed wearable channels, or that used CGM alone, ran a different experiment. Ranking those figures in one column against ours would compare methods and input sets at the same time, and the difference would be invisible.
