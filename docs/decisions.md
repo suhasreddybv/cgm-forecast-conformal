@@ -14,7 +14,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 ---
 
 ### D-001 · The data use agreement governs everything in this repository
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** nothing derived from OhioT1DM enters git — not raw XML, not caches, not
   intermediate arrays, not per-patient statistics keyed to timestamps, and no figure that
@@ -33,7 +33,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   would defeat it.
 
 ### D-002 · The evaluation protocol is frozen before any model is fitted
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** `docs/protocol.md` fixes the splits, horizons, metrics, gap rules, fitting
   rules and stop conditions before a single baseline is fitted. **SHA-256 prefix `361352fd45a09072`.**
@@ -46,7 +46,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   is frozen is evidence about the protocol, not about the baseline.
 
 ### D-003 · The test period starts where the published challenge says it does
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** for the 2020 cohort the **first 12 CGM readings of each test file are excluded
   from evaluation**; for the 2018 cohort every test reading is scored. Exposed as
@@ -61,7 +61,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   relative to published work.
 
 ### D-004 · The two cohorts do not share a channel set
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** band channels are validated per cohort, and any model using them must either
   restrict itself to the intersection (GSR, skin temperature) or be reported per cohort.
@@ -80,7 +80,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   valid patients. Only glucose, finger sticks, basal and bolus are present everywhere.
 
 ### D-005 · Targets are never interpolated
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** a forecast is scored only against a real CGM reading. History may be
   interpolated across gaps of **at most 30 minutes**; a window containing a longer gap is
@@ -98,7 +98,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   data and bias the evaluation toward the best-instrumented stretches.
 
 ### D-006 · Sub-nominal CGM intervals are counted, not failed and not ignored
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** intervals shorter than the nominal five minutes are recorded on the record as
   `short_intervals` and pinned by a test; duplicate or out-of-order timestamps still raise.
