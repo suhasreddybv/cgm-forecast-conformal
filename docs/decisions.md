@@ -36,7 +36,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** `docs/protocol.md` fixes the splits, horizons, metrics, gap rules, fitting
-  rules and stop conditions before a single baseline is fitted. **SHA-256 prefix `361352fd45a09072`.**
+  rules and stop conditions before a single baseline is fitted. **SHA-256 prefix `34bc943a95d39159`.**
   Any later change is a new dated section with a reason, never an edit, and results produced
   under the old protocol are re-run or struck.
 - **Why now:** the PPG repository froze its evaluation design stage by stage and still had to
@@ -109,3 +109,42 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   data for a rounding artefact. **Why not ignore:** an undocumented cadence violation is how a
   resampling bug hides. The first draft of the loader did fail, and the count was measured
   before the rule was relaxed.
+
+### D-007 · The reference is a CGM, not a laboratory measurement
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted
+- **Decision:** every result in this repository is described as **agreement with the CGM reference**, never as accuracy against blood glucose.
+- **Why it matters more than any other limitation here:** the ground truth is a Medtronic Enlite sensor. Every figure computed on OhioT1DM — this repository's and every published one — inherits that sensor's own error against a laboratory assay. A model that matched the CGM perfectly would still differ from the patient's true glucose by the sensor's error, and that error is not estimable from this dataset because the dataset contains no laboratory reference to compare against.
+- **Deliberately not quoted:** no MARD figure for the Enlite appears anywhere in this repository. None has been sourced, and a number carried from memory is exactly the failure the PPG repository's D-042 was about. If one is cited later it arrives with its reference.
+- **Consequence:** a reader deciding whether this could inform treatment needs the sensor's accuracy as well as the model's, and only the second is measurable here.
+
+### D-008 · Censoring at the sensor floor biases the low end optimistically
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted (corrects an earlier statement)
+- **Correction:** an earlier note in this repository said hypoglycaemia sensitivity at 54 mg/dL "cannot be evaluated" because of censoring. **That was wrong.** Both 70 and 54 mg/dL sit inside the sensor's [40, 400] reporting range and both can be evaluated.
+- **What censoring actually does:** it prevents measuring error *below* 40. A true value of 30 is reported as 40, so a forecast of 40 scores as exact when it is 10 mg/dL high. Errors below 40 are unmeasurable on this dataset.
+- **Measured** over all 166,533 readings: **206 (0.124%) sit exactly at the 40 mg/dL floor** and 335 (0.201%) at the 400 ceiling. The floor readings concentrate where it matters: **17.8% of all readings below 54 mg/dL are at the floor**, against 3.8% of those below 70.
+- **Rule:** error-grid zones at the low end, and any metric computed on floored readings, are reported as **biased optimistic**, with the count of floored targets they rest on.
+
+### D-009 · Per-patient figures carry their effective n
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted
+- **Decision:** every per-patient result states the number of real targets it was computed on, and every pooled figure states the total.
+- **Evidence:** `results/gap_analysis.csv`. 552's test split is **40.2% missing** with a **118-hour** gap; the best-instrumented splits are above 95% complete. Comparing a per-patient RMSE from 552 against one from 588 without that context compares two different quantities.
+- **Precedent:** the fold counts carried in every row of the PPG repository's per-activity tables, which existed because S6 lacked three activities.
+
+### D-010 · Covariate scope is frozen before the first fit
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted
+- **Decision:** **primary models use CGM, insulin (basal, temporary basal, bolus) and meals only.** Wearable channels are a secondary, stratified analysis, evaluated only on patients who have them and reported separately, never mixed into the primary comparison.
+- **Evidence:** D-004. Heart rate is present-but-empty for five 2020 patients and absent entirely for 596; acceleration exists only in the 2020 cohort at a 1-minute cadence; the 2018 band carries channels the 2020 band lacks. Only glucose, finger sticks, basal and bolus are non-empty in all 24 files.
+- **The specific error this prevents:** a model that quietly used heart rate would be evaluated on six patients and then compared against published numbers computed on twelve. The comparison would be meaningless and would look like a result.
+- **Also:** "missing" and "empty" channels are handled identically, as already established in D-004.
+
+### D-011 · The decision log is guarded by a test, from day one
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted
+- **Decision:** `tests/test_decision_log.py` parses this file and asserts its own rules: every entry has an id and a status, ids are unique and sequential, every status reference points at an entry that exists, an entry that supersedes or closes another leaves that predecessor's status updated, no entry is both adopted and superseded, nothing marked open is claimed resolved elsewhere, and every adopted entry cites a committed artifact or a measured number. It runs in CI.
+- **Why it exists:** in the PPG repository five entries were left marked `open` after their successors landed, and the inconsistency survived a full close-out review. Prose review does not catch this class of error; parsing does.
+- **Verified by reintroducing the bug:** marking a resolved predecessor `open` again makes two independent checks fail and name both entries. The guard was not written to pass on a log that already happened to be clean.
+- **Rejected:** retrofitting the guard at the end of the repository, which is when the inconsistency has already had weeks to accumulate.

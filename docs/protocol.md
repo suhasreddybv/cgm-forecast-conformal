@@ -18,9 +18,35 @@ Eight weeks per patient, CGM every five minutes from a Medtronic Enlite sensor.
 training CGM count matches exactly, every 2018 test file matches its published count, and
 every 2020 test file contains exactly 12 more readings — the first hour.
 
-**CGM values are censored to [40, 400] mg/dL** by the sensor. This matters for the Week 5
-hypoglycaemia work: a reading of 40 means "40 or below", so sensitivity at the 54 mg/dL
-threshold cannot be evaluated against a sensor that does not resolve below 40.
+**CGM values are censored to [40, 400] mg/dL** by the sensor. Both hypoglycaemia thresholds
+(70 and 54 mg/dL) sit *inside* that range, so sensitivity at either can be evaluated; what
+censoring prevents is measuring error **below** 40. A true value of 30 is reported as 40, so a
+forecast of 40 scores as exact when it is 10 mg/dL high.
+
+Consequences, measured over all 166,533 readings: **206 readings (0.124%) sit exactly at the
+40 mg/dL floor** and 335 (0.201%) at the 400 ceiling. The floor readings are not spread evenly
+— **17.8% of all readings below 54 mg/dL sit exactly at the floor**, against 3.8% of those
+below 70. So error-grid zones at the low end, and any metric computed on floored readings, are
+**biased optimistic**, and that bias concentrates in the severe-hypoglycaemia region where
+accuracy matters most. Errors below 40 are unmeasurable on this dataset. Any low-end result is
+reported with the count of floored targets it rests on.
+
+## The reference is a CGM, not a laboratory measurement
+
+**The ground truth in this dataset is a Medtronic Enlite continuous glucose monitor, not a
+laboratory reference.** Every result computed here — this repository's and every published
+figure on OhioT1DM — measures agreement with a sensor that itself differs from the patient's
+true blood glucose. A forecast that matched the CGM perfectly would still be wrong by the
+sensor's own error against a laboratory assay.
+
+This is not a caveat about precision at the margins. It bounds what any accuracy figure on
+this dataset can mean: the numbers describe agreement with a device, and the device is the
+thing a clinician would not treat on alone. No MARD figure for the Enlite is quoted here,
+because none has been sourced; if one is cited later it comes with its reference, not from
+memory.
+
+The practical rule: results are described as agreement with the CGM reference, never as
+accuracy against blood glucose.
 
 ## Splits
 
@@ -51,6 +77,11 @@ file where needed; no model may see a target before predicting it.
   different at 70 and at 300 mg/dL.
 - Reported per patient and aggregated, with the aggregation stated (mean of per-patient
   values, with the pooled figure beside it).
+- **Every per-patient figure carries the number of real targets it was computed on, and every
+  pooled figure states the total.** Patients are not comparable without it: 552's test split is
+  40.2% missing with a 118-hour gap, so its per-patient error rests on far fewer evaluable
+  targets than any other patient's. This is the same convention as the fold counts in the PPG
+  repository, where S6 lacked three activities and the per-activity tables said so in every row.
 - **Error-grid (Clarke, Parkes), time-in-range agreement and hypoglycaemia sensitivity are
   Week 5 work and are not computed now.** They are listed as pending, not estimated.
 
@@ -73,6 +104,24 @@ gap** (13.9% for the worst patient).
    without interpolated-history windows, so the cost of rule 2 is visible rather than assumed.
 4. **Gap handling is applied identically to training and test.** No rule may make the test set
    easier than the training set.
+
+## Covariate scope
+
+Frozen before any fit, because the wearable channels are not uniformly available (D-004):
+heart rate is present-but-empty for five 2020 patients and absent entirely for 596,
+acceleration exists only in the 2020 cohort at a 1-minute cadence, and the 2018 band carries
+channels the 2020 band does not.
+
+- **Primary models use CGM, insulin (basal, temporary basal, bolus) and meals only.** These
+  are present for all 12 patients, and they are what the published comparisons use, so the
+  comparison stays like-for-like.
+- **Wearable channels are a secondary, stratified analysis**, evaluated only on the patients
+  where they exist and reported separately. They are never mixed into the primary comparison,
+  and a result that depends on them is never presented as a result on the dataset.
+- **"Missing" and "empty" are handled identically**, as established in D-004.
+
+A model that quietly used heart rate would be evaluated on six patients and compared against
+published numbers computed on twelve. That is the specific error this rule prevents.
 
 ## Fitting
 
