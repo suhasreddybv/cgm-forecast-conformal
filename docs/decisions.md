@@ -36,7 +36,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Date / commit:** 2026-10-05 · `3e6f82f`
 - **Status:** adopted
 - **Decision:** `docs/protocol.md` fixes the splits, horizons, metrics, gap rules, fitting
-  rules and stop conditions before a single baseline is fitted. **SHA-256 prefix `34bc943a95d39159`.**
+  rules and stop conditions before a single baseline is fitted. **SHA-256 prefix `e1f76075a0decc0c`.**
   Any later change is a new dated section with a reason, never an edit, and results produced
   under the old protocol are re-run or struck.
 - **Why now:** the PPG repository froze its evaluation design stage by stage and still had to
@@ -117,6 +117,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Why it matters more than any other limitation here:** the ground truth is a Medtronic Enlite sensor. Every figure computed on OhioT1DM — this repository's and every published one — inherits that sensor's own error against a laboratory assay. A model that matched the CGM perfectly would still differ from the patient's true glucose by the sensor's error, and that error is not estimable from this dataset because the dataset contains no laboratory reference to compare against.
 - **Deliberately not quoted:** no MARD figure for the Enlite appears anywhere in this repository. None has been sourced, and a number carried from memory is exactly the failure the PPG repository's D-042 was about. If one is cited later it arrives with its reference.
 - **Consequence:** a reader deciding whether this could inform treatment needs the sensor's accuracy as well as the model's, and only the second is measurable here.
+- **Correction (2026-10-05, same day):** the first version of this entry said the reference is "the thing a clinician would not treat on alone". That is true of the Enlite and **not** of CGMs generally, and the overreach is the kind a reader at a sensor company would catch immediately. Precisely: **the Enlite was an adjunctive device, not cleared for treatment decisions without a confirmatory fingerstick.** Current sensors — Dexcom G6 and G7, FreeStyle Libre 2 and 3 — carry non-adjunctive labelling, and the FDA's iCGM special controls at **21 CFR 862.1355** define what a sensor must demonstrate to be dosed from directly. OhioT1DM's reference belongs to the adjunctive generation; that is the claim, and it is narrower than the one it replaces.
 
 ### D-008 · Censoring at the sensor floor biases the low end optimistically
 - **Date / commit:** 2026-10-05 · `25c9809`
@@ -148,3 +149,10 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Why it exists:** in the PPG repository five entries were left marked `open` after their successors landed, and the inconsistency survived a full close-out review. Prose review does not catch this class of error; parsing does.
 - **Verified by reintroducing the bug:** marking a resolved predecessor `open` again makes two independent checks fail and name both entries. The guard was not written to pass on a log that already happened to be clean.
 - **Rejected:** retrofitting the guard at the end of the repository, which is when the inconsistency has already had weeks to accumulate.
+
+### D-012 · Published comparisons are recorded with the inputs each method used
+- **Date / commit:** 2026-10-05 · `pending`
+- **Status:** adopted
+- **Decision:** the comparison table carries an `inputs` column and states, per row, whether a published figure is a like-for-like comparison with the primary models here.
+- **Why:** the primary models are frozen at CGM, insulin and meals (D-010). A published method that also consumed wearable channels, or that used CGM alone, ran a different experiment. Ranking those figures in one column against ours would compare methods and input sets at the same time, and the difference would be invisible.
+- **Consequence for Tuesday's reading block:** for each published method, the inputs are recorded alongside the RMSE and MAE, and only the matching ones are described as comparable. The numbers themselves are still extracted from the sources then, not from memory.

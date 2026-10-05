@@ -40,10 +40,17 @@ true blood glucose. A forecast that matched the CGM perfectly would still be wro
 sensor's own error against a laboratory assay.
 
 This is not a caveat about precision at the margins. It bounds what any accuracy figure on
-this dataset can mean: the numbers describe agreement with a device, and the device is the
-thing a clinician would not treat on alone. No MARD figure for the Enlite is quoted here,
-because none has been sourced; if one is cited later it comes with its reference, not from
-memory.
+this dataset can mean: the numbers describe agreement with a device. **The Enlite was an
+adjunctive device — not cleared for treatment decisions without a confirmatory fingerstick.**
+
+That is specific to this sensor and this era, and should not be generalised to CGMs as a
+class. Current sensors including the Dexcom G6 and G7 and the FreeStyle Libre 2 and 3 carry
+non-adjunctive labelling, and the FDA's iCGM special controls (21 CFR 862.1355) set out what
+a sensor must demonstrate to be dosed from directly. A result on OhioT1DM is measured against
+a reference from the adjunctive generation.
+
+No MARD figure for the Enlite is quoted here, because none has been sourced; if one is cited
+later it comes with its reference, not from memory.
 
 The practical rule: results are described as agreement with the CGM reference, never as
 accuracy against blood glucose.
@@ -141,6 +148,13 @@ The per-patient RMSE and MAE at 30 and 60 minutes from the dataset paper and fro
 Glucose Level Prediction Challenge results on this dataset. **Those numbers are extracted
 from the sources in the Tuesday reading block and cited there — they are not written from
 memory, and this file does not quote them until they are.**
+
+**Each published figure is recorded with the inputs the method used.** The primary models here
+are frozen at CGM, insulin and meals, so only methods using those same inputs are a like-for-
+like comparison. A method that also consumed wearable channels, or that used only CGM, is a
+different experiment and is labelled as such in the comparison table rather than ranked beside
+ours. The table carries an `inputs` column and states, per row, whether the figure qualifies as
+a like-for-like comparison.
 
 ## Stop conditions
 
