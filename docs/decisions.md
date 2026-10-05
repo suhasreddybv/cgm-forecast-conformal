@@ -111,7 +111,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
   before the rule was relaxed.
 
 ### D-007 · The reference is a CGM, not a laboratory measurement
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `25c9809`
 - **Status:** adopted
 - **Decision:** every result in this repository is described as **agreement with the CGM reference**, never as accuracy against blood glucose.
 - **Why it matters more than any other limitation here:** the ground truth is a Medtronic Enlite sensor. Every figure computed on OhioT1DM — this repository's and every published one — inherits that sensor's own error against a laboratory assay. A model that matched the CGM perfectly would still differ from the patient's true glucose by the sensor's error, and that error is not estimable from this dataset because the dataset contains no laboratory reference to compare against.
@@ -119,7 +119,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Consequence:** a reader deciding whether this could inform treatment needs the sensor's accuracy as well as the model's, and only the second is measurable here.
 
 ### D-008 · Censoring at the sensor floor biases the low end optimistically
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `25c9809`
 - **Status:** adopted (corrects an earlier statement)
 - **Correction:** an earlier note in this repository said hypoglycaemia sensitivity at 54 mg/dL "cannot be evaluated" because of censoring. **That was wrong.** Both 70 and 54 mg/dL sit inside the sensor's [40, 400] reporting range and both can be evaluated.
 - **What censoring actually does:** it prevents measuring error *below* 40. A true value of 30 is reported as 40, so a forecast of 40 scores as exact when it is 10 mg/dL high. Errors below 40 are unmeasurable on this dataset.
@@ -127,14 +127,14 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Rule:** error-grid zones at the low end, and any metric computed on floored readings, are reported as **biased optimistic**, with the count of floored targets they rest on.
 
 ### D-009 · Per-patient figures carry their effective n
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `25c9809`
 - **Status:** adopted
 - **Decision:** every per-patient result states the number of real targets it was computed on, and every pooled figure states the total.
 - **Evidence:** `results/gap_analysis.csv`. 552's test split is **40.2% missing** with a **118-hour** gap; the best-instrumented splits are above 95% complete. Comparing a per-patient RMSE from 552 against one from 588 without that context compares two different quantities.
 - **Precedent:** the fold counts carried in every row of the PPG repository's per-activity tables, which existed because S6 lacked three activities.
 
 ### D-010 · Covariate scope is frozen before the first fit
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `25c9809`
 - **Status:** adopted
 - **Decision:** **primary models use CGM, insulin (basal, temporary basal, bolus) and meals only.** Wearable channels are a secondary, stratified analysis, evaluated only on patients who have them and reported separately, never mixed into the primary comparison.
 - **Evidence:** D-004. Heart rate is present-but-empty for five 2020 patients and absent entirely for 596; acceleration exists only in the 2020 cohort at a 1-minute cadence; the 2018 band carries channels the 2020 band lacks. Only glucose, finger sticks, basal and bolus are non-empty in all 24 files.
@@ -142,7 +142,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Also:** "missing" and "empty" channels are handled identically, as already established in D-004.
 
 ### D-011 · The decision log is guarded by a test, from day one
-- **Date / commit:** 2026-10-05 · `pending`
+- **Date / commit:** 2026-10-05 · `25c9809`
 - **Status:** adopted
 - **Decision:** `tests/test_decision_log.py` parses this file and asserts its own rules: every entry has an id and a status, ids are unique and sequential, every status reference points at an entry that exists, an entry that supersedes or closes another leaves that predecessor's status updated, no entry is both adopted and superseded, nothing marked open is claimed resolved elsewhere, and every adopted entry cites a committed artifact or a measured number. It runs in CI.
 - **Why it exists:** in the PPG repository five entries were left marked `open` after their successors landed, and the inconsistency survived a full close-out review. Prose review does not catch this class of error; parsing does.
