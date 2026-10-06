@@ -174,6 +174,12 @@ def validate(rec_channels: dict[str, Channel], pid: str, split: str, cohort: str
     return gaps, short
 
 
+def patient_path(patient_id: str, split: str) -> Path:
+    """Where one patient/split's XML lives under DATA_ROOT."""
+    suffix = "training" if split == "train" else "testing"
+    return DATA_ROOT / COHORT_OF[patient_id] / split / f"{patient_id}-ws-{suffix}.xml"
+
+
 def load_patient(patient_id: str, split: str, use_cache: bool = True) -> PatientRecord:
     """Load, validate and return one patient/split. `split` is 'train' or 'test'."""
     if patient_id not in PATIENTS:
@@ -181,8 +187,7 @@ def load_patient(patient_id: str, split: str, use_cache: bool = True) -> Patient
     if split not in ("train", "test"):
         raise ValueError(f"split must be 'train' or 'test', not {split!r}")
     cohort = COHORT_OF[patient_id]
-    suffix = "training" if split == "train" else "testing"
-    path = DATA_ROOT / cohort / split / f"{patient_id}-ws-{suffix}.xml"
+    path = patient_path(patient_id, split)
     if not path.exists():
         raise FileNotFoundError(f"{path} not found. See data/README.md for access.")
 

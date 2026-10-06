@@ -12,6 +12,8 @@ The cohorts do not share a sensor-band channel set. The 2018 cohort wore the Bas
 
 **Gaps are the thing that would corrupt this silently** (`results/gap_analysis.csv`). The CGM series is **11.9% incomplete on average in training and 10.7% in test**; the worst patient/split, 552/test, is **40.2% missing**; and the longest single gap is **118 hours**. Cut naively, 1.6% of 30-minute history windows cross a gap, 3.4% of 1-hour windows and **7.1% of 2-hour windows** — 13.9% for the worst patient. The frozen rule: history may be interpolated across at most 30 minutes, longer gaps drop the window, and **a target is never interpolated** — a forecast is scored only against a real CGM reading.
 
+**Windows are built on that rule** (`src/data/windows.py`, D-013 to D-016). One window per real reading with enough history; history slots sit at exactly 30 or 60 minutes before the target and are valued by interpolation in time, because the cadence is not exactly 300 s (503 of 166,000 intervals are 301–360 s). Covariates the primary models may use — basal with temporary overrides, boluses with extended ones spread over their delivery, carbohydrates — are aligned to the same slots and see nothing after the history end. **`results/effective_n.csv` is the n column that accompanies every result from here on**: 92–97% of raw readings are evaluable depending on horizon and history length, and 552's test split, 40% missing, keeps 89% of its own readings but only **53% of the readings its sensor should have produced**. Reconciling the windower against the naive gap count found that index-space windows miss every target whose latest reading is older than it looks — the true cost of gaps at 30 minutes is about twice the naive figure (D-016).
+
 ![Clarke and Parkes error grids, 30- and 60-minute horizons](figures/hero.png)
 
 ## Method
@@ -23,7 +25,10 @@ _To be written (5–18 Oct 2026)._ Planned: persistence and linear baselines rep
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# commands added as the pipeline lands
+# obtain OhioT1DM first: see data/README.md
+pytest                              # 243 tests; 190 need the dataset and skip without it
+python -m src.data.gap_analysis     # results/gap_analysis.csv
+python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 ```
 
 Data: see [data/README.md](data/README.md). No data is included in this repository.
