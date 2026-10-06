@@ -158,7 +158,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Consequence for Tuesday's reading block:** for each published method, the inputs are recorded alongside the RMSE and MAE, and only the matching ones are described as comparable. The numbers themselves are still extracted from the sources then, not from memory.
 
 ### D-013 · Windows are anchored on the target and valued by interpolation in time
-- **Date / commit:** 2026-10-06 · `pending`
+- **Date / commit:** 2026-10-06 · `6d4f969`
 - **Status:** adopted
 - **Decision:** one window per real CGM reading that has enough history (`src/data/windows.py`). For a target at time T and horizon h, the history is H slots at T − (h+k)·300 s, k = H−1 … 0, so the history end sits exactly h steps before the target. The value at a slot is the reading at that instant if one exists, else the linear interpolation of the two real readings bracketing it. A window is dropped if any bracketing interval exceeds 1,800 s (protocol rule 2) or a slot precedes the first reading available. Built for **h ∈ {6, 12} and H ∈ {6, 12, 24}** — 144 window sets, cached under `~/.cache/cgm-forecast-conformal/windows`, outside the tree (D-001).
 - **Why interpolate in time rather than take H consecutive readings:** the cadence is not exactly 300 s. **Measured over all 24 files: 165,482 intervals are exactly 300 s, 503 are 301–360 s, 3 are shorter**, and of the 521 intervals over 360 s, 125 are not multiples of 300 s. A window of H consecutive readings silently stretches across any gap inside it, and a global 5-minute grid loses phase after every jittered interval. Anchoring on the target and interpolating handles both with one rule; the value is exact whenever a slot coincides with a reading, and a 301 s interval moves it by at most 1/301 of one step.
@@ -167,14 +167,14 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Rejected:** index-space windows of H consecutive readings — the common shortcut, and the one whose blind spot D-016 measures. A global 5-minute grid anchored at the first reading, because the phase shifts after every non-multiple gap and every jittered interval.
 
 ### D-014 · The test warm-up as implemented
-- **Date / commit:** 2026-10-06 · `pending`
+- **Date / commit:** 2026-10-06 · `6d4f969`
 - **Status:** adopted (implements D-003)
 - **Decision:** for the test split the history series is the training file followed by the test file, and candidate targets start at `eval_start_index` — the first 12 readings of a 2020 test file serve as history and are never scored (D-003); every 2018 test reading is a candidate. History never reaches past the target and never outside the patient's own two files.
 - **Measured:** the training tail ends **exactly 300 s before the first test reading for all 12 patients**, so the test file continues the training file with no gap and early test targets draw full history from the training tail. **`n_dropped_no_history` is 0 for every test split** at every h and H (`results/effective_n.csv`). Both facts are pinned by `tests/test_windows.py::test_test_split_warm_up_as_the_protocol_specifies`.
 - **The one case where the first candidate is not the first target:** 552's training file has a **409-minute gap ending 10 readings before the split**. At H=24 the first scored test points reach into it and are dropped — **7 at h=6, 13 at h=12; 1 at h=12, H=12; none at H=6** — under the same 30-minute rule as everywhere else. No other patient drops any candidate before its first target. The test asserts exactly this: every candidate before the first target was dropped for a long gap, never for lack of readings, and only on 552.
 
 ### D-015 · Covariates are aligned to the history slots, causally
-- **Date / commit:** 2026-10-06 · `pending`
+- **Date / commit:** 2026-10-06 · `6d4f969`
 - **Status:** adopted
 - **Decision:** the channels the primary models may use (D-010) are carried on every window as separate `[n, H]` arrays aligned to the same slots as the glucose history: **`basal`** — U/h in effect at the slot instant, with a temporary basal overriding the schedule while active (begin inclusive, end exclusive; where two overlap, the later-begun one); **`bolus`** — units delivered in the five minutes ending at the slot, with an extended bolus spread uniformly over its delivery interval; **`carbs`** — grams logged in the five minutes ending at the slot. Nothing after the history end enters any of them: a bolus or meal between the history end and the target is unseen.
 - **Measured, and why each rule exists:** of **3,733 boluses, 245 are extended** (227 `square dual`, 18 `square`), delivered over up to 3,600 s — dumping them at `ts_begin` would place an hour of insulin in one five-minute bin. Of **572 temporary basals, one pair overlaps** (591/train). **575's first basal event comes 56 minutes after its first CGM reading**, so 12 training windows per (h, H) carry NaN basal for the slots before it (57–78 slots); no other file has unknown basal, because the training file's last scheduled rate carries into the test split. NaN is kept rather than filled: a rate that was not recorded is not zero.
@@ -182,7 +182,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Not done, on purpose:** no feature engineering (insulin on board, time since meal, time of day) — that is the model's business on Saturday, and building it today would be a design choice made before the baselines exist. Insulin planned inside the horizon is excluded as future information; if it is ever used it is a separate, labelled analysis.
 
 ### D-016 · The effective-n table, and the gap analysis reconciled with the windower
-- **Date / commit:** 2026-10-06 · `pending`
+- **Date / commit:** 2026-10-06 · `6d4f969`
 - **Status:** adopted
 - **Deliverable:** `results/effective_n.csv` — per patient × split × horizon × H, the number of evaluable real targets, split into clean and interpolated-history, with what was dropped and why, as a fraction of the file's readings and of the readings the sensor should have produced. **This is the n column that accompanies every result from here on (D-009).** Aggregate counts only.
 - **Result:** mean evaluable share of raw readings is **97.4% (train) / 97.3% (test) at h=6, H=6**, falling to **92.1% / 92.3% at h=12, H=24**; worst files 567/train at 84.5% and 584/test at 84.9%. **552/test keeps 88.8% of its own readings at h=12, H=24 — but that is 2,100 targets against the 3,950 its sensor should have produced (53.2%).** The cost of a long gap is paid in absolute n, not in the fraction: the readings inside 552's 118-hour gap never existed, so they are not targets to lose. The table carries both denominators so neither reading of the number can hide the other.
