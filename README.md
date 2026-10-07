@@ -2,7 +2,7 @@
 
 Glucose forecasting at 30 and 60 minutes with calibrated conformal prediction intervals, evaluated by clinical error grids rather than RMSE alone.
 
-**Result.** _Pending — no model has been fitted. The evaluation protocol was frozen first ([docs/protocol.md](docs/protocol.md)), and the headline number goes here once baselines are run against it._
+**Result so far.** Forecasting the most recent reading — persistence — scores **23.4 mg/dL RMSE at 30 minutes and 38.5 at 60** on the test split (mean of 12 patients; n = 30,912 and 30,579 real targets). A per-patient linear autoregression on two hours of history plus insulin and meals brings that to **19.0 and 32.0**, a margin of 4.4 and 6.6 mg/dL, and a leave-one-patient-out population fit is within 0.2 of it at 30 minutes. **The sequence model and the conformal intervals are pending**; the evaluation protocol was frozen before any of this was fitted ([docs/protocol.md](docs/protocol.md)), and the bar the sequence model has to clear is the linear model at 19.0, not persistence at 23.4. No published comparison appears until the inputs and evaluation rule are matched (D-012).
 
 ## The data layer
 
@@ -14,7 +14,7 @@ The cohorts do not share a sensor-band channel set. The 2018 cohort wore the Bas
 
 **Windows are built on that rule** (`src/data/windows.py`, D-013 to D-016). One window per real reading with enough history; history slots sit at exactly 30 or 60 minutes before the target and are valued by interpolation in time, because the cadence is not exactly 300 s (503 of 166,000 intervals are 301–360 s). Covariates the primary models may use — basal with temporary overrides, boluses with extended ones spread over their delivery, carbohydrates — are aligned to the same slots and see nothing after the history end. **`results/effective_n.csv` is the n column that accompanies every result from here on**: 92–97% of raw readings are evaluable depending on horizon and history length, and 552's test split, 40% missing, keeps 89% of its own readings but only **53% of the readings its sensor should have produced**. Reconciling the windower against the naive gap count found that index-space windows miss every target whose latest reading is older than it looks — the true cost of gaps at 30 minutes is about twice the naive figure (D-016).
 
-![Clarke and Parkes error grids, 30- and 60-minute horizons](figures/hero.png)
+_The hero figure — Clarke and Parkes error grids at both horizons — is Week 5 work and is not embedded until it exists._
 
 ## Baselines
 
