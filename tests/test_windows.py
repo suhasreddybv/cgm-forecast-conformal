@@ -255,6 +255,11 @@ def test_test_split_warm_up_as_the_protocol_specifies(pid):
     assert rec.cgm.ts[0] - train.cgm.ts[-1] == np.timedelta64(STEP_S, "s")
     cgm, _, eval_from = _series_for(rec)
     assert eval_from == len(train.cgm) + rec.eval_start_index
+    # the scored set starts where the published rule says, whatever history is available
+    # earlier: 2020 after the first hour, 2018 at the first test reading (D-017)
+    for h in HORIZONS:
+        for H in HISTORY_LENGTHS:
+            assert windows_for(pid, "test", h, H).target_ts.min() >= rec.cgm.ts[rec.eval_start_index]
     for h in HORIZONS:
         ws = windows_for(pid, "test", h, 24)
         assert ws.n_candidates == len(rec.cgm) - rec.eval_start_index
