@@ -1,73 +1,73 @@
-method,variant,k,fit,covariates,window_set_H,eval_variant,cohort,n_patients,rmse30_mean_of_six,mae30_mean_of_six,rmse60_mean_of_six,mae60_mean_of_six,four_score_sum,n_scored_30,n_scored_60,n_fallback_30,n_fallback_60
-l1,linear extrapolation k=2,2,none,False,6,bglp,2018,6,34.795,20.161,70.701,42.632,168.29,15970,15970,297,430
-l1,linear extrapolation k=2,2,none,False,6,bglp,2020,6,35.703,19.98,74.459,43.644,173.786,15701,15701,462,662
-l1,linear extrapolation k=2,2,none,False,6,primary,2018,6,31.846,19.52,65.673,41.826,158.865,15673,15540,0,0
-l1,linear extrapolation k=2,2,none,False,6,primary,2020,6,27.866,18.751,61.032,42.03,149.679,15239,15039,0,0
-l1,linear extrapolation k=3,3,none,False,6,bglp,2018,6,31.348,19.324,62.845,40.22,153.737,15970,15970,297,430
-l1,linear extrapolation k=3,3,none,False,6,bglp,2020,6,31.786,19.628,65.944,42.324,159.682,15701,15701,462,662
-l1,linear extrapolation k=3,3,none,False,6,primary,2018,6,29.511,18.703,59.974,39.414,147.602,15673,15540,0,0
-l1,linear extrapolation k=3,3,none,False,6,primary,2020,6,26.947,18.464,58.277,40.806,144.494,15239,15039,0,0
-l1,linear extrapolation k=6,6,none,False,6,bglp,2018,6,29.248,19.242,55.929,38.304,142.723,15970,15970,297,430
-l1,linear extrapolation k=6,6,none,False,6,bglp,2020,6,30.918,20.501,60.954,41.688,154.062,15701,15701,462,662
-l1,linear extrapolation k=6,6,none,False,6,primary,2018,6,28.195,18.698,54.58,37.599,139.072,15673,15540,0,0
-l1,linear extrapolation k=6,6,none,False,6,primary,2020,6,28.101,19.533,57.139,40.449,145.223,15239,15039,0,0
-l2,linear AR H=6,,per-patient,False,6,bglp,2018,6,20.848,14.779,33.526,25.242,94.395,15970,15970,297,430
-l2,linear AR H=6,,per-patient,False,6,bglp,2020,6,21.995,15.769,36.396,27.728,101.888,15701,15701,462,662
-l2,linear AR H=6,,per-patient,False,6,primary,2018,6,20.171,14.157,33.014,24.588,91.929,15673,15540,0,0
-l2,linear AR H=6,,per-patient,False,6,primary,2020,6,19.722,14.498,34.764,26.516,95.501,15239,15039,0,0
-l2,linear AR H=6,,per-patient,True,6,bglp,2018,6,20.347,14.369,32.702,24.551,91.968,15970,15970,297,430
-l2,linear AR H=6,,per-patient,True,6,bglp,2020,6,21.407,15.332,34.978,26.525,98.242,15701,15701,462,662
-l2,linear AR H=6,,per-patient,True,6,primary,2018,6,19.717,13.786,32.252,23.934,89.689,15673,15540,0,0
-l2,linear AR H=6,,per-patient,True,6,primary,2020,6,19.129,14.036,33.193,25.198,91.556,15239,15039,0,0
-l2,linear AR H=6,,population (LOPO),False,6,bglp,2018,6,21.006,14.955,34.214,25.889,96.065,15970,15970,297,430
-l2,linear AR H=6,,population (LOPO),False,6,bglp,2020,6,22.204,15.867,36.488,27.703,102.262,15701,15701,462,662
-l2,linear AR H=6,,population (LOPO),False,6,primary,2018,6,20.214,14.258,33.501,25.123,93.096,15673,15540,0,0
-l2,linear AR H=6,,population (LOPO),False,6,primary,2020,6,19.987,14.707,34.906,26.643,96.242,15239,15039,0,0
-l2,linear AR H=6,,population (LOPO),True,6,bglp,2018,6,20.714,14.757,33.743,25.529,94.743,15970,15970,297,430
-l2,linear AR H=6,,population (LOPO),True,6,bglp,2020,6,21.881,15.658,35.894,27.323,100.756,15701,15701,462,662
-l2,linear AR H=6,,population (LOPO),True,6,primary,2018,6,19.915,14.049,33.019,24.734,91.716,15673,15540,0,0
-l2,linear AR H=6,,population (LOPO),True,6,primary,2020,6,19.673,14.489,34.241,26.196,94.598,15239,15039,0,0
-l2,linear AR H=12,,per-patient,False,12,bglp,2018,6,20.831,14.744,33.507,25.171,94.253,15970,15970,456,586
-l2,linear AR H=12,,per-patient,False,12,bglp,2020,6,21.97,15.753,36.402,27.709,101.835,15701,15701,714,915
-l2,linear AR H=12,,per-patient,False,12,primary,2018,6,20.162,14.137,32.964,24.524,91.787,15514,15384,0,0
-l2,linear AR H=12,,per-patient,False,12,primary,2020,6,19.725,14.468,34.821,26.517,95.531,14987,14786,0,0
-l2,linear AR H=12,,per-patient,True,12,bglp,2018,6,20.199,14.148,32.422,24.21,90.979,15970,15970,456,586
-l2,linear AR H=12,,per-patient,True,12,bglp,2020,6,20.851,14.884,34.218,25.883,95.837,15701,15701,714,915
-l2,linear AR H=12,,per-patient,True,12,primary,2018,6,19.566,13.591,31.94,23.614,88.711,15514,15384,0,0
-l2,linear AR H=12,,per-patient,True,12,primary,2020,6,18.616,13.6,32.512,24.58,89.308,14987,14786,0,0
-l2,linear AR H=12,,population (LOPO),False,12,bglp,2018,6,21.001,14.945,34.225,25.888,96.06,15970,15970,456,586
-l2,linear AR H=12,,population (LOPO),False,12,bglp,2020,6,22.218,15.868,36.523,27.718,102.326,15701,15701,714,915
-l2,linear AR H=12,,population (LOPO),False,12,primary,2018,6,20.178,14.225,33.405,25.053,92.861,15514,15384,0,0
-l2,linear AR H=12,,population (LOPO),False,12,primary,2020,6,20.04,14.717,34.987,26.664,96.408,14987,14786,0,0
-l2,linear AR H=12,,population (LOPO),True,12,bglp,2018,6,20.553,14.576,33.587,25.297,94.013,15970,15970,456,586
-l2,linear AR H=12,,population (LOPO),True,12,bglp,2020,6,21.611,15.421,35.522,26.999,99.553,15701,15701,714,915
-l2,linear AR H=12,,population (LOPO),True,12,primary,2018,6,19.742,13.863,32.789,24.454,90.848,15514,15384,0,0
-l2,linear AR H=12,,population (LOPO),True,12,primary,2020,6,19.468,14.296,33.94,25.897,93.601,14987,14786,0,0
-l2,linear AR H=24,,per-patient,False,24,bglp,2018,6,20.802,14.744,33.433,25.129,94.106,15970,15970,768,898
-l2,linear AR H=24,,per-patient,False,24,bglp,2020,6,22.004,15.79,36.428,27.759,101.98,15701,15701,1225,1431
-l2,linear AR H=24,,per-patient,False,24,primary,2018,6,20.097,14.088,32.742,24.334,91.261,15202,15072,0,0
-l2,linear AR H=24,,per-patient,False,24,primary,2020,6,19.787,14.506,34.826,26.53,95.648,14476,14270,0,0
-l2,linear AR H=24,,per-patient,True,24,bglp,2018,6,20.118,14.066,32.234,23.982,90.401,15970,15970,768,898
-l2,linear AR H=24,,per-patient,True,24,bglp,2020,6,20.773,14.794,34.125,25.715,95.408,15701,15701,1225,1431
-l2,linear AR H=24,,per-patient,True,24,primary,2018,6,19.417,13.471,31.575,23.271,87.734,15202,15072,0,0
-l2,linear AR H=24,,per-patient,True,24,primary,2020,6,18.613,13.556,32.367,24.396,88.933,14476,14270,0,0
-l2,linear AR H=24,,population (LOPO),False,24,bglp,2018,6,21.024,14.959,34.25,25.91,96.143,15970,15970,768,898
-l2,linear AR H=24,,population (LOPO),False,24,bglp,2020,6,22.237,15.882,36.542,27.722,102.384,15701,15701,1225,1431
-l2,linear AR H=24,,population (LOPO),False,24,primary,2018,6,20.074,14.132,33.138,24.813,92.156,15202,15072,0,0
-l2,linear AR H=24,,population (LOPO),False,24,primary,2020,6,20.126,14.77,35.045,26.681,96.622,14476,14270,0,0
-l2,linear AR H=24,,population (LOPO),True,24,bglp,2018,6,20.588,14.57,33.67,25.331,94.16,15970,15970,768,898
-l2,linear AR H=24,,population (LOPO),True,24,bglp,2020,6,21.606,15.424,35.52,26.986,99.537,15701,15701,1225,1431
-l2,linear AR H=24,,population (LOPO),True,24,primary,2018,6,19.689,13.788,32.664,24.288,90.428,15202,15072,0,0
-l2,linear AR H=24,,population (LOPO),True,24,primary,2020,6,19.545,14.35,33.979,25.906,93.779,14476,14270,0,0
-p0,persistence,,none,False,6,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,297,430
-p0,persistence,,none,False,6,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,462,662
-p0,persistence,,none,False,6,primary,2018,6,22.608,16.405,36.814,27.486,103.312,15673,15540,0,0
-p0,persistence,,none,False,6,primary,2020,6,24.165,17.618,40.275,29.921,111.979,15239,15039,0,0
-p0,persistence,,none,False,12,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,456,586
-p0,persistence,,none,False,12,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,714,915
-p0,persistence,,none,False,12,primary,2018,6,22.568,16.381,36.689,27.408,103.045,15514,15384,0,0
-p0,persistence,,none,False,12,primary,2020,6,24.14,17.584,40.208,29.832,111.764,14987,14786,0,0
-p0,persistence,,none,False,24,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,768,898
-p0,persistence,,none,False,24,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,1225,1431
-p0,persistence,,none,False,24,primary,2018,6,22.425,16.262,36.386,27.14,102.214,15202,15072,0,0
-p0,persistence,,none,False,24,primary,2020,6,24.186,17.57,40.225,29.75,111.731,14476,14270,0,0
+method,variant,k,fit,covariates,window_set_H,eval_variant,cohort,n_patients,rmse30_mean_of_six,mae30_mean_of_six,rmse60_mean_of_six,mae60_mean_of_six,four_score_sum,n_scored_30,n_scored_60,n_fallback_30,n_fallback_60,published_like_for_like,published_rmse30,published_rmse60,published_inputs
+l1,linear extrapolation k=2,2,none,False,6,bglp,2018,6,34.795,20.161,70.701,42.632,168.29,15970,15970,297,430,,,,
+l1,linear extrapolation k=2,2,none,False,6,bglp,2020,6,35.703,19.98,74.459,43.644,173.786,15701,15701,462,662,,,,
+l1,linear extrapolation k=2,2,none,False,6,primary,2018,6,31.846,19.52,65.673,41.826,158.865,15673,15540,0,0,,,,
+l1,linear extrapolation k=2,2,none,False,6,primary,2020,6,27.866,18.751,61.032,42.03,149.679,15239,15039,0,0,,,,
+l1,linear extrapolation k=3,3,none,False,6,bglp,2018,6,31.348,19.324,62.845,40.22,153.737,15970,15970,297,430,,,,
+l1,linear extrapolation k=3,3,none,False,6,bglp,2020,6,31.786,19.628,65.944,42.324,159.682,15701,15701,462,662,,,,
+l1,linear extrapolation k=3,3,none,False,6,primary,2018,6,29.511,18.703,59.974,39.414,147.602,15673,15540,0,0,,,,
+l1,linear extrapolation k=3,3,none,False,6,primary,2020,6,26.947,18.464,58.277,40.806,144.494,15239,15039,0,0,,,,
+l1,linear extrapolation k=6,6,none,False,6,bglp,2018,6,29.248,19.242,55.929,38.304,142.723,15970,15970,297,430,,,,
+l1,linear extrapolation k=6,6,none,False,6,bglp,2020,6,30.918,20.501,60.954,41.688,154.062,15701,15701,462,662,,,,
+l1,linear extrapolation k=6,6,none,False,6,primary,2018,6,28.195,18.698,54.58,37.599,139.072,15673,15540,0,0,,,,
+l1,linear extrapolation k=6,6,none,False,6,primary,2020,6,28.101,19.533,57.139,40.449,145.223,15239,15039,0,0,,,,
+l2,linear AR H=6,,per-patient,False,6,bglp,2018,6,20.848,14.779,33.526,25.242,94.395,15970,15970,297,430,,,,
+l2,linear AR H=6,,per-patient,False,6,bglp,2020,6,21.995,15.769,36.396,27.728,101.888,15701,15701,462,662,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=6,,per-patient,False,6,primary,2018,6,20.171,14.157,33.014,24.588,91.929,15673,15540,0,0,,,,
+l2,linear AR H=6,,per-patient,False,6,primary,2020,6,19.722,14.498,34.764,26.516,95.501,15239,15039,0,0,,,,
+l2,linear AR H=6,,per-patient,True,6,bglp,2018,6,20.347,14.369,32.702,24.551,91.968,15970,15970,297,430,,,,
+l2,linear AR H=6,,per-patient,True,6,bglp,2020,6,21.407,15.332,34.978,26.525,98.242,15701,15701,462,662,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=6,,per-patient,True,6,primary,2018,6,19.717,13.786,32.252,23.934,89.689,15673,15540,0,0,,,,
+l2,linear AR H=6,,per-patient,True,6,primary,2020,6,19.129,14.036,33.193,25.198,91.556,15239,15039,0,0,,,,
+l2,linear AR H=6,,population (LOPO),False,6,bglp,2018,6,21.006,14.955,34.214,25.889,96.065,15970,15970,297,430,,,,
+l2,linear AR H=6,,population (LOPO),False,6,bglp,2020,6,22.204,15.867,36.488,27.703,102.262,15701,15701,462,662,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=6,,population (LOPO),False,6,primary,2018,6,20.214,14.258,33.501,25.123,93.096,15673,15540,0,0,,,,
+l2,linear AR H=6,,population (LOPO),False,6,primary,2020,6,19.987,14.707,34.906,26.643,96.242,15239,15039,0,0,,,,
+l2,linear AR H=6,,population (LOPO),True,6,bglp,2018,6,20.714,14.757,33.743,25.529,94.743,15970,15970,297,430,,,,
+l2,linear AR H=6,,population (LOPO),True,6,bglp,2020,6,21.881,15.658,35.894,27.323,100.756,15701,15701,462,662,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=6,,population (LOPO),True,6,primary,2018,6,19.915,14.049,33.019,24.734,91.716,15673,15540,0,0,,,,
+l2,linear AR H=6,,population (LOPO),True,6,primary,2020,6,19.673,14.489,34.241,26.196,94.598,15239,15039,0,0,,,,
+l2,linear AR H=12,,per-patient,False,12,bglp,2018,6,20.831,14.744,33.507,25.171,94.253,15970,15970,456,586,,,,
+l2,linear AR H=12,,per-patient,False,12,bglp,2020,6,21.97,15.753,36.402,27.709,101.835,15701,15701,714,915,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=12,,per-patient,False,12,primary,2018,6,20.162,14.137,32.964,24.524,91.787,15514,15384,0,0,,,,
+l2,linear AR H=12,,per-patient,False,12,primary,2020,6,19.725,14.468,34.821,26.517,95.531,14987,14786,0,0,,,,
+l2,linear AR H=12,,per-patient,True,12,bglp,2018,6,20.199,14.148,32.422,24.21,90.979,15970,15970,456,586,,,,
+l2,linear AR H=12,,per-patient,True,12,bglp,2020,6,20.851,14.884,34.218,25.883,95.837,15701,15701,714,915,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=12,,per-patient,True,12,primary,2018,6,19.566,13.591,31.94,23.614,88.711,15514,15384,0,0,,,,
+l2,linear AR H=12,,per-patient,True,12,primary,2020,6,18.616,13.6,32.512,24.58,89.308,14987,14786,0,0,,,,
+l2,linear AR H=12,,population (LOPO),False,12,bglp,2018,6,21.001,14.945,34.225,25.888,96.06,15970,15970,456,586,,,,
+l2,linear AR H=12,,population (LOPO),False,12,bglp,2020,6,22.218,15.868,36.523,27.718,102.326,15701,15701,714,915,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=12,,population (LOPO),False,12,primary,2018,6,20.178,14.225,33.405,25.053,92.861,15514,15384,0,0,,,,
+l2,linear AR H=12,,population (LOPO),False,12,primary,2020,6,20.04,14.717,34.987,26.664,96.408,14987,14786,0,0,,,,
+l2,linear AR H=12,,population (LOPO),True,12,bglp,2018,6,20.553,14.576,33.587,25.297,94.013,15970,15970,456,586,,,,
+l2,linear AR H=12,,population (LOPO),True,12,bglp,2020,6,21.611,15.421,35.522,26.999,99.553,15701,15701,714,915,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=12,,population (LOPO),True,12,primary,2018,6,19.742,13.863,32.789,24.454,90.848,15514,15384,0,0,,,,
+l2,linear AR H=12,,population (LOPO),True,12,primary,2020,6,19.468,14.296,33.94,25.897,93.601,14987,14786,0,0,,,,
+l2,linear AR H=24,,per-patient,False,24,bglp,2018,6,20.802,14.744,33.433,25.129,94.106,15970,15970,768,898,,,,
+l2,linear AR H=24,,per-patient,False,24,bglp,2020,6,22.004,15.79,36.428,27.759,101.98,15701,15701,1225,1431,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=24,,per-patient,False,24,primary,2018,6,20.097,14.088,32.742,24.334,91.261,15202,15072,0,0,,,,
+l2,linear AR H=24,,per-patient,False,24,primary,2020,6,19.787,14.506,34.826,26.53,95.648,14476,14270,0,0,,,,
+l2,linear AR H=24,,per-patient,True,24,bglp,2018,6,20.118,14.066,32.234,23.982,90.401,15970,15970,768,898,,,,
+l2,linear AR H=24,,per-patient,True,24,bglp,2020,6,20.773,14.794,34.125,25.715,95.408,15701,15701,1225,1431,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=24,,per-patient,True,24,primary,2018,6,19.417,13.471,31.575,23.271,87.734,15202,15072,0,0,,,,
+l2,linear AR H=24,,per-patient,True,24,primary,2020,6,18.613,13.556,32.367,24.396,88.933,14476,14270,0,0,,,,
+l2,linear AR H=24,,population (LOPO),False,24,bglp,2018,6,21.024,14.959,34.25,25.91,96.143,15970,15970,768,898,,,,
+l2,linear AR H=24,,population (LOPO),False,24,bglp,2020,6,22.237,15.882,36.542,27.722,102.384,15701,15701,1225,1431,"Hameed (p14), vanilla RNN 19.21 / 31.77; Bevan (p17), population LSTM 18.23 / 31.10",18.23,31.1,CGM only
+l2,linear AR H=24,,population (LOPO),False,24,primary,2018,6,20.074,14.132,33.138,24.813,92.156,15202,15072,0,0,,,,
+l2,linear AR H=24,,population (LOPO),False,24,primary,2020,6,20.126,14.77,35.045,26.681,96.622,14476,14270,0,0,,,,
+l2,linear AR H=24,,population (LOPO),True,24,bglp,2018,6,20.588,14.57,33.67,25.331,94.16,15970,15970,768,898,,,,
+l2,linear AR H=24,,population (LOPO),True,24,bglp,2020,6,21.606,15.424,35.52,26.986,99.537,15701,15701,1225,1431,"Zhu (p15), GRU-GAN 18.34 / 32.21; Yang (p24), multi-scale LSTM 19.05 / 32.03",18.34,32.03,CGM + insulin + meals
+l2,linear AR H=24,,population (LOPO),True,24,primary,2018,6,19.689,13.788,32.664,24.288,90.428,15202,15072,0,0,,,,
+l2,linear AR H=24,,population (LOPO),True,24,primary,2020,6,19.545,14.35,33.979,25.906,93.779,14476,14270,0,0,,,,
+p0,persistence,,none,False,6,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,297,430,,,,
+p0,persistence,,none,False,6,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,462,662,,,,
+p0,persistence,,none,False,6,primary,2018,6,22.608,16.405,36.814,27.486,103.312,15673,15540,0,0,,,,
+p0,persistence,,none,False,6,primary,2020,6,24.165,17.618,40.275,29.921,111.979,15239,15039,0,0,,,,
+p0,persistence,,none,False,12,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,456,586,,,,
+p0,persistence,,none,False,12,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,714,915,,,,
+p0,persistence,,none,False,12,primary,2018,6,22.568,16.381,36.689,27.408,103.045,15514,15384,0,0,,,,
+p0,persistence,,none,False,12,primary,2020,6,24.14,17.584,40.208,29.832,111.764,14987,14786,0,0,,,,
+p0,persistence,,none,False,24,bglp,2018,6,23.061,16.66,37.158,27.788,104.666,15970,15970,768,898,,,,
+p0,persistence,,none,False,24,bglp,2020,6,25.485,18.062,41.416,30.429,115.392,15701,15701,1225,1431,,,,
+p0,persistence,,none,False,24,primary,2018,6,22.425,16.262,36.386,27.14,102.214,15202,15072,0,0,,,,
+p0,persistence,,none,False,24,primary,2020,6,24.186,17.57,40.225,29.75,111.731,14476,14270,0,0,,,,

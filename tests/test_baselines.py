@@ -164,3 +164,28 @@ def test_challenge_scores_cover_both_variants_and_all_challenge_points():
     for r in rows:
         if r["eval_variant"] == "bglp":
             assert float(r["four_score_sum"]) >= prim[key(r)] - 0.5, key(r)
+
+
+def test_published_figures_are_transcribed_not_remembered():
+    """Every published number the code carries must appear verbatim in the reading document."""
+    from src.eval.published import LIKE_FOR_LIKE, PUBLISHED_CLASSICAL
+    doc = (REPO / "docs" / "published_comparison.md").read_text()
+    for systems in LIKE_FOR_LIKE.values():
+        for name, r30, r60, m30, m60, _, _ in systems:
+            for v in (r30, r60, m30, m60):
+                assert f"{v:.2f}" in doc, (name, v)
+            assert name.split(" (")[0] in doc
+    for name, r30, r60 in PUBLISHED_CLASSICAL:
+        assert f"{r30:.2f}" in doc and (r60 is None or f"{r60:.2f}" in doc), name
+
+
+@needs_data
+def test_published_column_is_filled_only_where_the_comparison_is_like_for_like():
+    rows = _rows("baselines_challenge_scores.csv")
+    filled = [r for r in rows if r["published_rmse30"] != ""]
+    assert filled and all(r["cohort"] == "2020" and r["eval_variant"] == "bglp" and r["method"] == "l2" for r in filled)
+    for r in filled:
+        assert r["published_inputs"] == ("CGM + insulin + meals" if r["covariates"] == "True" else "CGM only")
+        assert "Rubin-Falcone" not in r["published_like_for_like"], "partial match is context, not a comparator"
+    # primary rows and 2018 rows never carry a published figure
+    assert all(r["published_rmse30"] == "" for r in rows if r["eval_variant"] == "primary" or r["cohort"] == "2018")

@@ -33,6 +33,7 @@ import numpy as np
 from src.data.loader import COHORT_OF, PATIENTS, REPO_ROOT, load_patient
 from src.data.windows import HISTORY_LENGTHS, HORIZONS, WindowSet, windows_for
 from src.eval.metrics import mae, mape, rmse
+from src.eval.published import fill as fill_published
 
 K_VALUES = (2, 3, 6)
 COVARIATES = ("basal", "bolus", "carbs")
@@ -215,7 +216,7 @@ def main() -> None:
     agg = aggregate(rows)
     rows_b = per_patient_rows("bglp")
     agg_b = aggregate(rows_b)
-    chall = challenge_scores(rows + rows_b)
+    chall = fill_published(challenge_scores(rows + rows_b))
     res = REPO_ROOT / "results"
     for data, fn in ((rows, "baselines_per_patient.csv"), (agg, "baselines.csv"),
                      (rows_b, "baselines_bglp_per_patient.csv"), (agg_b, "baselines_bglp.csv"),
