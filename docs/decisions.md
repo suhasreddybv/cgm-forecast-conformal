@@ -287,7 +287,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Not changed:** the primary protocol, the primary numbers, the clinical baselines (D-024, primary variant; the variant's clinical metrics are run when the model's are).
 
 ### D-029 · The published comparison: transcribed by hand, filled only where inputs and rules match
-- **Date / commit:** 2026-10-10 · `pending`
+- **Date / commit:** 2026-10-10 · `6ac103d`
 - **Status:** adopted (applies D-012)
 - **Decision:** `docs/published_comparison.md` — Suhas's transcription of the BGLP 2020 official ranking (eight conforming systems of sixteen) from the results page and the eight system papers, with inputs, input class, offline/online, per-patient reporting, baselines reported and a "qualifies" verdict per row — is committed as literature. `src/eval/published.py` carries only the figures used in a table, and `tests/test_baselines.py::test_published_figures_are_transcribed_not_remembered` asserts every one of them appears verbatim in that document. **Nothing is quoted from memory.**
 - **Two corrections made during transcription, before the table reached the repository:** Rubin-Falcone's inputs — the system used no activity data (CGM, finger-stick, bolus, carbs, time of day, a missingness flag), but was pre-trained on the 2018 cohort and ~15M external steps, which no other entrant had; recorded as a *partial* match and not used as a comparator figure. Bevan — the paper's Table 3 reports patient-excluded 18.32, all-patients 18.23 and patient-only 19.21; the ranked 18.23 is the population figure, which makes it the direct comparator for this repository's leave-one-patient-out rows, not for the per-patient ones.
@@ -296,7 +296,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **First fill, corrected before commit:** Bevan's "population model" note was read as a disqualifying caveat and dropped from the CGM-only rows; Table 1 marks it "Yes — direct LOPO comparator". Qualification and notes are now separate fields.
 
 ### D-030 · The audit's result: the subset was flattering the linear model by the amount that put it in deep-model territory
-- **Date / commit:** 2026-10-10 · `pending`
+- **Date / commit:** 2026-10-10 · `6ac103d`
 - **Status:** adopted (reframes the README; supersedes the Result line of D-018 as the headline)
 - **Result:** under the challenge's rules the best linear AR scores **20.77 / 34.12** on the 2020 six (four-score 95.41), not the primary protocol's 18.61 / 32.37. Against Zhu (18.34 / 32.21) and Yang (19.05 / 32.03) that is **1.7–2.4 mg/dL behind at 30 minutes and 1.9–2.1 at 60**, not level. What survives: **the conforming linear AR beats every published classical baseline on these points (LR 21.22, ARMA 21.44, AR 21.80, ARIMA 24.51) and its four-score sum lands inside the official ranking, just above eighth place (Ma, 95.85).** The README now leads with that sentence and nothing stronger.
 - **The four conformity findings** (`docs/published_comparison.md`, Table 2): (1) the comparable rows are the 2020-cohort rows, not the 12-patient ones (persistence 24.16 primary / 25.48 conforming at 30 min, not 23.39); (2) the primary rule dropped post-outage targets the challenge scores (540: 2,829 of 2,884); (3) the primary rule interpolated history across gaps the challenge forbids interpolating; (4) **the primary interpolation leaked a reading from after the forecast origin** into 2.2% / 4.1% of scored 30 / 60-minute windows, up to 1,500 s ahead — drafted as "marginal, up to 60 s", measured larger, and the verdict revised to *leakage* by the audit's author on 10 Oct. The amendment is marked in the document; no other verdict changed.
@@ -304,7 +304,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Saturday's bar, set here:** **20.77 / 34.12, conforming.** The published deep models beat their own classical baselines by two to three mg/dL (Rubin-Falcone's N-BEATS 21.2 → 18.2), so a sequence model with the same covariates should land near 18.5–19.5 if it does what they do. At 20.5 the finding is about this implementation; at 18 the variant is checked before anything is celebrated. Every run is scored under both variants from its first epoch (D-027).
 
 ### D-031 · A pre-push hook, because the same chain bug pushed a failing guard twice
-- **Date / commit:** 2026-10-10 · `pending`
+- **Date / commit:** 2026-10-10 · `6ac103d`
 - **Status:** adopted
 - **Decision:** `.pre-commit-config.yaml` gains a `pre-push` stage hook that runs the decision-log guard and every test that needs no data (`OHIO_T1DM_ROOT=/nonexistent python -m pytest -q`, about a second). A push with a failing guard is refused locally; it cannot reach origin. Installed with `pre-commit install --hook-type pre-push` (added to the README's setup line).
 - **Why structural:** `d795663` (7 Oct) and `f30696b` (9 Oct) were both pushed with `test_every_entry_says_something_substantive` failing, both because a command chain read `tail`'s exit code instead of pytest's. The ship sequence now runs under `bash -e`; this hook is the second layer, for the case where the sequence is not used. Repeated failures of one kind get a guard, not a habit.
