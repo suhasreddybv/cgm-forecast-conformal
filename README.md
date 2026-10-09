@@ -48,9 +48,11 @@ Written before any sequence model exists. Test split only, scored targets only (
 - **Sanity checks passed** (D-021): persistence at 30 minutes sits between 19.2 and 28.5 mg/dL for every patient; 60-minute error exceeds 30-minute error in all 216 baseline × patient comparisons; k=2 extrapolation is noisier than persistence at 60 minutes for every patient.
 - Nothing was selected on the test split. All H and all k are reported; no row is a "best".
 
+**Clinical metrics on the same two rows** (`results/clinical_baselines.csv`; Clarke and Parkes grids, MARD, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL, all with n). **Persistence puts 99.0% of 30-minute forecasts in Clarke zones A+B** — an error grid alone does not separate a trivial method from a model. The linear AR improves every aggregate (Clarke A 83.7% → 89.6%, MARD 11.3% → 9.2%) **and detects hypoglycaemia worse**: sensitivity at 70 mg/dL falls from 0.578 to 0.413 at 30 minutes and from 0.356 to 0.104 at 60, because least squares shrinks toward a mean that is not hypoglycaemic. Sensitivity is reported beside every grid from here on, and the 54 mg/dL figures carry their censoring flag in the row (D-023, D-024). The grid figures are in `figures/` labelled as baselines and are not embedded: the hero image is the model-versus-baseline comparison, which does not exist yet.
+
 ## Method
 
-_To be written (5–18 Oct 2026)._ Baselines above. Planned next: sequence model; split-conformal intervals with empirical vs nominal coverage; MARD, Clarke and Parkes zones, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL. Error-grid figure is the hero image.
+_To be written (5–18 Oct 2026)._ Baselines and their clinical metrics above; the clinical scorer and the model harness are frozen before the model (D-022 to D-026). Planned next: sequence model (Saturday 10 Oct); split-conformal intervals with empirical vs nominal coverage; MARD, Clarke and Parkes zones, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL. Error-grid figure is the hero image.
 
 ## Reproduce
 
@@ -58,10 +60,11 @@ _To be written (5–18 Oct 2026)._ Baselines above. Planned next: sequence model
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 254 tests; 194 need the dataset and skip without it
+pytest                              # 321 tests; 194 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # results/baselines.csv and baselines_per_patient.csv; exits non-zero if a sanity check fails
+python -m src.eval.clinical_baselines  # results/clinical_baselines.csv and the two error-grid figures
 ```
 
 Data: see [data/README.md](data/README.md). No data is included in this repository.

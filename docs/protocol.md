@@ -163,3 +163,23 @@ a like-for-like comparison.
 - Any evaluation that scores an interpolated target is a bug, not a variant.
 - If a model's advantage disappears when hyperparameters are chosen inside the fold rather
   than globally, it is reported as no gain — as in the PPG repository.
+
+## Clarification, 9 October 2026 — validation hold-out for fitted models
+
+Added before any sequence model is fitted, as the last edit to this file before a model
+exists. It clarifies the "Fitting" section; it changes no rule above.
+
+- **Early stopping, checkpoint selection and any hyperparameter choice use a temporal
+  hold-out taken from the end of each training file: the last 20% of that patient's
+  training windows, by time.** The first 80% fits; the hold-out is never fitted on and the
+  test file is never looked at.
+- **Patient-specific models** hold out that patient's training tail. **Population models**
+  hold out every training patient's tail, pooled, with the evaluated patient's whole
+  training file excluded as before (leave-one-patient-out).
+- The split is by window index in time order, so the hold-out follows the fitting period
+  and a window never straddles the split. Windows whose history reaches into the fitting
+  period are allowed, as the first test windows draw history from the training tail.
+- **Seeds are fixed and logged.** Every fitted model is run with at least three seeds and
+  the per-seed figures are reported beside the mean; no seed is dropped.
+- The 20% is a fixed fraction, not a tuned one. With roughly 9,500–11,600 training windows
+  per patient it leaves 1,900–2,300 hold-out windows, enough to stop on.
