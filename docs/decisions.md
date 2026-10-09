@@ -229,7 +229,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Not a check, but noted:** the persistence floor is 23.4 / 38.5 mg/dL. Whatever Saturday's model reports is read against that line first and against the linear AR second; a sequence model that does not clear 19.0 / 32.0 has not earned its parameters.
 
 ### D-022 · Error-grid boundaries come from the papers, and where the papers were not reachable the log says so
-- **Date / commit:** 2026-10-09 · `pending`
+- **Date / commit:** 2026-10-09 · `4d2b28f`
 - **Status:** adopted
 - **Decision:** `src/eval/clinical.py` implements the Clarke and Parkes (type 1) error grids from published definitions, not from memory and not from another repository's code. Each boundary's source is named in the module docstring, and `tests/test_clinical.py` pins at least one hand-placed point per zone and points on each boundary with the expected side stated and the arithmetic shown.
 - **Parkes:** the zone boundaries are polygon vertices. Parkes et al. (2000) drew them; the coordinates were published by Pfützner et al. (2013), *J Diabetes Sci Technol* 7(5):1275–1281, Table 1, "x axis, reference values; y axis, test device results". The raw HTML table was fetched from PMC3876371 and parsed by column, after a first automated summary of the page **interleaved the type 1 and type 2 columns** — the exact transcription error the day's brief warned about. The type 1 columns are reproduced verbatim as a fixture in the test, and `test_parkes_vertices_match_the_published_table_transcription` asserts the module's constants equal the parsed fixture. Convention adopted, since neither paper states one: a point on a boundary belongs to the less severe zone. Beyond 550 mg/dL the last segment is extended linearly.
@@ -238,14 +238,14 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **What was corrected on first run, and what was not:** three test expectations failed on the first run — (60, 71) was expected D and is A because 11 is 18% of 60; (300, 30) was expected D and is E because reference ≥ 180 with estimate ≤ 70 is E; a sensitivity by hand was 0.8 and is 0.6. All three were errors in my arithmetic, re-derived from the definitions and corrected in the test. **No boundary was moved to make a test pass.**
 
 ### D-023 · The censoring caveat travels with the hypoglycaemia result
-- **Date / commit:** 2026-10-09 · `pending`
+- **Date / commit:** 2026-10-09 · `4d2b28f`
 - **Status:** adopted
 - **Decision:** `hypo_detection()` returns, beside sensitivity, specificity and PPV, the number of reference events sitting at the 40 mg/dL sensor floor, their share of all events, a boolean `censored`, and a caveat string that is non-empty exactly when the flag is set. A caller that writes the sensitivity to a table gets the flag in the same row; the caveat cannot be dropped by forgetting to quote prose. Thresholds are strict (reference < 70, < 54), the ADA level 1 and level 2 definitions.
 - **Why:** D-008 measured that 17.8% of readings below 54 sit exactly at the floor. A sensitivity at 54 computed on those events is biased optimistic by an unmeasurable amount, and the number looks like any other number.
 - **Pinned:** `tests/test_clinical.py` — every reference event at the floor returns `censored=True` with `share_of_events_at_floor == 1.0`; a clean set returns `False` and an empty caveat; the confusion counts are checked by hand.
 
 ### D-024 · Clinical metrics on the baselines: error grids flatter persistence, and the linear model trades hypoglycaemia sensitivity for RMSE
-- **Date / commit:** 2026-10-09 · `pending`
+- **Date / commit:** 2026-10-09 · `4d2b28f`
 - **Status:** adopted
 - **Result** (`results/clinical_baselines.csv`, test split, scored targets, all 12 patients pooled unless stated): **persistence puts 99.0% of 30-minute forecasts in Clarke zones A+B (83.7% A) and 99.7% in Parkes A+B**, n = 29,678. At 60 minutes, 96.9% / 97.8%. A method that forecasts the last reading passes the error-grid bar that device studies quote; the grids do not distinguish it from a model.
 - **The linear AR** (per-patient, H=24, with covariates; the same windows) improves every aggregate: Clarke A 83.7% → 89.6%, MARD 11.3% → 9.2%, time-in-range agreement 0.872 → 0.895 at 30 minutes. **And it detects hypoglycaemia worse:** sensitivity at 70 mg/dL falls from **0.578 to 0.413** at 30 minutes and from **0.356 to 0.104** at 60; at 54 mg/dL from 0.221 to 0.186 and from 0.210 to 0.080. Least squares shrinks toward the conditional mean, and the mean is not hypoglycaemic. Per patient at 30 minutes the AR loses sensitivity on 8 of the 12 (567: 0.831 → 0.350 on 177 events). This is the argument for reporting sensitivity beside the grids, in numbers: a lower RMSE bought by regression to the mean is a worse forecaster for the event that matters.
@@ -254,14 +254,14 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **For Saturday:** a sequence model trained on squared error will shrink the same way. Its hypoglycaemia sensitivity is reported beside its RMSE from the first run, and a model that lowers RMSE while lowering sensitivity further is reported as exactly that.
 
 ### D-025 · The validation hold-out, frozen as the last protocol edit before a model exists
-- **Date / commit:** 2026-10-09 · `pending`
+- **Date / commit:** 2026-10-09 · `4d2b28f`
 - **Status:** adopted (clarifies D-002)
 - **Decision:** `docs/protocol.md` gains a dated clarification: early stopping, checkpoint selection and any hyperparameter choice use **the last 20% of each training file's windows, by time**; the first 80% fits; the test file is read only for the final score. Patient-specific models hold out that patient's tail; population models hold out every training patient's tail pooled, with the evaluated patient's whole training file excluded (leave-one-patient-out, as before). Seeds are fixed, at least three per model, every seed reported. The 20% is fixed, not tuned: it leaves 1,900–2,300 hold-out windows per patient.
 - **Protocol re-hashed: SHA-256 prefix `656028be46d77020`** (was `e1f76075a0decc0c`, D-002). The clarification is an appended dated section; nothing above it changed. D-002's status points here.
 - **Implemented, not run:** `src/train.py::temporal_split` takes the tail by window index in time order and asserts the hold-out follows the fitting period; `fit_sets` applies the leave-one-patient-out rule; `score_test` is the only function that opens a test file. `tests/test_harness.py` pins the split sizes, the non-overlap and the NaN-covariate drop on synthetic windows.
 
 ### D-026 · The metrics and the harness exist before the model, and the harness has not touched the data
-- **Date / commit:** 2026-10-09 · `pending`
+- **Date / commit:** 2026-10-09 · `4d2b28f`
 - **Status:** adopted
 - **Decision:** the clinical metrics module (D-022, D-023) and the model harness were written, tested and committed on 9 October with **no model fitted on real data**. `src/models/sequence.py` is a GRU over the H history steps with the four allowed channels; its head predicts the change from the last history slot and is zero-initialised, so **the untrained model is exactly persistence** and has to earn any departure from the floor (pinned by `tests/test_harness.py::test_forward_pass_shapes_and_persistence_initialisation`). Input scaling is a fixed affine map, not a fitted scaler.
 - **Evidence the harness runs:** the smoke test builds the model, runs a forward pass on synthetic tensors, trains for five epochs on 400 synthetic windows, and checks that the same seed reproduces the validation curve and the weights exactly while a different seed does not. Seeds 0, 1, 2 are the minimum set (`SEEDS`).
