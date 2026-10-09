@@ -345,3 +345,68 @@ def test_effective_n_table_matches_the_windower_and_carries_no_patient_data():
     assert (worst["patient"], worst["split"]) == ("552", "test")
     assert float(worst["fraction_of_expected"]) < 0.55
     assert min(float(r["fraction_of_readings"]) for r in rows if r["patient"] == "552") > 0.85
+
+
+# ------------------------------------------------------ the conforming (bglp) variant, D-027
+
+from src.data.windows import build_windows_zoh  # noqa: E402
+
+
+def test_zoh_values_every_slot_from_the_last_reading_at_or_before_it():
+    """No bracketing reading after a slot is ever used: brute force against the vectorised path."""
+    ts, v = one_gap(60, 7, 60)                       # a 40-minute gap: the primary rule would drop
+    ts = ts.copy(); ts[30:] += np.timedelta64(2, "s")   # and a jitter, so slots fall between readings
+    slots, hist, tidx, maxb, hold, n_nohist = build_windows_zoh(ts, v, 6, 6)
+    t = ts.astype(np.int64)
+    for i in range(len(tidx)):
+        for k in range(6):
+            last = np.flatnonzero(t <= slots[i, k])[-1]
+            assert hist[i, k] == v[last]
+            assert t[last] <= slots[i, k] < (t[last + 1] if last + 1 < len(t) else np.inf)
+    assert n_nohist == 6 + 6 - 1 and len(tidx) == 120 - n_nohist, "nothing but the series start is dropped"
+
+
+def test_zoh_fallback_flags_exactly_the_windows_the_primary_rule_drops():
+    ts, v = one_gap(100, 7, 100)                     # interval of 8 steps = 40 min > 30 min
+    slots, hist, tidx, maxb, hold, _ = build_windows_zoh(ts, v, 6, 6)
+    fb = maxb > MAX_INTERP_GAP_S
+    # a window has a slot inside the gap iff the primary rule drops it: H-1+min(g,h) targets (D-016)
+    assert int(fb.sum()) == 6 - 1 + min(7, 6)
+    b = build_windows(ts, v, 6, 6)
+    assert int(fb.sum()) == int((b.status == DROPPED_LONG_GAP).sum())
+    assert hold.max() == 7 * STEP_S, "the deepest slot is held for the whole gap"
+    ts2, v2 = one_gap(100, 5, 100)                    # 30 min: held, but not a fallback
+    _, _, _, maxb2, hold2, _ = build_windows_zoh(ts2, v2, 6, 6)
+    assert (maxb2 <= MAX_INTERP_GAP_S).all() and (hold2 > 0).any()
+
+
+def test_primary_variant_reports_when_it_used_a_reading_after_the_origin():
+    """A gap of 3 missing slots just before the target: the history-end slot sits inside it and
+    the primary rule interpolates from the reading after the origin (D-027 discrepancy)."""
+    ts, v = one_gap(50, 3, 50)
+    b = build_windows(ts, v, 6, 6)
+    assert b.uses_post_origin.any()
+    kept_post = b.uses_post_origin[b.kept]
+    assert int(kept_post.sum()) == 3          # the min(g, h) targets whose origin is inside the gap
+    ts0, v0 = series(np.arange(100))
+    assert not build_windows(ts0, v0, 6, 6).uses_post_origin.any()
+
+
+@needs_data
+@pytest.mark.parametrize("pid", PATIENTS)
+def test_bglp_variant_predicts_every_challenge_test_point(pid):
+    rec = load_patient(pid, "test")
+    expected = len(rec.cgm) - rec.eval_start_index           # Table 2's test count
+    for h in HORIZONS:
+        for H in HISTORY_LENGTHS:
+            ws = windows_for(pid, "test", h, H, variant="bglp")
+            assert len(ws) == expected and ws.n_dropped_long_gap == 0 and ws.n_dropped_no_history == 0
+            assert np.isin(ws.target_ts, rec.cgm.ts).all()
+            assert (ws.target_ts - ws.history_end_ts == np.timedelta64(h * STEP_S, "s")).all()
+            assert ws.max_hold_s is not None and (ws.max_hold_s >= 0).all()
+            # the fallback set is exactly what the primary variant dropped for a long gap
+            prim = windows_for(pid, "test", h, H, variant="primary")
+            assert int(ws.fallback.sum()) == prim.n_dropped_long_gap
+    # the six 2020 contributors' counts, as the challenge states them
+    if rec.cohort == "2020":
+        assert expected == {"540": 2884, "544": 2704, "552": 2352, "567": 2377, "584": 2653, "596": 2731}[pid]

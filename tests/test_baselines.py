@@ -144,3 +144,23 @@ def test_nan_covariate_windows_exist_only_in_575s_training_file():
     train_drops = {r["patient"] for r in pp if r["covariates"] == "True" and r["fit"] == "per-patient"
                    and int(r["n_train_dropped_nan"])}
     assert test_drops == set() and train_drops == {"575"}
+
+
+@needs_data
+def test_challenge_scores_cover_both_variants_and_all_challenge_points():
+    rows = _rows("baselines_challenge_scores.csv")
+    assert {r["eval_variant"] for r in rows} == {"primary", "bglp"}
+    for r in rows:
+        parts = [float(r[k]) for k in ("rmse30_mean_of_six", "mae30_mean_of_six", "rmse60_mean_of_six", "mae60_mean_of_six")]
+        assert abs(sum(parts) - float(r["four_score_sum"])) < 0.01 and r["n_patients"] == "6"
+        if r["eval_variant"] == "bglp" and r["cohort"] == "2020":
+            assert int(r["n_scored_30"]) == int(r["n_scored_60"]) == 2884 + 2704 + 2352 + 2377 + 2653 + 2731
+            assert int(r["n_fallback_30"]) > 0
+        if r["eval_variant"] == "primary":
+            assert r["n_fallback_30"] == "0"
+    # conforming is never easier than primary for the same configuration and cohort
+    key = lambda r: (r["method"], r["variant"], r["k"], r["fit"], r["covariates"], r["window_set_H"], r["cohort"])  # noqa: E731
+    prim = {key(r): float(r["four_score_sum"]) for r in rows if r["eval_variant"] == "primary"}
+    for r in rows:
+        if r["eval_variant"] == "bglp":
+            assert float(r["four_score_sum"]) >= prim[key(r)] - 0.5, key(r)

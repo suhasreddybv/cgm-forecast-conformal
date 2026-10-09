@@ -78,10 +78,14 @@ def _score(row: dict, y: np.ndarray, p: np.ndarray) -> dict:
                 mape=round(mape(y, p), 3))
 
 
-def per_patient_rows() -> list[dict]:
+def per_patient_rows(eval_variant: str = "primary") -> list[dict]:
     rows = []
-    test = {(pid, h, H): windows_for(pid, "test", h, H) for pid in PATIENTS for h in HORIZONS for H in HISTORY_LENGTHS}
-    train = {(pid, h, H): windows_for(pid, "train", h, H) for pid in PATIENTS for h in HORIZONS for H in HISTORY_LENGTHS}
+    test = {(pid, h, H): windows_for(pid, "test", h, H, variant=eval_variant) for pid in PATIENTS for h in HORIZONS for H in HISTORY_LENGTHS}
+    train = {(pid, h, H): windows_for(pid, "train", h, H, variant=eval_variant) for pid in PATIENTS for h in HORIZONS for H in HISTORY_LENGTHS}
+    if eval_variant == "bglp":
+        # every challenge test point is a target: the counts must equal Table 2 exactly
+        for (pid, h, H), ws in test.items():
+            assert len(ws) == ws.n_candidates == ws.n_readings - load_patient(pid, "test").eval_start_index, (pid, h, H, len(ws))
 
     # targets are real readings - guaranteed by the windows, asserted anyway
     for (pid, h, H), ws in test.items():
@@ -99,7 +103,8 @@ def per_patient_rows() -> list[dict]:
             for pid in PATIENTS:
                 ws, tr = test[(pid, h, H)], train[(pid, h, H)]
                 base = dict(patient=pid, cohort=COHORT_OF[pid], horizon_min=h * 5, horizon_steps=h,
-                            window_set_H=H, n_dropped_nan_covariate=0, n_train_windows="", n_train_dropped_nan="")
+                            window_set_H=H, n_dropped_nan_covariate=0, n_train_windows="", n_train_dropped_nan="",
+                            eval_variant=eval_variant, n_fallback=int(ws.fallback.sum()))
                 y = ws.target
                 rows.append(_score(dict(base, method="p0", variant="persistence", k="", fit="none", covariates=False),
                                    y, persistence(ws)))
@@ -124,6 +129,31 @@ def per_patient_rows() -> list[dict]:
     return rows
 
 
+def challenge_scores(rows: list[dict]) -> list[dict]:
+    """The BGLP 2020 scoring (D-027): per-patient RMSE and MAE over all that patient's points,
+    the mean over the six contributors per cohort, and the four-score sum
+    RMSE30 + MAE30 + RMSE60 + MAE60 of those means. Computed for both evaluation variants."""
+    keys = sorted({(r["method"], r["variant"], r["k"], r["fit"], r["covariates"], r["window_set_H"], r["eval_variant"])
+                   for r in rows}, key=lambda t: (t[0], str(t[2]), t[5], t[3], t[4], t[6]))
+    out = []
+    for method, variant, k, fit, cov, H, ev in keys:
+        for cohort in ("2018", "2020"):
+            g = [r for r in rows if (r["method"], r["variant"], r["k"], r["fit"], r["covariates"], r["window_set_H"],
+                                     r["eval_variant"], r["cohort"]) == (method, variant, k, fit, cov, H, ev, cohort)]
+            m = {h: dict(rmse=np.mean([r["rmse"] for r in g if r["horizon_steps"] == h]),
+                         mae=np.mean([r["mae"] for r in g if r["horizon_steps"] == h]),
+                         n=sum(r["n_scored"] for r in g if r["horizon_steps"] == h),
+                         fb=sum(r["n_fallback"] for r in g if r["horizon_steps"] == h)) for h in HORIZONS}
+            out.append(dict(method=method, variant=variant, k=k, fit=fit, covariates=cov, window_set_H=H,
+                            eval_variant=ev, cohort=cohort, n_patients=len({r["patient"] for r in g}),
+                            rmse30_mean_of_six=round(m[6]["rmse"], 3), mae30_mean_of_six=round(m[6]["mae"], 3),
+                            rmse60_mean_of_six=round(m[12]["rmse"], 3), mae60_mean_of_six=round(m[12]["mae"], 3),
+                            four_score_sum=round(m[6]["rmse"] + m[6]["mae"] + m[12]["rmse"] + m[12]["mae"], 3),
+                            n_scored_30=m[6]["n"], n_scored_60=m[12]["n"],
+                            n_fallback_30=m[6]["fb"], n_fallback_60=m[12]["fb"]))
+    return out
+
+
 def aggregate(rows: list[dict]) -> list[dict]:
     """Per cohort and pooled: mean of per-patient metrics (the stated aggregation), the
     pooled figure beside it, SD and worst patient, and total scored n."""
@@ -139,7 +169,7 @@ def aggregate(rows: list[dict]) -> list[dict]:
             worst = max(g, key=lambda r: r["rmse"])
             out.append(dict(
                 method=method, variant=variant, k=k, fit=fit, covariates=cov, horizon_min=h * 5,
-                window_set_H=H, cohort=cohort, n_patients=len(g), n_scored=n,
+                window_set_H=H, eval_variant=grp[0]["eval_variant"], cohort=cohort, n_patients=len(g), n_scored=n,
                 rmse_mean_of_patients=round(np.mean([r["rmse"] for r in g]), 3),
                 rmse_pooled=round(float(np.sqrt(sum(r["rmse"] ** 2 * r["n_scored"] for r in g) / n)), 3),
                 mae_mean_of_patients=round(np.mean([r["mae"] for r in g]), 3),
@@ -149,6 +179,7 @@ def aggregate(rows: list[dict]) -> list[dict]:
                 rmse_sd_across_patients=round(float(np.std([r["rmse"] for r in g], ddof=1)), 3),
                 worst_patient=worst["patient"], worst_patient_rmse=worst["rmse"],
                 n_dropped_nan_covariate=sum(r["n_dropped_nan_covariate"] for r in g),
+                n_fallback=sum(r["n_fallback"] for r in g),
                 published_rmse="", published_mae="", published_source="", published_inputs="",
                 like_for_like=""))
     return out
@@ -180,10 +211,15 @@ def sanity_checks(rows: list[dict]) -> list[tuple[str, bool, str]]:
 
 
 def main() -> None:
-    rows = per_patient_rows()
+    rows = per_patient_rows("primary")
     agg = aggregate(rows)
+    rows_b = per_patient_rows("bglp")
+    agg_b = aggregate(rows_b)
+    chall = challenge_scores(rows + rows_b)
     res = REPO_ROOT / "results"
-    for data, fn in ((rows, "baselines_per_patient.csv"), (agg, "baselines.csv")):
+    for data, fn in ((rows, "baselines_per_patient.csv"), (agg, "baselines.csv"),
+                     (rows_b, "baselines_bglp_per_patient.csv"), (agg_b, "baselines_bglp.csv"),
+                     (chall, "baselines_challenge_scores.csv")):
         with open(res / fn, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(data[0]))
             w.writeheader()
@@ -200,8 +236,15 @@ def main() -> None:
               f"{r['mape_mean_of_patients']:>7.1f}{r['rmse_sd_across_patients']:>7.2f}"
               f"{r['worst_patient'] + ' ' + str(r['worst_patient_rmse']):>12}")
 
-    print("\nsanity checks")
-    checks = sanity_checks(rows)
+    print("\nprimary vs conforming (bglp): mean of six per cohort; sum = RMSE30+MAE30+RMSE60+MAE60")
+    print(f"{'method':<42}{'cohort':<7}{'variant':<9}{'RMSE30':>8}{'MAE30':>8}{'RMSE60':>8}{'MAE60':>8}{'sum':>8}{'n30':>7}{'fb30':>6}{'fb60':>6}")
+    for r in chall:
+        label = f"{r['method']} {r['fit']}" + (f" k={r['k']}" if r["k"] != "" else f" H={r['window_set_H']}") + (" +cov" if r["covariates"] else "")
+        print(f"{label:<42}{r['cohort']:<7}{r['eval_variant']:<9}{r['rmse30_mean_of_six']:>8.2f}{r['mae30_mean_of_six']:>8.2f}"
+              f"{r['rmse60_mean_of_six']:>8.2f}{r['mae60_mean_of_six']:>8.2f}{r['four_score_sum']:>8.2f}{r['n_scored_30']:>7}"
+              f"{r['n_fallback_30']:>6}{r['n_fallback_60']:>6}")
+    print("\nsanity checks (primary, then bglp)")
+    checks = sanity_checks(rows) + sanity_checks(rows_b)
     for name, ok, detail in checks:
         print(f"  [{'PASS' if ok else 'FAIL'}] {name} - {detail}")
     if not all(ok for _, ok, _ in checks):

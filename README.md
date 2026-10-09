@@ -2,7 +2,7 @@
 
 Glucose forecasting at 30 and 60 minutes with calibrated conformal prediction intervals, evaluated by clinical error grids rather than RMSE alone.
 
-**Result so far.** Forecasting the most recent reading — persistence — scores **23.4 mg/dL RMSE at 30 minutes and 38.5 at 60** on the test split (mean of 12 patients; n = 30,912 and 30,579 real targets). A per-patient linear autoregression on two hours of history plus insulin and meals brings that to **19.0 and 32.0**, a margin of 4.4 and 6.6 mg/dL, and a leave-one-patient-out population fit is within 0.2 of it at 30 minutes. **The sequence model and the conformal intervals are pending**; the evaluation protocol was frozen before any of this was fitted ([docs/protocol.md](docs/protocol.md)), and the bar the sequence model has to clear is the linear model at 19.0, not persistence at 23.4. No published comparison appears until the inputs and evaluation rule are matched (D-012).
+**Result so far.** Forecasting the most recent reading — persistence — scores **23.4 mg/dL RMSE at 30 minutes and 38.5 at 60** on the test split (mean of 12 patients; n = 30,912 and 30,579 real targets). A per-patient linear autoregression on two hours of history plus insulin and meals brings that to **19.0 and 32.0**, a margin of 4.4 and 6.6 mg/dL, and a leave-one-patient-out population fit is within 0.2 of it at 30 minutes. **The sequence model and the conformal intervals are pending**; the evaluation protocol was frozen before any of this was fitted ([docs/protocol.md](docs/protocol.md)), and the bar the sequence model has to clear is the linear model at 19.0, not persistence at 23.4. Under the challenge's own rules — every test point predicted, nothing after the forecast origin — the same linear model scores 20.8 on the 2020 cohort and persistence 25.5; both variants are reported for every method. No published comparison appears until the inputs and evaluation rule are matched (D-012).
 
 ## The data layer
 
@@ -50,6 +50,39 @@ Written before any sequence model exists. Test split only, scored targets only (
 
 **Clinical metrics on the same two rows** (`results/clinical_baselines.csv`; Clarke and Parkes grids, MARD, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL, all with n). **Persistence puts 99.0% of 30-minute forecasts in Clarke zones A+B** — an error grid alone does not separate a trivial method from a model. The linear AR improves every aggregate (Clarke A 83.7% → 89.6%, MARD 11.3% → 9.2%) **and detects hypoglycaemia worse**: sensitivity at 70 mg/dL falls from 0.578 to 0.413 at 30 minutes and from 0.356 to 0.104 at 60, because least squares shrinks toward a mean that is not hypoglycaemic. Sensitivity is reported beside every grid from here on, and the 54 mg/dL figures carry their censoring flag in the row (D-023, D-024). The grid figures are in `figures/` labelled as baselines and are not embedded: the hero image is the model-versus-baseline comparison, which does not exist yet.
 
+## Two evaluation variants, reported side by side
+
+The frozen protocol (`primary`) drops a target whose history crosses a gap over 30 minutes and values history slots by linear interpolation. The Blood Glucose Level Prediction Challenge scores **every** test point after the first hour and permits nothing after the forecast origin. On 9 October, before any sequence model was fitted, a conforming variant (`bglp`) was added beside the primary rules — not in place of them (protocol, "Disclosed addition"; D-027): zero-order hold for every slot, every challenge point predicted (2,884 / 2,704 / 2,352 / 2,377 / 2,653 / 2,731 for the 2020 six, asserted before scoring), windows the primary rule would have dropped predicted from the held reading and counted as *fallback*, and the challenge's own scoring — per-patient RMSE and MAE, mean of six, four-score sum. Every method is reported under both from here on; the gap between them is the measured cost of the primary rule's two departures.
+
+| Baseline | Cohort | Variant | RMSE 30 | MAE 30 | RMSE 60 | MAE 60 | Four-score sum | n (30 min) | Fallback (30 / 60) |
+|---|---|---|---|---|---|---|---|---|---|
+| **p0** persistence | 2020 | primary | 24.16 | 17.62 | 40.27 | 29.92 | **111.98** | 15,239 | — |
+|  | 2020 | bglp | 25.48 | 18.06 | 41.42 | 30.43 | **115.39** | 15,701 | 462 / 662 |
+|  | 2018 | primary | 22.61 | 16.41 | 36.81 | 27.49 | **103.31** | 15,673 | — |
+|  | 2018 | bglp | 23.06 | 16.66 | 37.16 | 27.79 | **104.67** | 15,970 | 297 / 430 |
+| l1 extrapolation, k=6 | 2020 | primary | 28.10 | 19.53 | 57.14 | 40.45 | **145.22** | 15,239 | — |
+|  | 2020 | bglp | 30.92 | 20.50 | 60.95 | 41.69 | **154.06** | 15,701 | 462 / 662 |
+|  | 2018 | primary | 28.20 | 18.70 | 54.58 | 37.60 | **139.07** | 15,673 | — |
+|  | 2018 | bglp | 29.25 | 19.24 | 55.93 | 38.30 | **142.72** | 15,970 | 297 / 430 |
+| l2 linear AR, per-patient, H=24 | 2020 | primary | 19.79 | 14.51 | 34.83 | 26.53 | **95.65** | 14,476 | — |
+|  | 2020 | bglp | 22.00 | 15.79 | 36.43 | 27.76 | **101.98** | 15,701 | 1225 / 1431 |
+|  | 2018 | primary | 20.10 | 14.09 | 32.74 | 24.33 | **91.26** | 15,202 | — |
+|  | 2018 | bglp | 20.80 | 14.74 | 33.43 | 25.13 | **94.11** | 15,970 | 768 / 898 |
+| l2 linear AR, per-patient, H=24, +cov | 2020 | primary | 18.61 | 13.56 | 32.37 | 24.40 | **88.93** | 14,476 | — |
+|  | 2020 | bglp | 20.77 | 14.79 | 34.12 | 25.71 | **95.41** | 15,701 | 1225 / 1431 |
+|  | 2018 | primary | 19.42 | 13.47 | 31.57 | 23.27 | **87.73** | 15,202 | — |
+|  | 2018 | bglp | 20.12 | 14.07 | 32.23 | 23.98 | **90.40** | 15,970 | 768 / 898 |
+| l2 linear AR, population LOPO, H=24, +cov | 2020 | primary | 19.55 | 14.35 | 33.98 | 25.91 | **93.78** | 14,476 | — |
+|  | 2020 | bglp | 21.61 | 15.42 | 35.52 | 26.99 | **99.54** | 15,701 | 1225 / 1431 |
+|  | 2018 | primary | 19.69 | 13.79 | 32.66 | 24.29 | **90.43** | 15,202 | — |
+|  | 2018 | bglp | 20.59 | 14.57 | 33.67 | 25.33 | **94.16** | 15,970 | 768 / 898 |
+
+Full table for every baseline, k and H: `results/baselines_challenge_scores.csv`; per-patient rows with fallback counts: `results/baselines_bglp_per_patient.csv`.
+
+- **Conforming is harder, and more so for the 2020 cohort.** Persistence's four-score sum rises from 111.98 to 115.39 on the 2020 six and the best linear AR's from 88.93 to 95.41: about 2 mg/dL of RMSE at 30 minutes for the fitted model, 1.3 for persistence. The patients with the most fallback windows pay the most — 584 and 567 lose 4–5 mg/dL of 30-minute RMSE on the linear AR; 563, with 29 fallbacks, loses nothing.
+- **What the primary rule had been buying, and one thing it should not have.** Dropping post-outage targets is a disclosed choice. But the primary interpolation also valued the history-end slot from the reading *after* the forecast origin in **2.2% of 30-minute and 4.1% of 60-minute scored windows** (at most 25 minutes ahead, never the target itself). The primary numbers stand as published, with this stated; the conforming variant uses nothing after the origin.
+- **The published comparison column attaches to the `bglp` rows**, since that is the rule the published figures were computed under. It stays blank until filled from the reading table (D-012).
+
 ## Method
 
 _To be written (5–18 Oct 2026)._ Baselines and their clinical metrics above; the clinical scorer and the model harness are frozen before the model (D-022 to D-026). Planned next: sequence model (Saturday 10 Oct); split-conformal intervals with empirical vs nominal coverage; MARD, Clarke and Parkes zones, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL. Error-grid figure is the hero image.
@@ -60,10 +93,10 @@ _To be written (5–18 Oct 2026)._ Baselines and their clinical metrics above; t
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 321 tests; 194 need the dataset and skip without it
+pytest                              # 337 tests; 207 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
-python -m src.eval.baselines        # results/baselines.csv and baselines_per_patient.csv; exits non-zero if a sanity check fails
+python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)
 python -m src.eval.clinical_baselines  # results/clinical_baselines.csv and the two error-grid figures
 ```
 

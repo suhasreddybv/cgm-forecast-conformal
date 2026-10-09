@@ -12,7 +12,10 @@ Rules it enforces, all from docs/protocol.md:
   - population models exclude the held-out patient's whole training file;
   - windows with a NaN covariate are dropped from fitting and from scoring (D-020);
   - the seed is set for torch, numpy and python before anything random happens, and is
-    written into the result row.
+    written into the result row;
+  - every run is scored under BOTH evaluation variants (D-027): the primary protocol and
+    the conforming `bglp` variant, from the first run. `--fit-variant` says which windows
+    the model was fitted on (primary by default); both test scores are written.
 """
 from __future__ import annotations
 
@@ -25,7 +28,7 @@ import numpy as np
 import torch
 
 from src.data.loader import PATIENTS, REPO_ROOT
-from src.data.windows import WindowSet, windows_for
+from src.data.windows import VARIANTS, WindowSet, windows_for
 from src.eval.baselines import covariate_ok
 from src.eval.metrics import mae, mape, rmse
 from src.models.sequence import GlucoseGRU, features
@@ -60,12 +63,13 @@ def tensors(ws: WindowSet, idx: np.ndarray, covariates: bool):
     return x, y, keep
 
 
-def fit_sets(patient: str | None, population: bool, horizon: int, history: int, covariates: bool):
+def fit_sets(patient: str | None, population: bool, horizon: int, history: int, covariates: bool,
+             variant: str = "primary"):
     """(fit tensors, hold-out tensors) under the protocol's split rules."""
     pids = [p for p in PATIENTS if p != patient] if population else [patient]
     xf, yf, xv, yv = [], [], [], []
     for pid in pids:
-        ws = windows_for(pid, "train", horizon, history)
+        ws = windows_for(pid, "train", horizon, history, variant=variant)
         fit, val = temporal_split(ws)
         a, b, _ = tensors(ws, fit, covariates)
         c, d, _ = tensors(ws, val, covariates)
@@ -107,16 +111,25 @@ def train_one(x_fit, y_fit, x_val, y_val, seed: int, hidden: int = 64, layers: i
 
 
 def score_test(model: GlucoseGRU, patient: str, horizon: int, history: int, covariates: bool,
-               device: str = "cpu") -> dict:
-    """The only place the test file is read, after fitting and selection are over."""
-    ws = windows_for(patient, "test", horizon, history)
+               device: str = "cpu", variant: str = "primary") -> dict:
+    """The only place a test file is read, after fitting and selection are over."""
+    ws = windows_for(patient, "test", horizon, history, variant=variant)
     x, y, keep = tensors(ws, np.arange(len(ws)), covariates)
     model.eval()
     with torch.no_grad():
         p = model(x.to(device)).cpu().numpy()
     yv = y.numpy()
     return dict(n_scored=len(yv), rmse=round(rmse(yv, p), 3), mae=round(mae(yv, p), 3),
-                mape=round(mape(yv, p), 3), n_dropped_nan_covariate=len(ws) - len(keep))
+                mape=round(mape(yv, p), 3), n_dropped_nan_covariate=len(ws) - len(keep),
+                n_fallback=int(ws.fallback.sum()))
+
+
+def score_both_variants(model, patient, horizon, history, covariates, device="cpu") -> dict:
+    """Primary keys unprefixed (the frozen protocol); the conforming variant prefixed bglp_."""
+    out = dict(score_test(model, patient, horizon, history, covariates, device, "primary"))
+    out.update({f"bglp_{k}": v for k, v in
+                score_test(model, patient, horizon, history, covariates, device, "bglp").items()})
+    return out
 
 
 def main(argv=None) -> None:
@@ -132,17 +145,20 @@ def main(argv=None) -> None:
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--max-epochs", type=int, default=100)
     ap.add_argument("--patience", type=int, default=10)
+    ap.add_argument("--fit-variant", default="primary", choices=VARIANTS,
+                    help="which windows to fit on; the test is always scored under both variants")
     ap.add_argument("--out", default=str(REPO_ROOT / "results" / "sequence_runs.jsonl"))
     a = ap.parse_args(argv)
     if not a.patient:
         ap.error("--patient is required (the held-out patient when --population)")
     cov = not a.no_covariates
     t0 = time.time()
-    xf, yf, xv, yv = fit_sets(a.patient, a.population, a.horizon, a.history, cov)
+    xf, yf, xv, yv = fit_sets(a.patient, a.population, a.horizon, a.history, cov, a.fit_variant)
     model, fit_info = train_one(xf, yf, xv, yv, a.seed, a.hidden, a.layers, a.lr,
                                 max_epochs=a.max_epochs, patience=a.patience)
-    test = score_test(model, a.patient, a.horizon, a.history, cov)
+    test = score_both_variants(model, a.patient, a.horizon, a.history, cov)
     row = dict(patient=a.patient, fit="population (LOPO)" if a.population else "per-patient",
+               fit_variant=a.fit_variant,
                horizon_steps=a.horizon, history_steps=a.history, covariates=cov,
                hidden=a.hidden, layers=a.layers, lr=a.lr, val_fraction=VAL_FRACTION,
                n_fit=len(yf), n_val=len(yv), seconds=round(time.time() - t0, 1), **fit_info, **test)

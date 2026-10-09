@@ -183,3 +183,40 @@ exists. It clarifies the "Fitting" section; it changes no rule above.
   the per-seed figures are reported beside the mean; no seed is dropped.
 - The 20% is a fixed fraction, not a tuned one. With roughly 9,500–11,600 training windows
   per patient it leaves 1,900–2,300 hold-out windows, enough to stop on.
+
+## Disclosed addition, 9 October 2026 — a conforming evaluation variant (`bglp`)
+
+Added before any sequence model was fitted. It is an **addition** beside the primary
+protocol, not a change to it: every rule above stands and every number produced under it
+stands. Results are reported under both variants from the first sequence-model run.
+
+**Why it exists.** Two discrepancies between the primary rules and the Blood Glucose Level
+Prediction Challenge's evaluation were found on 9 October:
+
+1. The primary rule values a history slot by linear interpolation between the readings
+   bracketing it. For the history-end slot the right-hand bracket is a reading **after the
+   forecast origin T − h**. Measured on the primary test windows: 2.2% of 30-minute and
+   4.1% of 60-minute scored windows used such a reading, up to 25 minutes after the
+   origin, never the target itself. The challenge rules permit extrapolation from readings
+   at or before the origin and nothing after it.
+2. The primary rule drops a target whose history crosses a gap over 30 minutes. The
+   challenge scores every test point after the first hour; a method must predict them all.
+
+**The variant, exactly:**
+
+- **No interpolation anywhere.** Each history slot takes the last reading at or before it —
+  zero-order hold. No reading after T − h is used for anything.
+- **Every challenge test point is a target**: for the 2020 cohort the readings after the
+  first hour (2,884 / 2,704 / 2,352 / 2,377 / 2,653 / 2,731 for 540 / 544 / 552 / 567 / 584 /
+  596, asserted equal to Table 2 before scoring); for the 2018 cohort every test reading.
+  Where the history holds across more than 30 minutes the method still predicts from the
+  held value; such windows are counted as **fallback** and the count is reported per patient.
+- **Metrics as the challenge states them**: RMSE and MAE per patient over all that patient's
+  points; the mean over the six contributors per cohort; and the four-score sum
+  RMSE30 + MAE30 + RMSE60 + MAE60 of those means.
+- Covariates are aligned exactly as in the primary variant (they were already causal).
+  Models fitted for the variant are fitted on training windows built the same way.
+
+The difference between a method's primary and conforming scores is the measured cost of
+the primary rule's two departures — dropping post-outage targets and the post-origin
+bracket — and is reported as a finding, not absorbed.

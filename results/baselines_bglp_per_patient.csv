@@ -1,0 +1,433 @@
+patient,cohort,horizon_min,horizon_steps,window_set_H,n_dropped_nan_covariate,n_train_windows,n_train_dropped_nan,eval_variant,n_fallback,method,variant,k,fit,covariates,n_scored,rmse,mae,mape
+559,2018,30,6,6,0,,,bglp,99,p0,persistence,,none,False,2514,25.05,17.512,11.518
+559,2018,30,6,6,0,,,bglp,99,l1,linear extrapolation k=2,2,none,False,2514,38.176,18.331,12.143
+559,2018,30,6,6,0,,,bglp,99,l1,linear extrapolation k=3,3,none,False,2514,32.49,17.811,11.86
+559,2018,30,6,6,0,,,bglp,99,l1,linear extrapolation k=6,6,none,False,2514,30.109,18.157,12.193
+559,2018,30,6,6,0,10785,0,bglp,99,l2,linear AR H=6,,per-patient,False,2514,22.328,15.445,10.557
+559,2018,30,6,6,0,123873,0,bglp,99,l2,linear AR H=6,,population (LOPO),False,2514,22.366,15.373,10.349
+559,2018,30,6,6,0,10785,0,bglp,99,l2,linear AR H=6,,per-patient,True,2514,21.702,14.739,10.076
+559,2018,30,6,6,0,123861,0,bglp,99,l2,linear AR H=6,,population (LOPO),True,2514,22.227,15.328,10.263
+563,2018,30,6,6,0,,,bglp,11,p0,persistence,,none,False,2570,20.732,15.46,9.713
+563,2018,30,6,6,0,,,bglp,11,l1,linear extrapolation k=2,2,none,False,2570,35.384,20.829,13.147
+563,2018,30,6,6,0,,,bglp,11,l1,linear extrapolation k=3,3,none,False,2570,30.931,19.26,12.165
+563,2018,30,6,6,0,,,bglp,11,l1,linear extrapolation k=6,6,none,False,2570,25.934,18.025,11.391
+563,2018,30,6,6,0,12113,0,bglp,11,l2,linear AR H=6,,per-patient,False,2570,18.738,13.063,8.219
+563,2018,30,6,6,0,122545,0,bglp,11,l2,linear AR H=6,,population (LOPO),False,2570,18.514,13.205,8.421
+563,2018,30,6,6,0,12113,0,bglp,11,l2,linear AR H=6,,per-patient,True,2570,18.648,13.01,8.197
+563,2018,30,6,6,0,122533,0,bglp,11,l2,linear AR H=6,,population (LOPO),True,2570,18.515,13.187,8.361
+570,2018,30,6,6,0,,,bglp,77,p0,persistence,,none,False,2745,19.532,14.291,7.253
+570,2018,30,6,6,0,,,bglp,77,l1,linear extrapolation k=2,2,none,False,2745,27.359,16.605,8.103
+570,2018,30,6,6,0,,,bglp,77,l1,linear extrapolation k=3,3,none,False,2745,24.475,16.026,7.857
+570,2018,30,6,6,0,,,bglp,77,l1,linear extrapolation k=6,6,none,False,2745,23.255,16.028,7.977
+570,2018,30,6,6,0,10971,0,bglp,77,l2,linear AR H=6,,per-patient,False,2745,17.509,12.501,6.342
+570,2018,30,6,6,0,123687,0,bglp,77,l2,linear AR H=6,,population (LOPO),False,2745,19.431,14.377,6.993
+570,2018,30,6,6,0,10971,0,bglp,77,l2,linear AR H=6,,per-patient,True,2745,17.097,12.292,6.241
+570,2018,30,6,6,0,123675,0,bglp,77,l2,linear AR H=6,,population (LOPO),True,2745,19.046,14.226,7.016
+575,2018,30,6,6,0,,,bglp,66,p0,persistence,,none,False,2590,26.058,18.175,12.909
+575,2018,30,6,6,0,,,bglp,66,l1,linear extrapolation k=2,2,none,False,2590,41.748,21.682,14.681
+575,2018,30,6,6,0,,,bglp,66,l1,linear extrapolation k=3,3,none,False,2590,38.916,21.209,14.27
+575,2018,30,6,6,0,,,bglp,66,l1,linear extrapolation k=6,6,none,False,2590,36.175,21.458,14.557
+575,2018,30,6,6,0,11855,0,bglp,66,l2,linear AR H=6,,per-patient,False,2590,24.668,16.659,11.873
+575,2018,30,6,6,0,122803,0,bglp,66,l2,linear AR H=6,,population (LOPO),False,2590,24.277,16.621,12.258
+575,2018,30,6,6,0,11843,12,bglp,66,l2,linear AR H=6,,per-patient,True,2590,24.037,15.998,11.37
+575,2018,30,6,6,0,122803,12,bglp,66,l2,linear AR H=6,,population (LOPO),True,2590,23.837,16.134,11.856
+588,2018,30,6,6,0,,,bglp,22,p0,persistence,,none,False,2791,22.097,16.185,9.753
+588,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=2,2,none,False,2791,28.531,19.704,11.722
+588,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=3,3,none,False,2791,26.767,18.812,11.161
+588,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=6,6,none,False,2791,26.893,19.128,11.325
+588,2018,30,6,6,0,12629,0,bglp,22,l2,linear AR H=6,,per-patient,False,2791,19.463,14.31,8.748
+588,2018,30,6,6,0,122029,0,bglp,22,l2,linear AR H=6,,population (LOPO),False,2791,19.094,13.897,8.421
+588,2018,30,6,6,0,12629,0,bglp,22,l2,linear AR H=6,,per-patient,True,2791,18.488,13.722,8.364
+588,2018,30,6,6,0,122017,0,bglp,22,l2,linear AR H=6,,population (LOPO),True,2791,18.635,13.637,8.281
+591,2018,30,6,6,0,,,bglp,22,p0,persistence,,none,False,2760,24.898,18.335,13.949
+591,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=2,2,none,False,2760,37.572,23.816,18.052
+591,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=3,3,none,False,2760,34.512,22.823,17.342
+591,2018,30,6,6,0,,,bglp,22,l1,linear extrapolation k=6,6,none,False,2760,33.122,22.654,17.145
+591,2018,30,6,6,0,10836,0,bglp,22,l2,linear AR H=6,,per-patient,False,2760,22.382,16.699,13.358
+591,2018,30,6,6,0,123822,0,bglp,22,l2,linear AR H=6,,population (LOPO),False,2760,22.354,16.259,12.765
+591,2018,30,6,6,0,10836,0,bglp,22,l2,linear AR H=6,,per-patient,True,2760,22.107,16.453,13.174
+591,2018,30,6,6,0,123810,0,bglp,22,l2,linear AR H=6,,population (LOPO),True,2760,22.023,16.029,12.575
+540,2020,30,6,6,0,,,bglp,55,p0,persistence,,none,False,2884,29.027,21.523,15.127
+540,2020,30,6,6,0,,,bglp,55,l1,linear extrapolation k=2,2,none,False,2884,33.37,21.304,15.287
+540,2020,30,6,6,0,,,bglp,55,l1,linear extrapolation k=3,3,none,False,2884,31.063,21.293,15.29
+540,2020,30,6,6,0,,,bglp,55,l1,linear extrapolation k=6,6,none,False,2884,33.047,23.449,16.807
+540,2020,30,6,6,0,11936,0,bglp,55,l2,linear AR H=6,,per-patient,False,2884,23.706,17.723,12.416
+540,2020,30,6,6,0,122722,0,bglp,55,l2,linear AR H=6,,population (LOPO),False,2884,24.301,18.498,13.419
+540,2020,30,6,6,0,11936,0,bglp,55,l2,linear AR H=6,,per-patient,True,2884,22.911,17.052,11.977
+540,2020,30,6,6,0,122710,0,bglp,55,l2,linear AR H=6,,population (LOPO),True,2884,24.013,18.099,12.919
+544,2020,30,6,6,0,,,bglp,33,p0,persistence,,none,False,2704,22.638,16.629,10.856
+544,2020,30,6,6,0,,,bglp,33,l1,linear extrapolation k=2,2,none,False,2704,27.9,17.619,11.47
+544,2020,30,6,6,0,,,bglp,33,l1,linear extrapolation k=3,3,none,False,2704,25.821,17.133,11.12
+544,2020,30,6,6,0,,,bglp,33,l1,linear extrapolation k=6,6,none,False,2704,26.059,17.735,11.438
+544,2020,30,6,6,0,10612,0,bglp,33,l2,linear AR H=6,,per-patient,False,2704,18.818,13.706,9.369
+544,2020,30,6,6,0,124046,0,bglp,33,l2,linear AR H=6,,population (LOPO),False,2704,19.208,14.186,9.729
+544,2020,30,6,6,0,10612,0,bglp,33,l2,linear AR H=6,,per-patient,True,2704,17.714,12.752,8.622
+544,2020,30,6,6,0,124034,0,bglp,33,l2,linear AR H=6,,population (LOPO),True,2704,18.688,14.038,9.805
+552,2020,30,6,6,0,,,bglp,77,p0,persistence,,none,False,2352,20.862,15.015,11.262
+552,2020,30,6,6,0,,,bglp,77,l1,linear extrapolation k=2,2,none,False,2352,24.001,16.061,12.119
+552,2020,30,6,6,0,,,bglp,77,l1,linear extrapolation k=3,3,none,False,2352,23.007,15.927,11.97
+552,2020,30,6,6,0,,,bglp,77,l1,linear extrapolation k=6,6,none,False,2352,24.672,17.197,12.843
+552,2020,30,6,6,0,9069,0,bglp,77,l2,linear AR H=6,,per-patient,False,2352,17.796,13.732,10.72
+552,2020,30,6,6,0,125589,0,bglp,77,l2,linear AR H=6,,population (LOPO),False,2352,18.019,13.977,11.09
+552,2020,30,6,6,0,9069,0,bglp,77,l2,linear AR H=6,,per-patient,True,2352,17.612,13.69,10.898
+552,2020,30,6,6,0,125577,0,bglp,77,l2,linear AR H=6,,population (LOPO),True,2352,17.924,13.881,11.005
+567,2020,30,6,6,0,,,bglp,99,p0,persistence,,none,False,2377,30.704,21.056,14.675
+567,2020,30,6,6,0,,,bglp,99,l1,linear extrapolation k=2,2,none,False,2377,49.181,21.645,15.005
+567,2020,30,6,6,0,,,bglp,99,l1,linear extrapolation k=3,3,none,False,2377,41.06,21.717,15.012
+567,2020,30,6,6,0,,,bglp,99,l1,linear extrapolation k=6,6,none,False,2377,38.458,23.393,16.272
+567,2020,30,6,6,0,10847,0,bglp,99,l2,linear AR H=6,,per-patient,False,2377,26.564,17.925,13.359
+567,2020,30,6,6,0,123811,0,bglp,99,l2,linear AR H=6,,population (LOPO),False,2377,26.912,18.027,13.258
+567,2020,30,6,6,0,10847,0,bglp,99,l2,linear AR H=6,,per-patient,True,2377,26.094,17.695,13.145
+567,2020,30,6,6,0,123799,0,bglp,99,l2,linear AR H=6,,population (LOPO),True,2377,26.332,17.748,13.04
+584,2020,30,6,6,0,,,bglp,132,p0,persistence,,none,False,2653,28.67,18.951,12.025
+584,2020,30,6,6,0,,,bglp,132,l1,linear extrapolation k=2,2,none,False,2653,52.202,25.837,17.449
+584,2020,30,6,6,0,,,bglp,132,l1,linear extrapolation k=3,3,none,False,2653,44.012,24.924,16.606
+584,2020,30,6,6,0,,,bglp,132,l1,linear extrapolation k=6,6,none,False,2653,38.656,24.481,15.85
+584,2020,30,6,6,0,12139,0,bglp,132,l2,linear AR H=6,,per-patient,False,2653,26.75,18.174,12.219
+584,2020,30,6,6,0,122519,0,bglp,132,l2,linear AR H=6,,population (LOPO),False,2653,26.711,17.356,11.199
+584,2020,30,6,6,0,12139,0,bglp,132,l2,linear AR H=6,,per-patient,True,2653,26.366,17.754,11.846
+584,2020,30,6,6,0,122507,0,bglp,132,l2,linear AR H=6,,population (LOPO),True,2653,26.719,17.393,11.265
+596,2020,30,6,6,0,,,bglp,66,p0,persistence,,none,False,2731,21.009,15.197,11.12
+596,2020,30,6,6,0,,,bglp,66,l1,linear extrapolation k=2,2,none,False,2731,27.562,17.416,12.696
+596,2020,30,6,6,0,,,bglp,66,l1,linear extrapolation k=3,3,none,False,2731,25.753,16.771,12.201
+596,2020,30,6,6,0,,,bglp,66,l1,linear extrapolation k=6,6,none,False,2731,24.619,16.753,12.171
+596,2020,30,6,6,0,10866,0,bglp,66,l2,linear AR H=6,,per-patient,False,2731,18.337,13.357,10.015
+596,2020,30,6,6,0,123792,0,bglp,66,l2,linear AR H=6,,population (LOPO),False,2731,18.074,13.158,10.015
+596,2020,30,6,6,0,10866,0,bglp,66,l2,linear AR H=6,,per-patient,True,2731,17.744,13.048,9.852
+596,2020,30,6,6,0,123780,0,bglp,66,l2,linear AR H=6,,population (LOPO),True,2731,17.608,12.791,9.65
+559,2018,30,6,12,0,,,bglp,153,p0,persistence,,none,False,2514,25.05,17.512,11.518
+559,2018,30,6,12,0,10779,0,bglp,153,l2,linear AR H=12,,per-patient,False,2514,22.275,15.376,10.524
+559,2018,30,6,12,0,123807,0,bglp,153,l2,linear AR H=12,,population (LOPO),False,2514,22.298,15.292,10.292
+559,2018,30,6,12,0,10779,0,bglp,153,l2,linear AR H=12,,per-patient,True,2514,21.176,14.448,9.904
+559,2018,30,6,12,0,123795,0,bglp,153,l2,linear AR H=12,,population (LOPO),True,2514,21.736,14.952,10.065
+563,2018,30,6,12,0,,,bglp,17,p0,persistence,,none,False,2570,20.732,15.46,9.713
+563,2018,30,6,12,0,12107,0,bglp,17,l2,linear AR H=12,,per-patient,False,2570,18.718,13.039,8.194
+563,2018,30,6,12,0,122479,0,bglp,17,l2,linear AR H=12,,population (LOPO),False,2570,18.46,13.144,8.374
+563,2018,30,6,12,0,12107,0,bglp,17,l2,linear AR H=12,,per-patient,True,2570,18.759,12.91,8.078
+563,2018,30,6,12,0,122467,0,bglp,17,l2,linear AR H=12,,population (LOPO),True,2570,18.92,13.218,8.233
+570,2018,30,6,12,0,,,bglp,119,p0,persistence,,none,False,2745,19.532,14.291,7.253
+570,2018,30,6,12,0,10965,0,bglp,119,l2,linear AR H=12,,per-patient,False,2745,17.536,12.354,6.274
+570,2018,30,6,12,0,123621,0,bglp,119,l2,linear AR H=12,,population (LOPO),False,2745,19.602,14.512,7.04
+570,2018,30,6,12,0,10965,0,bglp,119,l2,linear AR H=12,,per-patient,True,2745,17.003,12.065,6.135
+570,2018,30,6,12,0,123609,0,bglp,119,l2,linear AR H=12,,population (LOPO),True,2745,18.623,13.917,6.948
+575,2018,30,6,12,0,,,bglp,99,p0,persistence,,none,False,2590,26.058,18.175,12.909
+575,2018,30,6,12,0,11849,0,bglp,99,l2,linear AR H=12,,per-patient,False,2590,24.614,16.679,11.831
+575,2018,30,6,12,0,122737,0,bglp,99,l2,linear AR H=12,,population (LOPO),False,2590,24.233,16.605,12.222
+575,2018,30,6,12,0,11837,12,bglp,99,l2,linear AR H=12,,per-patient,True,2590,23.755,15.476,10.964
+575,2018,30,6,12,0,122737,12,bglp,99,l2,linear AR H=12,,population (LOPO),True,2590,23.65,15.843,11.668
+588,2018,30,6,12,0,,,bglp,34,p0,persistence,,none,False,2791,22.097,16.185,9.753
+588,2018,30,6,12,0,12623,0,bglp,34,l2,linear AR H=12,,per-patient,False,2791,19.469,14.318,8.751
+588,2018,30,6,12,0,121963,0,bglp,34,l2,linear AR H=12,,population (LOPO),False,2791,19.055,13.851,8.391
+588,2018,30,6,12,0,12623,0,bglp,34,l2,linear AR H=12,,per-patient,True,2791,18.393,13.63,8.304
+588,2018,30,6,12,0,121951,0,bglp,34,l2,linear AR H=12,,population (LOPO),True,2791,18.285,13.428,8.183
+591,2018,30,6,12,0,,,bglp,34,p0,persistence,,none,False,2760,24.898,18.335,13.949
+591,2018,30,6,12,0,10830,0,bglp,34,l2,linear AR H=12,,per-patient,False,2760,22.373,16.699,13.35
+591,2018,30,6,12,0,123756,0,bglp,34,l2,linear AR H=12,,population (LOPO),False,2760,22.359,16.264,12.771
+591,2018,30,6,12,0,10830,0,bglp,34,l2,linear AR H=12,,per-patient,True,2760,22.107,16.359,13.033
+591,2018,30,6,12,0,123744,0,bglp,34,l2,linear AR H=12,,population (LOPO),True,2760,22.103,16.096,12.633
+540,2020,30,6,12,0,,,bglp,85,p0,persistence,,none,False,2884,29.027,21.523,15.127
+540,2020,30,6,12,0,11930,0,bglp,85,l2,linear AR H=12,,per-patient,False,2884,23.683,17.713,12.417
+540,2020,30,6,12,0,122656,0,bglp,85,l2,linear AR H=12,,population (LOPO),False,2884,24.421,18.532,13.445
+540,2020,30,6,12,0,11930,0,bglp,85,l2,linear AR H=12,,per-patient,True,2884,22.227,16.59,11.706
+540,2020,30,6,12,0,122644,0,bglp,85,l2,linear AR H=12,,population (LOPO),True,2884,23.789,17.938,12.751
+544,2020,30,6,12,0,,,bglp,51,p0,persistence,,none,False,2704,22.638,16.629,10.856
+544,2020,30,6,12,0,10606,0,bglp,51,l2,linear AR H=12,,per-patient,False,2704,18.811,13.707,9.376
+544,2020,30,6,12,0,123980,0,bglp,51,l2,linear AR H=12,,population (LOPO),False,2704,19.155,14.118,9.688
+544,2020,30,6,12,0,10606,0,bglp,51,l2,linear AR H=12,,per-patient,True,2704,16.972,12.112,8.157
+544,2020,30,6,12,0,123968,0,bglp,51,l2,linear AR H=12,,population (LOPO),True,2704,18.728,14.098,9.837
+552,2020,30,6,12,0,,,bglp,119,p0,persistence,,none,False,2352,20.862,15.015,11.262
+552,2020,30,6,12,0,9063,0,bglp,119,l2,linear AR H=12,,per-patient,False,2352,17.905,13.835,10.804
+552,2020,30,6,12,0,125523,0,bglp,119,l2,linear AR H=12,,population (LOPO),False,2352,18.163,14.104,11.201
+552,2020,30,6,12,0,9063,0,bglp,119,l2,linear AR H=12,,per-patient,True,2352,17.558,13.74,11.004
+552,2020,30,6,12,0,125511,0,bglp,119,l2,linear AR H=12,,population (LOPO),True,2352,17.997,13.911,11.018
+567,2020,30,6,12,0,,,bglp,153,p0,persistence,,none,False,2377,30.704,21.056,14.675
+567,2020,30,6,12,0,10841,0,bglp,153,l2,linear AR H=12,,per-patient,False,2377,26.617,17.882,13.34
+567,2020,30,6,12,0,123745,0,bglp,153,l2,linear AR H=12,,population (LOPO),False,2377,26.952,17.988,13.226
+567,2020,30,6,12,0,10841,0,bglp,153,l2,linear AR H=12,,per-patient,True,2377,25.602,17.117,12.729
+567,2020,30,6,12,0,123733,0,bglp,153,l2,linear AR H=12,,population (LOPO),True,2377,25.559,16.928,12.388
+584,2020,30,6,12,0,,,bglp,204,p0,persistence,,none,False,2653,28.67,18.951,12.025
+584,2020,30,6,12,0,12133,0,bglp,204,l2,linear AR H=12,,per-patient,False,2653,26.678,18.178,12.257
+584,2020,30,6,12,0,122453,0,bglp,204,l2,linear AR H=12,,population (LOPO),False,2653,26.641,17.38,11.216
+584,2020,30,6,12,0,12133,0,bglp,204,l2,linear AR H=12,,per-patient,True,2653,25.663,17.175,11.538
+584,2020,30,6,12,0,122441,0,bglp,204,l2,linear AR H=12,,population (LOPO),True,2653,26.294,17.089,11.097
+596,2020,30,6,12,0,,,bglp,102,p0,persistence,,none,False,2731,21.009,15.197,11.12
+596,2020,30,6,12,0,10860,0,bglp,102,l2,linear AR H=12,,per-patient,False,2731,18.126,13.205,9.901
+596,2020,30,6,12,0,123726,0,bglp,102,l2,linear AR H=12,,population (LOPO),False,2731,17.976,13.086,9.966
+596,2020,30,6,12,0,10860,0,bglp,102,l2,linear AR H=12,,per-patient,True,2731,17.087,12.571,9.46
+596,2020,30,6,12,0,123714,0,bglp,102,l2,linear AR H=12,,population (LOPO),True,2731,17.301,12.564,9.536
+559,2018,30,6,24,0,,,bglp,261,p0,persistence,,none,False,2514,25.05,17.512,11.518
+559,2018,30,6,24,0,10767,0,bglp,261,l2,linear AR H=24,,per-patient,False,2514,22.086,15.273,10.448
+559,2018,30,6,24,0,123675,0,bglp,261,l2,linear AR H=24,,population (LOPO),False,2514,22.295,15.282,10.277
+559,2018,30,6,24,0,10767,0,bglp,261,l2,linear AR H=24,,per-patient,True,2514,20.516,14.013,9.652
+559,2018,30,6,24,0,123663,0,bglp,261,l2,linear AR H=24,,population (LOPO),True,2514,21.692,14.894,10.067
+563,2018,30,6,24,0,,,bglp,29,p0,persistence,,none,False,2570,20.732,15.46,9.713
+563,2018,30,6,24,0,12095,0,bglp,29,l2,linear AR H=24,,per-patient,False,2570,18.679,13.031,8.188
+563,2018,30,6,24,0,122347,0,bglp,29,l2,linear AR H=24,,population (LOPO),False,2570,18.42,13.117,8.346
+563,2018,30,6,24,0,12095,0,bglp,29,l2,linear AR H=24,,per-patient,True,2570,18.821,12.919,8.077
+563,2018,30,6,24,0,122335,0,bglp,29,l2,linear AR H=24,,population (LOPO),True,2570,19.129,13.23,8.19
+570,2018,30,6,24,0,,,bglp,203,p0,persistence,,none,False,2745,19.532,14.291,7.253
+570,2018,30,6,24,0,10953,0,bglp,203,l2,linear AR H=24,,per-patient,False,2745,17.59,12.402,6.306
+570,2018,30,6,24,0,123489,0,bglp,203,l2,linear AR H=24,,population (LOPO),False,2745,19.706,14.597,7.067
+570,2018,30,6,24,0,10953,0,bglp,203,l2,linear AR H=24,,per-patient,True,2745,17.053,12.037,6.097
+570,2018,30,6,24,0,123477,0,bglp,203,l2,linear AR H=24,,population (LOPO),True,2745,18.609,13.886,6.899
+575,2018,30,6,24,0,,,bglp,159,p0,persistence,,none,False,2590,26.058,18.175,12.909
+575,2018,30,6,24,0,11837,0,bglp,159,l2,linear AR H=24,,per-patient,False,2590,24.684,16.835,11.919
+575,2018,30,6,24,0,122605,0,bglp,159,l2,linear AR H=24,,population (LOPO),False,2590,24.28,16.641,12.243
+575,2018,30,6,24,0,11825,12,bglp,159,l2,linear AR H=24,,per-patient,True,2590,23.664,15.424,10.973
+575,2018,30,6,24,0,122605,12,bglp,159,l2,linear AR H=24,,population (LOPO),True,2590,23.704,15.902,11.708
+588,2018,30,6,24,0,,,bglp,58,p0,persistence,,none,False,2791,22.097,16.185,9.753
+588,2018,30,6,24,0,12611,0,bglp,58,l2,linear AR H=24,,per-patient,False,2791,19.409,14.257,8.704
+588,2018,30,6,24,0,121831,0,bglp,58,l2,linear AR H=24,,population (LOPO),False,2791,19.034,13.824,8.364
+588,2018,30,6,24,0,12611,0,bglp,58,l2,linear AR H=24,,per-patient,True,2791,18.468,13.682,8.297
+588,2018,30,6,24,0,121819,0,bglp,58,l2,linear AR H=24,,population (LOPO),True,2791,18.238,13.385,8.154
+591,2018,30,6,24,0,,,bglp,58,p0,persistence,,none,False,2760,24.898,18.335,13.949
+591,2018,30,6,24,0,10818,0,bglp,58,l2,linear AR H=24,,per-patient,False,2760,22.361,16.664,13.363
+591,2018,30,6,24,0,123624,0,bglp,58,l2,linear AR H=24,,population (LOPO),False,2760,22.407,16.295,12.809
+591,2018,30,6,24,0,10818,0,bglp,58,l2,linear AR H=24,,per-patient,True,2760,22.186,16.322,13.033
+591,2018,30,6,24,0,123612,0,bglp,58,l2,linear AR H=24,,population (LOPO),True,2760,22.158,16.124,12.686
+540,2020,30,6,24,0,,,bglp,145,p0,persistence,,none,False,2884,29.027,21.523,15.127
+540,2020,30,6,24,0,11918,0,bglp,145,l2,linear AR H=24,,per-patient,False,2884,23.7,17.753,12.426
+540,2020,30,6,24,0,122524,0,bglp,145,l2,linear AR H=24,,population (LOPO),False,2884,24.446,18.559,13.468
+540,2020,30,6,24,0,11918,0,bglp,145,l2,linear AR H=24,,per-patient,True,2884,22.336,16.632,11.712
+540,2020,30,6,24,0,122512,0,bglp,145,l2,linear AR H=24,,population (LOPO),True,2884,23.817,18.007,12.782
+544,2020,30,6,24,0,,,bglp,87,p0,persistence,,none,False,2704,22.638,16.629,10.856
+544,2020,30,6,24,0,10594,0,bglp,87,l2,linear AR H=24,,per-patient,False,2704,18.848,13.721,9.375
+544,2020,30,6,24,0,123848,0,bglp,87,l2,linear AR H=24,,population (LOPO),False,2704,19.168,14.113,9.676
+544,2020,30,6,24,0,10594,0,bglp,87,l2,linear AR H=24,,per-patient,True,2704,17.041,12.011,8.026
+544,2020,30,6,24,0,123836,0,bglp,87,l2,linear AR H=24,,population (LOPO),True,2704,18.827,14.273,9.97
+552,2020,30,6,24,0,,,bglp,210,p0,persistence,,none,False,2352,20.862,15.015,11.262
+552,2020,30,6,24,0,9051,0,bglp,210,l2,linear AR H=24,,per-patient,False,2352,17.928,13.866,10.842
+552,2020,30,6,24,0,125391,0,bglp,210,l2,linear AR H=24,,population (LOPO),False,2352,18.156,14.096,11.197
+552,2020,30,6,24,0,9051,0,bglp,210,l2,linear AR H=24,,per-patient,True,2352,17.499,13.705,10.933
+552,2020,30,6,24,0,125379,0,bglp,210,l2,linear AR H=24,,population (LOPO),True,2352,17.958,13.878,11.01
+567,2020,30,6,24,0,,,bglp,261,p0,persistence,,none,False,2377,30.704,21.056,14.675
+567,2020,30,6,24,0,10829,0,bglp,261,l2,linear AR H=24,,per-patient,False,2377,26.657,17.935,13.426
+567,2020,30,6,24,0,123613,0,bglp,261,l2,linear AR H=24,,population (LOPO),False,2377,26.958,17.988,13.234
+567,2020,30,6,24,0,10829,0,bglp,261,l2,linear AR H=24,,per-patient,True,2377,25.525,17.021,12.648
+567,2020,30,6,24,0,123601,0,bglp,261,l2,linear AR H=24,,population (LOPO),True,2377,25.486,16.759,12.189
+584,2020,30,6,24,0,,,bglp,348,p0,persistence,,none,False,2653,28.67,18.951,12.025
+584,2020,30,6,24,0,12121,0,bglp,348,l2,linear AR H=24,,per-patient,False,2653,26.742,18.223,12.284
+584,2020,30,6,24,0,122321,0,bglp,348,l2,linear AR H=24,,population (LOPO),False,2653,26.707,17.437,11.251
+584,2020,30,6,24,0,12121,0,bglp,348,l2,linear AR H=24,,per-patient,True,2653,25.397,17.038,11.36
+584,2020,30,6,24,0,122309,0,bglp,348,l2,linear AR H=24,,population (LOPO),True,2653,26.214,17.036,11.098
+596,2020,30,6,24,0,,,bglp,174,p0,persistence,,none,False,2731,21.009,15.197,11.12
+596,2020,30,6,24,0,10848,0,bglp,174,l2,linear AR H=24,,per-patient,False,2731,18.152,13.24,9.92
+596,2020,30,6,24,0,123594,0,bglp,174,l2,linear AR H=24,,population (LOPO),False,2731,17.986,13.101,9.976
+596,2020,30,6,24,0,10848,0,bglp,174,l2,linear AR H=24,,per-patient,True,2731,16.842,12.356,9.269
+596,2020,30,6,24,0,123582,0,bglp,174,l2,linear AR H=24,,population (LOPO),True,2731,17.333,12.594,9.549
+559,2018,60,12,6,0,,,bglp,152,p0,persistence,,none,False,2514,41.066,30.263,20.122
+559,2018,60,12,6,0,,,bglp,152,l1,linear extrapolation k=2,2,none,False,2514,76.899,39.139,25.92
+559,2018,60,12,6,0,,,bglp,152,l1,linear extrapolation k=3,3,none,False,2514,64.842,37.5,24.967
+559,2018,60,12,6,0,,,bglp,152,l1,linear extrapolation k=6,6,none,False,2514,57.742,37.156,25.134
+559,2018,60,12,6,0,10779,0,bglp,152,l2,linear AR H=6,,per-patient,False,2514,36.793,27.417,19.058
+559,2018,60,12,6,0,123807,0,bglp,152,l2,linear AR H=6,,population (LOPO),False,2514,36.775,27.233,18.524
+559,2018,60,12,6,0,10779,0,bglp,152,l2,linear AR H=6,,per-patient,True,2514,34.932,25.799,18.001
+559,2018,60,12,6,0,123795,0,bglp,152,l2,linear AR H=6,,population (LOPO),True,2514,36.379,27.079,18.439
+563,2018,60,12,6,0,,,bglp,17,p0,persistence,,none,False,2570,33.866,25.502,16.215
+563,2018,60,12,6,0,,,bglp,17,l1,linear extrapolation k=2,2,none,False,2570,70.587,43.379,27.096
+563,2018,60,12,6,0,,,bglp,17,l1,linear extrapolation k=3,3,none,False,2570,61.479,39.721,24.889
+563,2018,60,12,6,0,,,bglp,17,l1,linear extrapolation k=6,6,none,False,2570,50.523,35.888,22.609
+563,2018,60,12,6,0,12107,0,bglp,17,l2,linear AR H=6,,per-patient,False,2570,30.024,21.885,13.654
+563,2018,60,12,6,0,122479,0,bglp,17,l2,linear AR H=6,,population (LOPO),False,2570,29.488,21.799,14.052
+563,2018,60,12,6,0,12107,0,bglp,17,l2,linear AR H=6,,per-patient,True,2570,30.008,21.738,13.574
+563,2018,60,12,6,0,122467,0,bglp,17,l2,linear AR H=6,,population (LOPO),True,2570,29.79,21.83,13.832
+570,2018,60,12,6,0,,,bglp,105,p0,persistence,,none,False,2745,32.502,24.878,12.762
+570,2018,60,12,6,0,,,bglp,105,l1,linear extrapolation k=2,2,none,False,2745,56.251,34.757,17.309
+570,2018,60,12,6,0,,,bglp,105,l1,linear extrapolation k=3,3,none,False,2745,49.87,32.971,16.53
+570,2018,60,12,6,0,,,bglp,105,l1,linear extrapolation k=6,6,none,False,2745,45.191,31.299,15.989
+570,2018,60,12,6,0,10965,0,bglp,105,l2,linear AR H=6,,per-patient,False,2745,29.611,22.352,11.451
+570,2018,60,12,6,0,123621,0,bglp,105,l2,linear AR H=6,,population (LOPO),False,2745,35.489,27.866,13.325
+570,2018,60,12,6,0,10965,0,bglp,105,l2,linear AR H=6,,per-patient,True,2745,29.09,22.085,11.355
+570,2018,60,12,6,0,123609,0,bglp,105,l2,linear AR H=6,,population (LOPO),True,2745,34.69,27.222,13.296
+575,2018,60,12,6,0,,,bglp,88,p0,persistence,,none,False,2590,40.198,29.359,21.627
+575,2018,60,12,6,0,,,bglp,88,l1,linear extrapolation k=2,2,none,False,2590,83.494,46.383,31.725
+575,2018,60,12,6,0,,,bglp,88,l1,linear extrapolation k=3,3,none,False,2590,75.984,44.409,30.392
+575,2018,60,12,6,0,,,bglp,88,l1,linear extrapolation k=6,6,none,False,2590,66.465,42.693,29.751
+575,2018,60,12,6,0,11849,0,bglp,88,l2,linear AR H=6,,per-patient,False,2590,37.691,28.12,20.734
+575,2018,60,12,6,0,122737,0,bglp,88,l2,linear AR H=6,,population (LOPO),False,2590,36.913,27.882,21.751
+575,2018,60,12,6,0,11837,12,bglp,88,l2,linear AR H=6,,per-patient,True,2590,36.724,27.154,20.015
+575,2018,60,12,6,0,122737,12,bglp,88,l2,linear AR H=6,,population (LOPO),True,2590,36.217,27.178,21.13
+588,2018,60,12,6,0,,,bglp,34,p0,persistence,,none,False,2791,36.193,27.067,16.371
+588,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=2,2,none,False,2791,60.103,42.384,25.18
+588,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=3,3,none,False,2791,55.48,39.732,23.654
+588,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=6,6,none,False,2791,52.25,38.093,22.735
+588,2018,60,12,6,0,12623,0,bglp,34,l2,linear AR H=6,,per-patient,False,2791,32.15,23.806,14.589
+588,2018,60,12,6,0,121963,0,bglp,34,l2,linear AR H=6,,population (LOPO),False,2791,31.63,23.299,14.096
+588,2018,60,12,6,0,12623,0,bglp,34,l2,linear AR H=6,,per-patient,True,2791,30.813,22.92,14.038
+588,2018,60,12,6,0,121951,0,bglp,34,l2,linear AR H=6,,population (LOPO),True,2791,30.636,22.803,13.936
+591,2018,60,12,6,0,,,bglp,34,p0,persistence,,none,False,2760,39.121,29.656,22.97
+591,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=2,2,none,False,2760,76.873,49.751,37.699
+591,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=3,3,none,False,2760,69.413,46.99,35.652
+591,2018,60,12,6,0,,,bglp,34,l1,linear extrapolation k=6,6,none,False,2760,63.402,44.697,34.184
+591,2018,60,12,6,0,10830,0,bglp,34,l2,linear AR H=6,,per-patient,False,2760,34.885,27.872,23.118
+591,2018,60,12,6,0,123756,0,bglp,34,l2,linear AR H=6,,population (LOPO),False,2760,34.992,27.254,22.207
+591,2018,60,12,6,0,10830,0,bglp,34,l2,linear AR H=6,,per-patient,True,2760,34.643,27.61,22.845
+591,2018,60,12,6,0,123744,0,bglp,34,l2,linear AR H=6,,population (LOPO),True,2760,34.744,27.064,22.003
+540,2020,60,12,6,0,,,bglp,74,p0,persistence,,none,False,2884,48.131,36.705,26.079
+540,2020,60,12,6,0,,,bglp,74,l1,linear extrapolation k=2,2,none,False,2884,73.929,49.23,35.231
+540,2020,60,12,6,0,,,bglp,74,l1,linear extrapolation k=3,3,none,False,2884,68.884,48.635,34.761
+540,2020,60,12,6,0,,,bglp,74,l1,linear extrapolation k=6,6,none,False,2884,68.569,49.775,35.583
+540,2020,60,12,6,0,11930,0,bglp,74,l2,linear AR H=6,,per-patient,False,2884,42.36,32.763,23.003
+540,2020,60,12,6,0,122656,0,bglp,74,l2,linear AR H=6,,population (LOPO),False,2884,41.898,32.733,24.349
+540,2020,60,12,6,0,11930,0,bglp,74,l2,linear AR H=6,,per-patient,True,2884,40.685,31.371,22.04
+540,2020,60,12,6,0,122644,0,bglp,74,l2,linear AR H=6,,population (LOPO),True,2884,41.428,32.141,23.424
+544,2020,60,12,6,0,,,bglp,51,p0,persistence,,none,False,2704,37.792,28.58,18.549
+544,2020,60,12,6,0,,,bglp,51,l1,linear extrapolation k=2,2,none,False,2704,59.478,38.569,24.73
+544,2020,60,12,6,0,,,bglp,51,l1,linear extrapolation k=3,3,none,False,2704,54.636,37.034,23.685
+544,2020,60,12,6,0,,,bglp,51,l1,linear extrapolation k=6,6,none,False,2704,52.277,36.204,22.979
+544,2020,60,12,6,0,10606,0,bglp,51,l2,linear AR H=6,,per-patient,False,2704,32.324,25.167,17.586
+544,2020,60,12,6,0,123980,0,bglp,51,l2,linear AR H=6,,population (LOPO),False,2704,32.757,25.593,17.758
+544,2020,60,12,6,0,10606,0,bglp,51,l2,linear AR H=6,,per-patient,True,2704,28.859,21.922,15.237
+544,2020,60,12,6,0,123968,0,bglp,51,l2,linear AR H=6,,population (LOPO),True,2704,31.887,25.539,18.217
+552,2020,60,12,6,0,,,bglp,113,p0,persistence,,none,False,2352,33.782,24.866,18.838
+552,2020,60,12,6,0,,,bglp,113,l1,linear extrapolation k=2,2,none,False,2352,53.465,36.279,27.682
+552,2020,60,12,6,0,,,bglp,113,l1,linear extrapolation k=3,3,none,False,2352,50.744,35.351,26.952
+552,2020,60,12,6,0,,,bglp,113,l1,linear extrapolation k=6,6,none,False,2352,50.468,35.708,27.156
+552,2020,60,12,6,0,9063,0,bglp,113,l2,linear AR H=6,,per-patient,False,2352,31.047,24.601,19.674
+552,2020,60,12,6,0,125523,0,bglp,113,l2,linear AR H=6,,population (LOPO),False,2352,31.218,24.917,20.43
+552,2020,60,12,6,0,9063,0,bglp,113,l2,linear AR H=6,,per-patient,True,2352,30.987,24.876,20.491
+552,2020,60,12,6,0,125511,0,bglp,113,l2,linear AR H=6,,population (LOPO),True,2352,31.355,25.045,20.524
+567,2020,60,12,6,0,,,bglp,153,p0,persistence,,none,False,2377,49.145,35.533,25.086
+567,2020,60,12,6,0,,,bglp,153,l1,linear extrapolation k=2,2,none,False,2377,101.038,47.832,33.779
+567,2020,60,12,6,0,,,bglp,153,l1,linear extrapolation k=3,3,none,False,2377,84.434,47.399,33.482
+567,2020,60,12,6,0,,,bglp,153,l1,linear extrapolation k=6,6,none,False,2377,75.578,47.867,34.034
+567,2020,60,12,6,0,10841,0,bglp,153,l2,linear AR H=6,,per-patient,False,2377,41.898,31.132,24.047
+567,2020,60,12,6,0,123745,0,bglp,153,l2,linear AR H=6,,population (LOPO),False,2377,42.744,31.467,23.931
+567,2020,60,12,6,0,10841,0,bglp,153,l2,linear AR H=6,,per-patient,True,2377,41.114,30.53,23.515
+567,2020,60,12,6,0,123733,0,bglp,153,l2,linear AR H=6,,population (LOPO),True,2377,41.494,30.643,23.202
+584,2020,60,12,6,0,,,bglp,175,p0,persistence,,none,False,2653,44.662,31.331,19.77
+584,2020,60,12,6,0,,,bglp,175,l1,linear extrapolation k=2,2,none,False,2653,103.26,53.609,35.717
+584,2020,60,12,6,0,,,bglp,175,l1,linear extrapolation k=3,3,none,False,2653,85.59,51.002,33.537
+584,2020,60,12,6,0,,,bglp,175,l1,linear extrapolation k=6,6,none,False,2653,71.551,47.733,30.57
+584,2020,60,12,6,0,12133,0,bglp,175,l2,linear AR H=6,,per-patient,False,2653,40.684,30.217,20.684
+584,2020,60,12,6,0,122453,0,bglp,175,l2,linear AR H=6,,population (LOPO),False,2653,40.273,28.891,18.327
+584,2020,60,12,6,0,12133,0,bglp,175,l2,linear AR H=6,,per-patient,True,2653,39.435,28.822,19.499
+584,2020,60,12,6,0,122441,0,bglp,175,l2,linear AR H=6,,population (LOPO),True,2653,40.047,28.705,18.328
+596,2020,60,12,6,0,,,bglp,96,p0,persistence,,none,False,2731,34.984,25.558,18.852
+596,2020,60,12,6,0,,,bglp,96,l1,linear extrapolation k=2,2,none,False,2731,55.585,36.344,26.513
+596,2020,60,12,6,0,,,bglp,96,l1,linear extrapolation k=3,3,none,False,2731,51.377,34.526,25.205
+596,2020,60,12,6,0,,,bglp,96,l1,linear extrapolation k=6,6,none,False,2731,47.284,32.842,24.096
+596,2020,60,12,6,0,10860,0,bglp,96,l2,linear AR H=6,,per-patient,False,2731,30.062,22.486,17.091
+596,2020,60,12,6,0,123726,0,bglp,96,l2,linear AR H=6,,population (LOPO),False,2731,30.037,22.619,17.687
+596,2020,60,12,6,0,10860,0,bglp,96,l2,linear AR H=6,,per-patient,True,2731,28.789,21.629,16.493
+596,2020,60,12,6,0,123714,0,bglp,96,l2,linear AR H=6,,population (LOPO),True,2731,29.154,21.863,16.924
+559,2018,60,12,12,0,,,bglp,206,p0,persistence,,none,False,2514,41.066,30.263,20.122
+559,2018,60,12,12,0,10773,0,bglp,206,l2,linear AR H=12,,per-patient,False,2514,36.723,27.25,18.913
+559,2018,60,12,12,0,123741,0,bglp,206,l2,linear AR H=12,,population (LOPO),False,2514,36.674,27.075,18.381
+559,2018,60,12,12,0,10773,0,bglp,206,l2,linear AR H=12,,per-patient,True,2514,33.788,24.967,17.448
+559,2018,60,12,12,0,123729,0,bglp,206,l2,linear AR H=12,,population (LOPO),True,2514,35.641,26.476,18.127
+563,2018,60,12,12,0,,,bglp,23,p0,persistence,,none,False,2570,33.866,25.502,16.215
+563,2018,60,12,12,0,12101,0,bglp,23,l2,linear AR H=12,,per-patient,False,2570,30.019,21.876,13.618
+563,2018,60,12,12,0,122413,0,bglp,23,l2,linear AR H=12,,population (LOPO),False,2570,29.411,21.705,13.955
+563,2018,60,12,12,0,12101,0,bglp,23,l2,linear AR H=12,,per-patient,True,2570,30.437,21.695,13.484
+563,2018,60,12,12,0,122401,0,bglp,23,l2,linear AR H=12,,population (LOPO),True,2570,30.753,21.995,13.643
+570,2018,60,12,12,0,,,bglp,147,p0,persistence,,none,False,2745,32.502,24.878,12.762
+570,2018,60,12,12,0,10959,0,bglp,147,l2,linear AR H=12,,per-patient,False,2745,29.626,22.04,11.282
+570,2018,60,12,12,0,123555,0,bglp,147,l2,linear AR H=12,,population (LOPO),False,2745,35.806,28.126,13.404
+570,2018,60,12,12,0,10959,0,bglp,147,l2,linear AR H=12,,per-patient,True,2745,28.917,21.659,11.108
+570,2018,60,12,12,0,123543,0,bglp,147,l2,linear AR H=12,,population (LOPO),True,2745,34.074,26.71,13.16
+575,2018,60,12,12,0,,,bglp,118,p0,persistence,,none,False,2590,40.198,29.359,21.627
+575,2018,60,12,12,0,11843,0,bglp,118,l2,linear AR H=12,,per-patient,False,2590,37.704,28.235,20.663
+575,2018,60,12,12,0,122671,0,bglp,118,l2,linear AR H=12,,population (LOPO),False,2590,36.864,27.909,21.712
+575,2018,60,12,12,0,11831,12,bglp,118,l2,linear AR H=12,,per-patient,True,2590,36.062,26.617,19.331
+575,2018,60,12,12,0,122671,12,bglp,118,l2,linear AR H=12,,population (LOPO),True,2590,35.915,26.837,20.893
+588,2018,60,12,12,0,,,bglp,46,p0,persistence,,none,False,2791,36.193,27.067,16.371
+588,2018,60,12,12,0,12617,0,bglp,46,l2,linear AR H=12,,per-patient,False,2791,32.081,23.75,14.552
+588,2018,60,12,12,0,121897,0,bglp,46,l2,linear AR H=12,,population (LOPO),False,2791,31.532,23.212,14.024
+588,2018,60,12,12,0,12617,0,bglp,46,l2,linear AR H=12,,per-patient,True,2791,30.712,22.883,13.974
+588,2018,60,12,12,0,121885,0,bglp,46,l2,linear AR H=12,,population (LOPO),True,2791,30.16,22.551,13.826
+591,2018,60,12,12,0,,,bglp,46,p0,persistence,,none,False,2760,39.121,29.656,22.97
+591,2018,60,12,12,0,10824,0,bglp,46,l2,linear AR H=12,,per-patient,False,2760,34.89,27.874,23.125
+591,2018,60,12,12,0,123690,0,bglp,46,l2,linear AR H=12,,population (LOPO),False,2760,35.065,27.304,22.299
+591,2018,60,12,12,0,10824,0,bglp,46,l2,linear AR H=12,,per-patient,True,2760,34.617,27.437,22.678
+591,2018,60,12,12,0,123678,0,bglp,46,l2,linear AR H=12,,population (LOPO),True,2760,34.981,27.214,22.215
+540,2020,60,12,12,0,,,bglp,104,p0,persistence,,none,False,2884,48.131,36.705,26.079
+540,2020,60,12,12,0,11924,0,bglp,104,l2,linear AR H=12,,per-patient,False,2884,42.381,32.794,23.012
+540,2020,60,12,12,0,122590,0,bglp,104,l2,linear AR H=12,,population (LOPO),False,2884,42.046,32.855,24.442
+540,2020,60,12,12,0,11924,0,bglp,104,l2,linear AR H=12,,per-patient,True,2884,40.117,30.931,21.707
+540,2020,60,12,12,0,122578,0,bglp,104,l2,linear AR H=12,,population (LOPO),True,2884,41.113,31.856,23.099
+544,2020,60,12,12,0,,,bglp,69,p0,persistence,,none,False,2704,37.792,28.58,18.549
+544,2020,60,12,12,0,10600,0,bglp,69,l2,linear AR H=12,,per-patient,False,2704,32.342,25.173,17.589
+544,2020,60,12,12,0,123914,0,bglp,69,l2,linear AR H=12,,population (LOPO),False,2704,32.709,25.514,17.695
+544,2020,60,12,12,0,10600,0,bglp,69,l2,linear AR H=12,,per-patient,True,2704,28.14,21.095,14.504
+544,2020,60,12,12,0,123902,0,bglp,69,l2,linear AR H=12,,population (LOPO),True,2704,32.194,25.891,18.444
+552,2020,60,12,12,0,,,bglp,156,p0,persistence,,none,False,2352,33.782,24.866,18.838
+552,2020,60,12,12,0,9057,0,bglp,156,l2,linear AR H=12,,per-patient,False,2352,31.093,24.643,19.708
+552,2020,60,12,12,0,125457,0,bglp,156,l2,linear AR H=12,,population (LOPO),False,2352,31.359,25.017,20.527
+552,2020,60,12,12,0,9057,0,bglp,156,l2,linear AR H=12,,per-patient,True,2352,30.44,24.656,20.353
+552,2020,60,12,12,0,125445,0,bglp,156,l2,linear AR H=12,,population (LOPO),True,2352,31.261,24.913,20.42
+567,2020,60,12,12,0,,,bglp,207,p0,persistence,,none,False,2377,49.145,35.533,25.086
+567,2020,60,12,12,0,10835,0,bglp,207,l2,linear AR H=12,,per-patient,False,2377,42.05,30.974,23.974
+567,2020,60,12,12,0,123679,0,bglp,207,l2,linear AR H=12,,population (LOPO),False,2377,42.794,31.357,23.853
+567,2020,60,12,12,0,10835,0,bglp,207,l2,linear AR H=12,,per-patient,True,2377,40.497,29.724,22.839
+567,2020,60,12,12,0,123667,0,bglp,207,l2,linear AR H=12,,population (LOPO),True,2377,40.437,29.461,22.018
+584,2020,60,12,12,0,,,bglp,247,p0,persistence,,none,False,2653,44.662,31.331,19.77
+584,2020,60,12,12,0,12127,0,bglp,247,l2,linear AR H=12,,per-patient,False,2653,40.703,30.321,20.786
+584,2020,60,12,12,0,122387,0,bglp,247,l2,linear AR H=12,,population (LOPO),False,2653,40.309,28.998,18.388
+584,2020,60,12,12,0,12127,0,bglp,247,l2,linear AR H=12,,per-patient,True,2653,38.091,27.993,18.907
+584,2020,60,12,12,0,122375,0,bglp,247,l2,linear AR H=12,,population (LOPO),True,2653,39.291,28.265,18.067
+596,2020,60,12,12,0,,,bglp,132,p0,persistence,,none,False,2731,34.984,25.558,18.852
+596,2020,60,12,12,0,10854,0,bglp,132,l2,linear AR H=12,,per-patient,False,2731,29.845,22.351,16.983
+596,2020,60,12,12,0,123660,0,bglp,132,l2,linear AR H=12,,population (LOPO),False,2731,29.919,22.565,17.657
+596,2020,60,12,12,0,10854,0,bglp,132,l2,linear AR H=12,,per-patient,True,2731,28.023,20.9,15.798
+596,2020,60,12,12,0,123648,0,bglp,132,l2,linear AR H=12,,population (LOPO),True,2731,28.835,21.606,16.795
+559,2018,60,12,24,0,,,bglp,314,p0,persistence,,none,False,2514,41.066,30.263,20.122
+559,2018,60,12,24,0,10761,0,bglp,314,l2,linear AR H=24,,per-patient,False,2514,36.373,27.165,18.84
+559,2018,60,12,24,0,123609,0,bglp,314,l2,linear AR H=24,,population (LOPO),False,2514,36.67,27.073,18.369
+559,2018,60,12,24,0,10761,0,bglp,314,l2,linear AR H=24,,per-patient,True,2514,32.433,23.963,16.801
+559,2018,60,12,24,0,123597,0,bglp,314,l2,linear AR H=24,,population (LOPO),True,2514,35.675,26.497,18.23
+563,2018,60,12,24,0,,,bglp,35,p0,persistence,,none,False,2570,33.866,25.502,16.215
+563,2018,60,12,24,0,12089,0,bglp,35,l2,linear AR H=24,,per-patient,False,2570,29.994,21.857,13.619
+563,2018,60,12,24,0,122281,0,bglp,35,l2,linear AR H=24,,population (LOPO),False,2570,29.385,21.668,13.919
+563,2018,60,12,24,0,12089,0,bglp,35,l2,linear AR H=24,,per-patient,True,2570,30.577,21.726,13.484
+563,2018,60,12,24,0,122269,0,bglp,35,l2,linear AR H=24,,population (LOPO),True,2570,31.133,22.19,13.611
+570,2018,60,12,24,0,,,bglp,231,p0,persistence,,none,False,2745,32.502,24.878,12.762
+570,2018,60,12,24,0,10947,0,bglp,231,l2,linear AR H=24,,per-patient,False,2745,29.63,22.001,11.259
+570,2018,60,12,24,0,123423,0,bglp,231,l2,linear AR H=24,,population (LOPO),False,2745,35.953,28.268,13.447
+570,2018,60,12,24,0,10947,0,bglp,231,l2,linear AR H=24,,per-patient,True,2745,28.922,21.383,10.877
+570,2018,60,12,24,0,123411,0,bglp,231,l2,linear AR H=24,,population (LOPO),True,2745,34.085,26.667,13.056
+575,2018,60,12,24,0,,,bglp,178,p0,persistence,,none,False,2590,40.198,29.359,21.627
+575,2018,60,12,24,0,11831,0,bglp,178,l2,linear AR H=24,,per-patient,False,2590,37.854,28.357,20.719
+575,2018,60,12,24,0,122539,0,bglp,178,l2,linear AR H=24,,population (LOPO),False,2590,36.893,27.931,21.724
+575,2018,60,12,24,0,11819,12,bglp,178,l2,linear AR H=24,,per-patient,True,2590,35.995,26.562,19.471
+575,2018,60,12,24,0,122539,12,bglp,178,l2,linear AR H=24,,population (LOPO),True,2590,36.014,26.897,20.952
+588,2018,60,12,24,0,,,bglp,70,p0,persistence,,none,False,2791,36.193,27.067,16.371
+588,2018,60,12,24,0,12605,0,bglp,70,l2,linear AR H=24,,per-patient,False,2791,31.968,23.653,14.471
+588,2018,60,12,24,0,121765,0,bglp,70,l2,linear AR H=24,,population (LOPO),False,2791,31.498,23.186,13.996
+588,2018,60,12,24,0,12605,0,bglp,70,l2,linear AR H=24,,per-patient,True,2791,30.842,22.944,13.936
+588,2018,60,12,24,0,121753,0,bglp,70,l2,linear AR H=24,,population (LOPO),True,2791,30.116,22.511,13.806
+591,2018,60,12,24,0,,,bglp,70,p0,persistence,,none,False,2760,39.121,29.656,22.97
+591,2018,60,12,24,0,10812,0,bglp,70,l2,linear AR H=24,,per-patient,False,2760,34.777,27.739,23.106
+591,2018,60,12,24,0,123558,0,bglp,70,l2,linear AR H=24,,population (LOPO),False,2760,35.1,27.334,22.339
+591,2018,60,12,24,0,10812,0,bglp,70,l2,linear AR H=24,,per-patient,True,2760,34.635,27.316,22.671
+591,2018,60,12,24,0,123546,0,bglp,70,l2,linear AR H=24,,population (LOPO),True,2760,34.999,27.222,22.285
+540,2020,60,12,24,0,,,bglp,164,p0,persistence,,none,False,2884,48.131,36.705,26.079
+540,2020,60,12,24,0,11912,0,bglp,164,l2,linear AR H=24,,per-patient,False,2884,42.373,32.853,22.98
+540,2020,60,12,24,0,122458,0,bglp,164,l2,linear AR H=24,,population (LOPO),False,2884,42.075,32.881,24.471
+540,2020,60,12,24,0,11912,0,bglp,164,l2,linear AR H=24,,per-patient,True,2884,40.258,30.962,21.679
+540,2020,60,12,24,0,122446,0,bglp,164,l2,linear AR H=24,,population (LOPO),True,2884,41.281,32.092,23.19
+544,2020,60,12,24,0,,,bglp,105,p0,persistence,,none,False,2704,37.792,28.58,18.549
+544,2020,60,12,24,0,10588,0,bglp,105,l2,linear AR H=24,,per-patient,False,2704,32.354,25.155,17.556
+544,2020,60,12,24,0,123782,0,bglp,105,l2,linear AR H=24,,population (LOPO),False,2704,32.714,25.508,17.682
+544,2020,60,12,24,0,10588,0,bglp,105,l2,linear AR H=24,,per-patient,True,2704,28.365,21.011,14.266
+544,2020,60,12,24,0,123770,0,bglp,105,l2,linear AR H=24,,population (LOPO),True,2704,32.256,26.098,18.67
+552,2020,60,12,24,0,,,bglp,252,p0,persistence,,none,False,2352,33.782,24.866,18.838
+552,2020,60,12,24,0,9045,0,bglp,252,l2,linear AR H=24,,per-patient,False,2352,31.091,24.69,19.767
+552,2020,60,12,24,0,125325,0,bglp,252,l2,linear AR H=24,,population (LOPO),False,2352,31.355,24.978,20.508
+552,2020,60,12,24,0,9045,0,bglp,252,l2,linear AR H=24,,per-patient,True,2352,30.403,24.579,20.204
+552,2020,60,12,24,0,125313,0,bglp,252,l2,linear AR H=24,,population (LOPO),True,2352,31.271,24.829,20.393
+567,2020,60,12,24,0,,,bglp,315,p0,persistence,,none,False,2377,49.145,35.533,25.086
+567,2020,60,12,24,0,10823,0,bglp,315,l2,linear AR H=24,,per-patient,False,2377,42.095,31.063,24.101
+567,2020,60,12,24,0,123547,0,bglp,315,l2,linear AR H=24,,population (LOPO),False,2377,42.799,31.369,23.876
+567,2020,60,12,24,0,10823,0,bglp,315,l2,linear AR H=24,,per-patient,True,2377,40.336,29.47,22.525
+567,2020,60,12,24,0,123535,0,bglp,315,l2,linear AR H=24,,population (LOPO),True,2377,40.172,29.04,21.477
+584,2020,60,12,24,0,,,bglp,391,p0,persistence,,none,False,2653,44.662,31.331,19.77
+584,2020,60,12,24,0,12115,0,bglp,391,l2,linear AR H=24,,per-patient,False,2653,40.748,30.344,20.761
+584,2020,60,12,24,0,122255,0,bglp,391,l2,linear AR H=24,,population (LOPO),False,2653,40.383,29.021,18.398
+584,2020,60,12,24,0,12115,0,bglp,391,l2,linear AR H=24,,per-patient,True,2653,37.963,27.83,18.495
+584,2020,60,12,24,0,122243,0,bglp,391,l2,linear AR H=24,,population (LOPO),True,2653,39.192,28.148,18.119
+596,2020,60,12,24,0,,,bglp,204,p0,persistence,,none,False,2731,34.984,25.558,18.852
+596,2020,60,12,24,0,10842,0,bglp,204,l2,linear AR H=24,,per-patient,False,2731,29.904,22.447,17.06
+596,2020,60,12,24,0,123528,0,bglp,204,l2,linear AR H=24,,population (LOPO),False,2731,29.927,22.577,17.668
+596,2020,60,12,24,0,10842,0,bglp,204,l2,linear AR H=24,,per-patient,True,2731,27.425,20.441,15.371
+596,2020,60,12,24,0,123516,0,bglp,204,l2,linear AR H=24,,population (LOPO),True,2731,28.949,21.711,16.852
