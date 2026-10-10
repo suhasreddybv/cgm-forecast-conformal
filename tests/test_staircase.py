@@ -57,3 +57,33 @@ def test_job_keys_are_deterministic_and_distinct():
     assert a["key"] == b["key"] == job_key(a) and a["key"] != c["key"]
     assert "H24" in a["key"] and "s0" in a["key"]
     assert [ax for ax, _ in GRID] == ["H", "hidden", "family", "layers", "dropout", "lr"]
+
+
+def test_family_winner_is_chosen_on_validation_only(tmp_path, monkeypatch):
+    import src.staircase as st
+    monkeypatch.setattr(st, "SELECTION", tmp_path / "sel.json")
+    st.save_selection({"step3": {"559_h6": dict(cfg={"family": "gru"}, full_horizon=False, val_rmse=20.0),
+                                 "559_h12": dict(cfg={"family": "gru"}, full_horizon=True, val_rmse=30.0)},
+                       "step6fh": {"559_h6": dict(cfg={"family": "tcn"}, full_horizon=True, val_rmse=19.5),
+                                   "559_h12": dict(cfg={"family": "tcn"}, full_horizon=False, val_rmse=31.0)}})
+    w = st._winner("step3", "step6fh")
+    assert w["559_h6"]["cfg"] == {"family": "tcn"} and w["559_h6"]["family_step"] == "step6fh"
+    assert w["559_h12"]["cfg"] == {"family": "gru"} and w["559_h12"]["full_horizon"] is True
+
+
+def test_snapshot_copies_the_live_run_file_into_results(tmp_path, monkeypatch):
+    import src.staircase as st
+    live, snap = tmp_path / "live.jsonl", tmp_path / "snap.jsonl"
+    monkeypatch.setattr(st, "RUNS", live); monkeypatch.setattr(st, "RUNS_SNAPSHOT", snap)
+    live.write_text('{"key": "a"}\n{"key": "b"}\n')
+    assert st.snapshot_runs() == 2 and snap.read_text() == live.read_text()
+
+
+def test_four_score_places_the_model_in_the_official_ranking():
+    from src.eval.staircase_eval import OFFICIAL, four_score
+    coh = [dict(step="x", variant="bglp", cohort="2020", horizon_min=30, rmse_mean=19.0, mae_mean=13.5),
+           dict(step="x", variant="bglp", cohort="2020", horizon_min=60, rmse_mean=32.0, mae_mean=24.0)]
+    r = four_score(coh, "x")
+    assert r["four_score_sum"] == 88.5 and r["position_in_official_ranking"] == 5 and r["of"] == 9   # Yang 88.41 is ahead, Bevan 89.45 behind
+    assert [s for _, s in OFFICIAL] == sorted(s for _, s in OFFICIAL)
+    assert four_score(coh[:1], "x") is None

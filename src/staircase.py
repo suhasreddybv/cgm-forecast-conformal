@@ -32,7 +32,11 @@ from src.data.windows import HORIZONS, windows_for
 from src.eval.metrics import mae, mape, rmse
 from src.train import fit_sets, predict, train_one
 
-RUNS = REPO_ROOT / "results" / "sequence_runs.jsonl"
+# The live file is written while jobs run, so it lives outside the tracked tree; a snapshot
+# is copied into results/ for each commit (a pre-push hook that re-checks the tree cannot
+# tolerate a file that changes under it).
+RUNS = CACHE_DIR / "sequence_runs.jsonl"
+RUNS_SNAPSHOT = REPO_ROOT / "results" / "sequence_runs.jsonl"
 SELECTION = REPO_ROOT / "results" / "sequence_selection.json"
 PRED_DIR = CACHE_DIR / "predictions"
 WORKERS = int(os.environ.get("STAIRCASE_WORKERS", "3"))
@@ -131,6 +135,13 @@ def run_jobs(jobs: list[dict], label: str) -> dict[str, dict]:
                       f"bglp {row.get('bglp_rmse', float('nan')):.2f} ({row['epochs_run']} ep, {row['seconds']:.0f}s)"
                       f"{flag}  [{(time.time() - t0) / 60:.1f} min]", flush=True)
     return {j["key"]: rows[j["key"]] for j in jobs}
+
+
+def snapshot_runs() -> int:
+    """Copy the live run file into results/ for committing. Returns the row count."""
+    text = RUNS.read_text() if RUNS.exists() else ""
+    RUNS_SNAPSHOT.write_text(text)
+    return sum(1 for l in text.splitlines() if l.strip())
 
 
 def load_selection() -> dict:
@@ -272,6 +283,58 @@ def step5(args) -> None:
     run_jobs(jobs, "step5 population LOPO (1 seed)")
 
 
+def _winner(step_a: str, step_b: str) -> dict:
+    """Per patient-horizon, the family that won on validation: step_a or step_b entries."""
+    sel = load_selection()
+    out = {}
+    for k in sel[step_a]:
+        a, b = sel[step_a][k], sel[step_b].get(k)
+        best = a if (b is None or a["val_rmse"] <= b["val_rmse"]) else b
+        out[k] = dict(cfg=best["cfg"], full_horizon=best["full_horizon"], val_rmse=best["val_rmse"],
+                      family_step=step_a if best is a else step_b)
+    return out
+
+
+def step7(args) -> None:
+    """The final model: per patient-horizon, the family and configuration that won on
+    validation (Step 3 recurrent vs Step 6 TCN), pre-trained on the twelve training files
+    and the 2018 test files, fine-tuned per patient, 5 seeds; the history-length ensemble of
+    fine-tuned models (one seed per H); and the covariate ablation of the same pipeline.
+    The population configuration at each horizon is the most-chosen per-patient one."""
+    sel = load_selection()
+    final = _winner("step3", "step6fh")
+    sel["step7"] = final
+    save_selection(sel)
+    n_tcn = sum(v["family_step"] == "step6fh" for v in final.values())
+    print(f"final family per patient-horizon: TCN won {n_tcn}/{len(final)} on validation")
+    pop_cfg, pop_fh = {}, {}
+    for h in HORIZONS:
+        cfgs = [json.dumps(v["cfg"], sort_keys=True) for k, v in final.items() if k.endswith(f"_h{h}")]
+        pop_cfg[h] = json.loads(max(set(cfgs), key=cfgs.count))
+        pop_fh[h] = sum(v["full_horizon"] for k, v in final.items() if k.endswith(f"_h{h}")) > len(PATIENTS) / 2
+        print(f"  h={h}: population configuration {pop_cfg[h]}, full-horizon loss {pop_fh[h]}")
+    for cov, tag in ((True, ""), (False, "nocov")):
+        pre = []            # (job, step label for its fine-tunes)
+        for h in HORIZONS:
+            cfg = pop_cfg[h]
+            for s in SEEDS5:
+                pre.append((make_job(f"step7pre{tag}", "pretrain-all12", "", h, cfg, s, pop_fh[h], cov, extra_2018_test=True),
+                            f"step7{tag}"))
+            if cov:
+                for H in ENSEMBLE_H:
+                    if H != cfg["H"]:
+                        c = dict(cfg); c["H"] = H
+                        pre.append((make_job("step7pre", "pretrain-all12", "", h, c, SEEDS5[0], pop_fh[h], cov,
+                                             extra_2018_test=True), "step7ens"))
+        run_jobs([p for p, _ in pre], f"step7{tag} pre-train")
+        jobs = []
+        for p, step in pre:
+            for pid in PATIENTS:
+                jobs.append(make_job(step, "fine-tuned", pid, p["horizon"], p["cfg"], p["seed"], p["full_horizon"], cov,
+                                     init_from=p["key"]))
+        run_jobs(jobs, f"step7{tag} fine-tune")
+
+
 def step6(args) -> None:
     """The second family: a dilated causal CNN, searched the same way, then steps 3-5 for it."""
     base = dict(family="tcn", hidden=64, levels=3, kernel=3, dropout=0.2, H=24, lr=1e-3)
@@ -295,7 +358,7 @@ def step6(args) -> None:
     run_jobs(jobs, "step6 seeds + H-ensemble")
 
 
-STEPS = dict(step1=step1, step2=step2, step3=step3, step4=step4, step5=step5, step6=step6)
+STEPS = dict(step1=step1, step2=step2, step3=step3, step4=step4, step5=step5, step6=step6, step7=step7)
 
 
 def main() -> None:
