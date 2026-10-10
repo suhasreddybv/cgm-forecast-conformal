@@ -1,0 +1,9 @@
+step,variant,horizon_min,cohort,n_patients,n_seeds,n_scored,n_fallback,rmse_mean,rmse_sd,mae_mean,mape_mean
+"1 single configuration (GRU 64, H=24, 3 seeds)",primary,30,2020,6,3,14476,0,18.787,0.047,13.651,9.717
+"1 single configuration (GRU 64, H=24, 3 seeds)",primary,30,all12,12,3,29678,0,19.445,0.093,13.932,9.563
+"1 single configuration (GRU 64, H=24, 3 seeds)",primary,60,2020,6,3,14270,0,33.007,0.08,24.801,17.832
+"1 single configuration (GRU 64, H=24, 3 seeds)",primary,60,all12,12,3,29342,0,32.835,0.082,24.507,17.071
+"1 single configuration (GRU 64, H=24, 3 seeds)",bglp,30,2020,6,3,15701,1225,20.572,0.149,14.314,10.288
+"1 single configuration (GRU 64, H=24, 3 seeds)",bglp,30,all12,12,3,31671,1993,20.672,0.133,14.444,9.98
+"1 single configuration (GRU 64, H=24, 3 seeds)",bglp,60,2020,6,3,15701,1431,34.171,0.028,25.439,18.459
+"1 single configuration (GRU 64, H=24, 3 seeds)",bglp,60,all12,12,3,31671,2329,33.737,0.066,25.054,17.553

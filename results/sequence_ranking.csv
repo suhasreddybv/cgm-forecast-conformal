@@ -1,0 +1,2 @@
+step,rmse30,mae30,rmse60,mae60,four_score_sum,position_in_official_ranking,of
+"1 single configuration (GRU 64, H=24, 3 seeds)",20.572,14.314,34.171,25.439,94.496,8,9
