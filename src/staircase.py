@@ -30,7 +30,8 @@ import torch
 from src.data.loader import CACHE_DIR, COHORT_2018, COHORT_2020, COHORT_OF, PATIENTS, REPO_ROOT
 from src.data.windows import HORIZONS, windows_for
 from src.eval.metrics import mae, mape, rmse
-from src.train import fit_sets, predict, train_one
+from src.eval.baselines import covariate_ok
+from src.train import fit_sets, predict, temporal_split, train_one
 
 # The live file is written while jobs run, so it lives outside the tracked tree; a snapshot
 # is copied into results/ for each commit (a pre-push hook that re-checks the tree cannot
@@ -363,11 +364,65 @@ STEPS = dict(step1=step1, step2=step2, step3=step3, step4=step4, step5=step5, st
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=list(STEPS))
+    ap.add_argument("step", choices=list(STEPS) + ["regen"])
     a = ap.parse_args()
     RUNS.parent.mkdir(exist_ok=True)
     STEPS[a.step](a)
 
+
+
+# ------------------------------------------------- Week 5: regenerate frozen members
+
+def regen_job(key: str) -> dict:
+    """Re-run a recorded fine-tune from its seed and starting weights, ASSERT that its test
+    predictions equal the cached ones exactly (so this is the frozen model, not a refit),
+    then save its predictions on the patient's training windows - fit portion and
+    validation tail, both variants - for conformal calibration (D-045). No test target is
+    read for anything but the identity check."""
+    torch.set_num_threads(THREADS)
+    r = existing_rows()[key]
+    cfg = {k: r[k] for k in ("family", "H", "lr", "hidden", "dropout")}
+    for k in ("layers", "levels", "kernel"):
+        if r.get(k) not in (None, ""):
+            cfg[k] = r[k]
+    j = make_job(r["step"], r["fit"], r["patient"], r["horizon_steps"], cfg, r["seed"], r["full_horizon"],
+                 r["covariates"], init_from=r.get("init_from"))
+    assert j["key"] == key, (j["key"], key)
+    c = dict(j["cfg"]); H, family, lr = c.pop("H"), c.pop("family"), c.pop("lr")
+    xf, yf, xv, yv = fit_sets(j["patient"], False, j["horizon"], H, j["covariates"], "primary", j["full_horizon"])
+    init_state = torch.load(PRED_DIR / f"{j['init_from']}.pt", weights_only=True) if j.get("init_from") else None
+    model, info = train_one(xf, yf, xv, yv, j["seed"], lr=lr, batch=BATCH, max_epochs=MAX_EPOCHS, patience=PATIENCE,
+                            family=family, init_state=init_state, **c)
+    cached = np.load(PRED_DIR / f"{key}.npz")
+    out = {}
+    for variant in ("primary", "bglp"):
+        ws = windows_for(j["patient"], "test", j["horizon"], H, variant=variant)
+        _, p = predict(model, ws, j["covariates"])
+        if not np.array_equal(p, cached[f"{variant}_{j['patient']}_pred"]):
+            raise RuntimeError(f"{key}: regenerated {variant} test predictions differ from the cache - not the frozen model")
+        tr = windows_for(j["patient"], "train", j["horizon"], H, variant=variant)
+        fit, val = temporal_split(tr)
+        y, pt = predict(model, tr, j["covariates"])
+        keep = np.arange(len(tr))[covariate_ok(tr)] if j["covariates"] else np.arange(len(tr))
+        out[f"{variant}_ts"] = tr.target_ts[keep]; out[f"{variant}_y"] = y; out[f"{variant}_pred"] = pt
+        out[f"{variant}_is_val"] = np.isin(keep, val)
+        out[f"{variant}_history_end"] = tr.history[keep, -1]
+    np.savez(PRED_DIR / f"{key}-val.npz", **out)
+    return dict(key=key, epochs=info["epochs_run"], val_rmse=info["val_rmse"], identical=True)
+
+
+def regen(args) -> None:
+    rows = existing_rows()
+    keys = [k for k, r in rows.items() if r["step"] == "step7ens" or (r["step"] == "step7" and r["seed"] == SEEDS5[0])]
+    todo = [k for k in keys if not (PRED_DIR / f"{k}-val.npz").exists()]
+    print(f"[regen] {len(keys)} frozen members, {len(todo)} to regenerate", flush=True)
+    t0 = time.time()
+    with mp.get_context("spawn").Pool(WORKERS) as pool:
+        for i, res in enumerate(pool.imap_unordered(regen_job, todo), 1):
+            print(f"  {i}/{len(todo)} {res['key'][:60]} identical [{(time.time() - t0) / 60:.1f} min]", flush=True)
+
+
+STEPS["regen"] = regen
 
 if __name__ == "__main__":
     main()

@@ -2,7 +2,7 @@
 
 Glucose forecasting at 30 and 60 minutes with calibrated conformal prediction intervals, evaluated by clinical error grids rather than RMSE alone.
 
-**Result.** Under the Blood Glucose Level Prediction Challenge's own rules — every post-outage test point predicted, no interpolation, nothing after the forecast origin, 2020 cohort, mean of six — the final sequence model scores **19.53 / 32.43 mg/dL RMSE at 30 / 60 minutes**, four-score sum **88.96**, which places it **5th of nine** against the eight officially ranked systems — behind Rubin-Falcone (86.31), Hameed (87.15), Zhu (88.12) and Yang (88.41), ahead of Bevan (89.45). It beats the linear autoregression with the same inputs by **+1.24 [0.76, 1.71] mg/dL at 30 minutes and +1.69 [1.36, 2.06] at 60** (paired over the six patients, bootstrap over patients, 6 of 6 improved), and persistence by +5.95 / +8.98. It does not reach the published best with matching inputs: Zhu 18.34 / 32.21 and Rubin-Falcone 18.22 / 31.66 are 1.2–1.3 mg/dL ahead at 30 minutes and 0.2–0.8 at 60. **The staircase below shows where each mg/dL came from**: a single-configuration GRU with the same inputs as the linear autoregression does not meaningfully beat it (20.57); full-horizon training, ensembling over history lengths and pre-training on the other patients bought the rest. **And the model that wins on RMSE detects hypoglycaemia worst**: sensitivity at 70 mg/dL an hour ahead is 0.012, against persistence's 0.353. Under this repository's primary protocol the same model scores 17.64 / 30.82 on the 2020 cohort (all twelve patients, conforming: 19.07 / 31.19); every method is reported under both rules. The conformal intervals are Week 5's work on this frozen model; the evaluation protocol was frozen before anything was fitted ([docs/protocol.md](docs/protocol.md)).
+**Result.** Under the Blood Glucose Level Prediction Challenge's own rules — every post-outage test point predicted, no interpolation, nothing after the forecast origin, 2020 cohort, mean of six — the final sequence model scores **19.53 / 32.43 mg/dL RMSE at 30 / 60 minutes**, four-score sum **88.96**, which places it **5th of nine** against the eight officially ranked systems — behind Rubin-Falcone (86.31), Hameed (87.15), Zhu (88.12) and Yang (88.41), ahead of Bevan (89.45). It beats the linear autoregression with the same inputs by **+1.24 [0.76, 1.71] mg/dL at 30 minutes and +1.69 [1.36, 2.06] at 60** (paired over the six patients, bootstrap over patients, 6 of 6 improved), and persistence by +5.95 / +8.98. It does not reach the published best with matching inputs: Zhu 18.34 / 32.21 and Rubin-Falcone 18.22 / 31.66 are 1.2–1.3 mg/dL ahead at 30 minutes and 0.2–0.8 at 60. **The staircase below shows where each mg/dL came from**: a single-configuration GRU with the same inputs as the linear autoregression does not meaningfully beat it (20.57); full-horizon training, ensembling over history lengths and pre-training on the other patients bought the rest. **And the model that wins on RMSE detects hypoglycaemia worst**: sensitivity at 70 mg/dL an hour ahead is 0.012, against persistence's 0.353. Under this repository's primary protocol the same model scores 17.64 / 30.82 on the 2020 cohort (all twelve patients, conforming: 19.07 / 31.19); every method is reported under both rules. **Intervals (Week 5, first pass): split conformal is on nominal pooled (0.909 / 0.900 at 90%) but a 90% interval an hour ahead is 107 mg/dL wide; the point forecast detects 7% of hypoglycaemia onsets at 30 minutes and the 90% lower bound detects 90% by alarming 41 times a day.** The operating curve across levels is Saturday's; the evaluation protocol was frozen before anything was fitted ([docs/protocol.md](docs/protocol.md)).
 
 ## The data layer
 
@@ -76,6 +76,46 @@ Every step keeps what the step before chose; every choice is made on the frozen 
 The error grids separate the three methods by a few points of zone A and not at all on A+B. **Hypoglycaemia sensitivity separates them the other way**: at 30 minutes the model detects 31.8% of reference readings below 70 mg/dL, the linear AR 23.3%, persistence 54.6%; at 60 minutes the model detects **1.2%** against persistence's 35.3%, and at 54 mg/dL it detects none. A model trained on squared error forecasts the conditional mean, and the conditional mean an hour ahead is almost never below 70. Zhu's reported worst case of 8% of 60-minute forecasts in Clarke zone D is not exceeded here — the worst patient is 567 at 7.7% — but the over-prediction-into-hypoglycaemia failure Zhu describes appears as its mirror: the model under-reads the lows. The 54 mg/dL figures rest on 39 events across the cohort, 2 at the sensor floor, and are flagged as censored in the file.
 
 **Not done, and logged as not done (D-038):** no hyperparameter chosen on test; no external data; no test-time adaptation; no wearable inputs; no finger-stick or time-of-day inputs. The remaining gap to Rubin-Falcone is, on the honest reading, attributable to its ~15M steps of external pre-training (Tidepool) and its two extra inputs; the gap to Zhu (1.2 at 30 minutes, 0.2 at 60) is not explained by inputs and belongs to this implementation.
+
+## Week 5 — intervals around the frozen model (first pass, 12 Oct)
+
+The model is frozen at `75e0817`; nothing here retrains, re-selects or refits it. Conformal prediction wraps it. **Calibration set:** the frozen 20% validation tail of each training file — which early stopping consumed, so its residuals are mildly optimistic. Rather than argue about the contamination, it is measured: empirical test coverage against nominal, with an **in-sample bracket** (calibration on the fit portion's residuals, known optimistic) beside it. The frozen model's predictions on its training file came from regenerating all 144 ensemble members from their recorded seeds and starting weights and asserting, member by member, that the regenerated test predictions equal the cached ones to the last bit (D-045). Four methods, none retraining (D-046): split conformal (c0), residuals scaled by the volatility of the history strictly before the forecast origin (c1), Mondrian by forecast bin — below 70, 70–180, above 180 (c2), and adaptive conformal inference, online (c3). Conformalised quantile regression is excluded: the model is a frozen point forecaster.
+
+![Empirical coverage against nominal for the four methods, conforming evaluation, 2020 cohort](figures/coverage_calibration.png)
+
+| Method | h | 80% coverage (bracket) | 90% coverage (bracket) | 95% coverage (bracket) | 90% median width | 90% useless |
+|---|---|---|---|---|---|---|
+| c0 split conformal | 30 | 0.814 (0.791) | 0.909 (0.893) | 0.956 (0.949) | 63 mg/dL | 16.9% |
+| c1 scaled by history volatility | 30 | 0.806 (0.783) | 0.898 (0.887) | 0.950 (0.943) | 56 mg/dL | 16.4% |
+| c2 Mondrian by forecast bin | 30 | 0.815 (0.792) | 0.910 (0.894) | 0.954 (0.947) | 61 mg/dL | 16.9% |
+| c3 adaptive (online) | 30 | 0.799 (0.799) | 0.900 (0.900) | 0.950 (0.950) | 51 mg/dL | 5.6% |
+| c0 split conformal | 60 | 0.812 (0.772) | 0.900 (0.872) | 0.948 (0.930) | 107 mg/dL | 65.4% |
+| c1 scaled by history volatility | 60 | 0.787 (0.754) | 0.897 (0.876) | 0.950 (0.937) | 99 mg/dL | 49.6% |
+| c2 Mondrian by forecast bin | 60 | 0.814 (0.770) | 0.898 (0.869) | 0.947 (0.930) | 104 mg/dL | 57.9% |
+| c3 adaptive (online) | 60 | 0.801 (0.801) | 0.900 (0.900) | 0.950 (0.950) | 85 mg/dL | 30.5% |
+
+*Conforming evaluation, 2020 cohort pooled over points (n = 15,701 at 30 min, 15,701 at 60). Bracket = the same method calibrated on the fit portion. "Useless" = width over 100 mg/dL or infinite. Every patient, both variants, all levels: `results/coverage.csv`.*
+
+**What the first pass says.** Pooled, split conformal is on nominal: **0.909 / 0.900 at the 90% level** against the in-sample bracket's 0.893 / 0.872 — the validation tail's contamination by early stopping cost almost nothing at 30 minutes and about three points at 60, which the bracket shows and the validation calibration removes. **But a 90% interval an hour ahead is 107 mg/dL wide at the median and 65% of them are wider than 100**: the honest 60-minute interval is mostly too wide to act on. The adaptive method narrows that to 85 with 31% useless, at the cost of some infinite intervals after outages. **The stop condition fired on two patient sets** (c0 at 90% more than five points under nominal): 596 at 30 minutes (0.846) and 540 at 60 (0.842). For 596 the in-sample bracket covers *better* (0.912) — its test residuals are simply larger than its training residuals, an exchangeability failure, not an early-stopping artefact. c3 restores both to nominal (0.901 at 44 mg/dL; 0.899 at 93 mg/dL, 45% useless), which is what it is for (D-048).
+
+![Interval widths by method at the 90% level](figures/interval_widths.png)
+
+**Hypoglycaemia onset detection, defined correctly** (D-047). Week 4's sensitivity counted every target below 70 mg/dL, including those already below it at the forecast origin — which persistence "detects" for free, so its 0.353 was not a detection rate. An **onset** is a target below the threshold whose origin reading was at or above it; persistence's onset sensitivity is zero by construction. Reported with specificity, PPV and false alarms per day, never alone:
+
+| Detector (conforming, 2020 pooled) | h | Onsets | Sensitivity | Specificity | PPV | False alarms / day |
+|---|---|---|---|---|---|---|
+| persistence (zero by construction) | 30 | 230 | 0.000 | 1.000 | — | 0.00 |
+| linear AR, point forecast | 30 | 230 | 0.083 | 0.998 | 0.396 | 0.55 |
+| final model, point forecast | 30 | 230 | 0.070 | 0.999 | 0.432 | 0.40 |
+| **c0 lower bound at 90%** | 30 | 230 | 0.904 | 0.855 | 0.087 | 41.15 |
+| persistence (zero by construction) | 60 | 328 | 0.000 | 1.000 | — | 0.00 |
+| linear AR, point forecast | 60 | 328 | 0.012 | 0.998 | 0.121 | 0.55 |
+| final model, point forecast | 60 | 328 | 0.000 | 0.999 | 0.000 | 0.19 |
+| **c0 lower bound at 90%** | 60 | 328 | 0.875 | 0.719 | 0.064 | 79.28 |
+
+*Conforming, 2020 cohort, 70 mg/dL, 90% level for the lower bound; the at-risk set is every target whose origin reading was ≥ 70. At 54 mg/dL: 37 onsets at 30 minutes, the point forecast detects 0, 2 at the sensor floor. `results/onset_first_pass.csv`.*
+
+**The point forecast detects 7.0% of 30-minute onsets and 0.0% of 60-minute ones.** The 90% lower bound detects 90.4% and 87.5% — by alarming on **41 and 79 non-events per day**, with a positive predictive value of 0.09 and 0.06. At this level the lower bound is not an alarm; it is the bottom of a wide interval. Whether any level or method sits on a usable point of the sensitivity–false-alarm trade-off is Saturday's operating curve, which is now the figure this repository is building toward.
 
 ## Baselines
 
@@ -173,7 +213,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pre-commit install && pre-commit install --hook-type pre-push   # secrets at commit; guard and data-free tests at push
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 358 tests; 208 need the dataset and skip without it
+pytest                              # 370 tests; 208 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)
@@ -182,6 +222,8 @@ python -m src.staircase step1       # then step2 … step7: the sequence model, 
 python -m src.eval.staircase_eval   # results/sequence_*.csv, both variants, every step
 python -m src.eval.clinical_model   # results/clinical_final.csv, figures/hero_clarke.png, figures/parkes_final.png
 python -m src.eval.best_epochs      # results/best_epochs.csv, figures/best_epochs.png
+python -m src.staircase regen       # regenerate the 144 frozen ensemble members, asserting identity, for calibration (~1 h)
+python -m src.eval.coverage         # results/coverage.csv, onset_first_pass.csv, the coverage and width figures
 ```
 
 Data: see [data/README.md](data/README.md). No data is included in this repository.
@@ -194,6 +236,9 @@ Known before any model was fitted. Horizon-dependent coverage failures, hypoglyc
 - **Readings at the sensor floor are censored, and the bias lands where it matters most.** CGM values are clipped to [40, 400] mg/dL. Both hypoglycaemia thresholds (70 and 54) sit inside that range and can be evaluated; what cannot be measured is error *below* 40, where a true 30 is reported as 40 and a forecast of 40 scores as exact while being 10 mg/dL high. 206 readings (0.124%) sit exactly at the floor — but **17.8% of all readings below 54 mg/dL do**, so low-end error-grid zones and any metric on floored readings are biased optimistic in the severe-hypoglycaemia region.
 - **Per-patient figures are not comparable without their target counts.** 552's test split is 40.2% missing with a 118-hour gap, so its error rests on far fewer evaluable targets than any other patient's. Every per-patient number is reported with its effective n.
 - **Wearable channels are not uniformly available**, so they are restricted to a secondary stratified analysis: heart rate is empty for five 2020 patients and absent for 596, and acceleration exists only in the 2020 cohort. Primary models use CGM, insulin and meals only — the channels all 12 patients have and the published comparisons use.
+- **The conformal calibration set was consumed by early stopping**, and the model is frozen, so no clean split exists; the consequence is measured (bracket beside every number) rather than removed. Conformalised quantile regression is excluded because the model is a point forecaster.
+- **A 90% interval an hour ahead is mostly too wide to act on** (107 mg/dL median, 65% over 100), and the adaptive method's narrower intervals come with infinite ones after outages. The 90% lower bound is not a hypoglycaemia alarm at any usable false-alarm rate on this first pass.
+- **Two patient sets fail split-conformal coverage by more than five points** (596 at 30 min, 540 at 60) — an exchangeability failure that the online method repairs and the others do not.
 - **The sequence-model search was a coordinate search, not a grid.** Each axis (H → hidden → cell → layers → dropout → lr) was tuned conditional on the axes already chosen, so interactions between axes — hidden size with history length, say — are invisible to it; a configuration that is only good in combination was never visited (D-033).
 - **The model that wins on RMSE is the worst at detecting hypoglycaemia.** Sensitivity at 70 mg/dL an hour ahead is 1.2% for the final model against 35.3% for persistence; at 54 mg/dL it detects nothing. A squared-error forecaster of the conditional mean is not a hypoglycaemia alarm, and the README's headline number should be read with that beside it.
 - **"Fine-tuned per patient" means one epoch of adaptation.** The fine-tunes stopped at epoch 1 in most fits and the harness never offered zero epochs, so the final model is a population model that has seen the patient's own training file, with one epoch of adaptation — comparable to Bevan's scheme, not Rubin-Falcone's.

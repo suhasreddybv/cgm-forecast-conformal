@@ -65,3 +65,23 @@ def test_results_files_carry_no_patient_level_timestamps_or_values():
         assert not any(set(c.split("_")) & {"ts", "timestamp", "glucose"} for c in cols), name
     runs = (REPO / "results" / "sequence_runs.jsonl").read_text().splitlines()
     assert runs and not re.search(r'"\w*(ts|timestamp)\w*":', runs[0])
+
+
+def test_conformal_first_pass_numbers_are_in_the_files_and_the_readme():
+    rows = _rows("coverage.csv")
+    pooled = {(r["method"], r["level"], r["horizon_min"]): float(r["coverage"]) for r in rows
+              if r["calibration"] == "validation" and r["variant"] == "bglp" and r["cohort"] == "2020" and r["patient"] == ""}
+    for m in ("c0", "c1", "c2", "c3"):
+        for h in ("30", "60"):
+            assert abs(pooled[(m, "0.9", h)] - 0.90) < 0.02, (m, h, pooled[(m, "0.9", h)])
+    readme = (REPO / "README.md").read_text()
+    assert f"**{pooled[('c0', '0.9', '30')]:.3f} / {pooled[('c0', '0.9', '60')]:.3f} at the 90% level**" in readme
+    # the stop condition that fired is recorded, and c3 repairs both sets
+    def pat(m, h, pid):
+        return float(next(r for r in rows if (r["method"], r["level"], r["calibration"], r["variant"], r["horizon_min"], r["patient"]) == (m, "0.9", "validation", "bglp", h, pid))["coverage"])
+    assert pat("c0", "30", "596") < 0.85 and pat("c0", "60", "540") < 0.85
+    assert pat("c3", "30", "596") > 0.89 and pat("c3", "60", "540") > 0.89
+    onset = _rows("onset_first_pass.csv")
+    persist = [r for r in onset if r["detector"] == "persistence"]
+    assert persist and all(int(r["tp"]) == 0 and int(r["fp"]) == 0 for r in persist), "persistence detects no onset by construction"
+    assert all("sensitivity" in r and "specificity" in r and "ppv" in r and "false_alarms_per_day" in r for r in onset)
