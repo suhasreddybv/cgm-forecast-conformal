@@ -127,8 +127,12 @@ def paired(step_label: str, pp: dict, variant: str, n_boot: int = 10000, seed: i
             ts0, y0, _ = pp[(pid, h, seeds[0])]
             p_model = np.mean([pp[(pid, h, s)][2] for s in seeds], axis=0)
             bts, by, bp0, bl2 = baseline_preds(pid, h, variant)
-            m = np.isin(bts, ts0)
-            assert np.array_equal(bts[m], ts0) and np.allclose(by[m], y0)
+            # a model with H != 24 keeps a different target set under the primary variant:
+            # compare on the targets both have, and state that n
+            common = np.intersect1d(bts, ts0)
+            m, k = np.isin(bts, common), np.isin(ts0, common)
+            assert np.array_equal(bts[m], ts0[k]) and np.allclose(by[m], y0[k])
+            y0, p_model = y0[k], p_model[k]
             r_model = rmse(y0, p_model)
             g0, g2 = rmse(y0, bp0[m]) - r_model, rmse(y0, bl2[m]) - r_model
             gains["persistence"].append(g0); gains["linear AR"].append(g2)

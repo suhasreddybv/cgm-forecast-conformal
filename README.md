@@ -2,7 +2,7 @@
 
 Glucose forecasting at 30 and 60 minutes with calibrated conformal prediction intervals, evaluated by clinical error grids rather than RMSE alone.
 
-**Result so far.** Under the Blood Glucose Level Prediction Challenge's own rules — every post-outage test point predicted, no interpolation, nothing after the forecast origin, 2020 cohort, mean of six — **a linear autoregression on two hours of CGM plus insulin and meals scores 20.77 / 34.12 mg/dL RMSE at 30 / 60 minutes: at the bottom of the published deep-model range and above every published classical method on these test points.** Its four-score sum of 95.41 lands inside the official ranking, just above eighth place at 95.85; the like-for-like deep models with the same inputs score 18.34 / 32.21 (Zhu) and 19.05 / 32.03 (Yang), and the published linear regression, AR, ARMA and ARIMA score 21.22, 21.80, 21.44 and 24.51 at 30 minutes ([docs/published_comparison.md](docs/published_comparison.md)). Persistence scores 25.48 / 41.42 conforming; no ranked system reports it. Under this repository's primary protocol — which drops post-outage targets — the same linear model scores 18.61 / 32.37 on the 2020 cohort and 19.02 / 31.97 over all 12 patients: **the subset was flattering it by about two mg/dL, exactly the amount that had put it in deep-model territory**, and every method is now reported under both rules. **The sequence model and the conformal intervals are pending**; the protocol was frozen before any of this was fitted ([docs/protocol.md](docs/protocol.md)), and **Saturday's bar is 20.77 / 34.12, conforming** — the published deep models beat their own classical baselines by two to three mg/dL, so a sequence model with the same covariates that does what they do should land near 18.5–19.5.
+**Result.** Under the Blood Glucose Level Prediction Challenge's own rules — every post-outage test point predicted, no interpolation, nothing after the forecast origin, 2020 cohort, mean of six — the final sequence model scores **19.53 / 32.43 mg/dL RMSE at 30 / 60 minutes**, four-score sum **88.96**, which places it **5th of nine** against the eight officially ranked systems — behind Rubin-Falcone (86.31), Hameed (87.15), Zhu (88.12) and Yang (88.41), ahead of Bevan (89.45). It beats the linear autoregression with the same inputs by **+1.24 [0.76, 1.71] mg/dL at 30 minutes and +1.69 [1.36, 2.06] at 60** (paired over the six patients, bootstrap over patients, 6 of 6 improved), and persistence by +5.95 / +8.98. It does not reach the published best with matching inputs: Zhu 18.34 / 32.21 and Rubin-Falcone 18.22 / 31.66 are 1.2–1.3 mg/dL ahead at 30 minutes and 0.2–0.8 at 60. **The staircase below shows where each mg/dL came from**: a single-configuration GRU with the same inputs as the linear autoregression does not meaningfully beat it (20.57); full-horizon training, ensembling over history lengths and pre-training on the other patients bought the rest. **And the model that wins on RMSE detects hypoglycaemia worst**: sensitivity at 70 mg/dL an hour ahead is 0.012, against persistence's 0.353. Under this repository's primary protocol the same model scores 17.64 / 30.82 on the 2020 cohort (all twelve patients, conforming: 19.07 / 31.19); every method is reported under both rules. The conformal intervals are Week 5's work on this frozen model; the evaluation protocol was frozen before anything was fitted ([docs/protocol.md](docs/protocol.md)).
 
 ## The data layer
 
@@ -14,7 +14,68 @@ The cohorts do not share a sensor-band channel set. The 2018 cohort wore the Bas
 
 **Windows are built on that rule** (`src/data/windows.py`, D-013 to D-016). One window per real reading with enough history; history slots sit at exactly 30 or 60 minutes before the target and are valued by interpolation in time, because the cadence is not exactly 300 s (503 of 166,000 intervals are 301–360 s). Covariates the primary models may use — basal with temporary overrides, boluses with extended ones spread over their delivery, carbohydrates — are aligned to the same slots and see nothing after the history end. **`results/effective_n.csv` is the n column that accompanies every result from here on**: 92–97% of raw readings are evaluable depending on horizon and history length, and 552's test split, 40% missing, keeps 89% of its own readings but only **53% of the readings its sensor should have produced**. Reconciling the windower against the naive gap count found that index-space windows miss every target whose latest reading is older than it looks — the true cost of gaps at 30 minutes is about twice the naive figure (D-016).
 
-_The hero figure — Clarke and Parkes error grids at both horizons — is Week 5 work and is not embedded until it exists._
+![Clarke error grid at 30 minutes, conforming evaluation, 2020 cohort: persistence against the final model](figures/hero_clarke.png)
+
+*Clarke error grid, 30-minute forecasts, conforming evaluation, 2020 cohort pooled (n = 15,701): persistence on the left, the final model on the right. The model moves 8.3 points of forecasts from zone B into zone A; zones A+B are 98.6% for persistence and 98.4% for the model — the grid barely separates them, which is why hypoglycaemia sensitivity is reported beside it. Parkes grid in [figures/parkes_final.png](figures/parkes_final.png).*
+
+## The sequence model, built as a staircase
+
+**A sequence model with the same inputs as a linear autoregression does not beat it until it is trained on the full horizon, ensembled over history lengths and pre-trained on the other patients; those steps were worth 0.25, 0.25 and 0.34 mg/dL respectively at 30 minutes (conforming, 2020), the choice of family a further 0.12 and the ensemble of the final model 0.40, of which pre-training and both ensembles exceeded seed variability (0.15) and configuration selection (-0.01) and the family choice did not.** At 60 minutes the full-horizon loss alone was worth 1.36.
+
+Every step keeps what the step before chose; every choice is made on the frozen validation tail (D-025), never on test; every step is scored under both evaluation variants on every patient (`results/sequence_steps.csv`, `results/sequence_per_patient.csv`, `results/sequence_paired.csv`, seeds mean ± SD). Inputs are frozen at CGM history plus basal (with temporary overrides), boluses (spread over delivery) and carbohydrates — no wearable channels, no finger-stick, no time of day (D-032).
+
+| Step | Conforming 30 min | Conforming 60 min | Primary 30 min | Primary 60 min | Four-score (conforming) | Position |
+|---|---|---|---|---|---|---|
+| Step 1 — single configuration: GRU 64, 1 layer, dropout 0.2, H = 24, 3 seeds | 20.57 ± 0.15 | 34.17 ± 0.03 | 18.79 ± 0.05 | 33.01 ± 0.08 | 94.50 | 8 of 9 |
+| Step 2 — validation-selected configuration (coordinate search, 1 seed) | 20.58 | 34.84 | 18.70 | 33.19 | 95.74 | 8 of 9 |
+| Step 3 — full-horizon loss, kept where it won on validation (1 seed) | 20.33 | 33.49 | 18.45 | 31.90 | 92.75 | 7 of 9 |
+| Step 4 — chosen configuration, 5 seeds | 20.39 ± 0.15 | 34.07 ± 0.21 | 18.56 ± 0.10 | 32.45 ± 0.15 | 93.86 | 7 of 9 |
+| Step 4e — history-length ensemble, median over H ∈ {12…42} | 20.13 | 33.66 | 18.32 | 32.10 | 92.75 | 7 of 9 |
+| Step 5 — pre-trained on the twelve training files + 2018 test files, fine-tuned per patient, 5 seeds | 20.05 ± 0.14 | 33.29 ± 0.52 | 18.21 ± 0.09 | 31.59 ± 0.54 | 91.48 | 7 of 9 |
+| Step 5p — population model alone, leave-one-patient-out (1 seed) | 20.59 | 34.94 | 18.90 | 33.56 | 95.75 | 8 of 9 |
+| Step 6 — dilated causal CNN, validation-selected, 5 seeds | 20.35 ± 0.12 | 33.76 ± 0.20 | 18.67 ± 0.08 | 32.55 ± 0.20 | 93.28 | 7 of 9 |
+| Step 6e — TCN history-length ensemble | 20.12 | 33.27 | 18.35 | 31.83 | 91.90 | 7 of 9 |
+| Step 7 — final model: per patient the family that won on validation, pre-trained and fine-tuned, 5 seeds | 19.93 ± 0.12 | 33.42 ± 0.21 | 18.18 ± 0.07 | 31.91 ± 0.18 | 91.44 | 7 of 9 |
+| **Step 7e — final model, history-length ensemble (frozen)** | **19.53** | **32.43** | 17.64 | 30.82 | 88.96 | 5 of 9 |
+| Step 7a — final configuration without covariates, 5 seeds | 20.85 ± 0.06 | 34.96 ± 0.29 | 19.12 ± 0.07 | 33.62 ± 0.30 | 95.86 | 9 of 9 |
+
+*2020 cohort, mean of six patients, RMSE in mg/dL; ± is the SD over seeds where more than one seed ran. Position is in the official BGLP 2020 ranking of eight systems plus this one (`results/sequence_ranking.csv`). Linear AR for reference: 20.77 / 34.12 conforming, 18.61 / 32.37 primary.*
+
+**Did the networks learn beyond their persistence initialisation?** Every model starts exactly at persistence (zero-initialised change head), so a fit whose best validation epoch is 1 has learned one epoch's worth. In Steps 1–4 they did learn: the median best epoch in Step 1 is 22, and 64 of 72 fits improved past epoch 1. The epoch-1 stops in those steps are **50 fits, confined to two patients — 591 ×28, 570 ×21, 588 ×1** — whose validation tails rise from the first epoch; per-patient early stopping on those two splits is a limitation, and the split is frozen and not changed. **The fine-tuning steps are different**: in Step 7, 74 of 120 fine-tunes and 78 of 120 ensemble fine-tunes stopped at epoch 1 (62 of 120 in Step 5), while the pre-trained population models they start from peaked around epoch 6. Fine-tuning from pre-trained weights barely moved on validation. **So the final model is, in practice, a population model trained on all twelve training files and the 2018 test files — the patient's own training file included — with one epoch of patient adaptation, ensembled over history lengths.** That is Bevan's all-patients scheme (18.23 / 31.10), not Rubin-Falcone's per-patient fine-tuning, and the comparison is drawn accordingly. The leave-one-patient-out population model, which has never seen the evaluated patient, scores 20.59; the "fine-tuned" one 20.05: most of that 0.54 is having seen the patient's training data, not the fine-tuning epochs. The fine-tuner was never offered zero epochs — the pre-trained state itself was not a candidate — which is a limitation of the harness, listed below. Full distribution: `results/best_epochs.csv`, [figures/best_epochs.png](figures/best_epochs.png).
+
+**Step 1, stated plainly.** A paired gain of +0.36 [0.01, 0.67], 5 of 6 at 30 minutes, with nothing at 60 and -0.03 [-0.32 under the primary variant, is marginal, not a gain: *a single-configuration GRU with the same inputs as the linear autoregression does not meaningfully beat it.* The pre-registered expectation of 18.5–19.5 for this model (D-030) was not met; the check was recorded before any later step ran (D-034).
+
+**The second family.** A dilated causal CNN, searched with the same discipline, won on validation for 9 of 24 patient-horizons and is the final family for those; its own ensemble scored 20.12 / 33.27, within seed variability of the recurrent one.
+
+**Per patient, conforming, with the fallback count beside the penalty** — does the model lose on 567 and 584 the way the linear AR did? Yes, by almost the same amount:
+
+| Patient | n | Fallback 30 / 60 | Final, primary → conforming, 30 min | penalty | Final, primary → conforming, 60 min | Linear AR penalty, 30 min |
+|---|---|---|---|---|---|---|
+| 540 | 2,884 | 145 / 164 | 19.35 → **20.92** | +1.57 | 36.38 → 38.08 | +1.42 |
+| 544 | 2,704 | 87 / 105 | 15.94 → **16.60** | +0.66 | 26.76 → 27.28 | +0.46 |
+| 552 | 2,352 | 210 / 252 | 15.17 → **15.58** | +0.41 | 28.27 → 28.94 | +0.82 |
+| 567 | 2,377 | 261 / 315 | 19.22 → **23.53** | +4.31 | 33.83 → 37.98 | +5.44 |
+| 584 | 2,653 | 348 / 391 | 20.34 → **24.78** | +4.44 | 33.50 → 36.32 | +4.39 |
+| 596 | 2,731 | 174 / 204 | 15.84 → **15.80** | -0.04 | 26.18 → 25.99 | +0.42 |
+
+*Final model (7e). The linear AR's conforming penalties at 30 minutes were +5.44 (567) and +4.39 (584); the model's are +4.31 and +4.44. The primary-to-conforming gap for the model is 1.89 mg/dL at 30 minutes against the linear AR's 2.16: the cost of the outages is paid by every method alike. 596 is the one patient marginally easier under the conforming rule (-0.04); the cohort-level check that conforming is never easier passed.*
+
+**Covariate ablation.** The final configuration without insulin and meals scores 20.85 ± 0.06 / 34.96 ± 0.29 against 19.93 / 33.42 with them: **the covariates are worth -0.92 mg/dL at 30 minutes and -1.54 at 60** to the sequence model — the same ~0.9 they were worth to the linear model — and without them the sequence model does not beat the linear AR that has them (+0.11 [-0.41, 0.67], 3 of 6).
+
+**Clinical scoring of the final model** (`results/clinical_final.csv`; frozen scorer, D-022–024):
+
+| Method (conforming, 2020 pooled) | h | n | Clarke A / A+B | Parkes A / A+B | MARD | TIR agreement | Sens 70 (events) | Sens 54 (events, at floor) |
+|---|---|---|---|---|---|---|---|---|
+| persistence | 30 | 15,701 | 80.7 / 98.6 | 83.0 / 99.4 | 12.5% | 0.867 | **0.546** (507) | 0.051 (39, 2) |
+| persistence | 60 | 15,701 | 60.2 / 96.1 | 63.4 / 96.9 | 21.2% | 0.780 | **0.353** (507) | 0.000 (39, 2) |
+| linear AR H=24 +cov | 30 | 15,701 | 86.3 / 97.9 | 89.8 / 99.6 | 10.6% | 0.887 | **0.233** (507) | 0.051 (39, 2) |
+| linear AR H=24 +cov | 60 | 15,701 | 64.8 / 95.5 | 69.6 / 97.5 | 18.7% | 0.818 | **0.047** (507) | 0.000 (39, 2) |
+| **final model (7e)** | 30 | 15,701 | 88.9 / 98.4 | 90.7 / 99.5 | 9.6% | 0.899 | **0.318** (507) | 0.000 (39, 2) |
+| **final model (7e)** | 60 | 15,701 | 70.2 / 95.9 | 73.3 / 97.8 | 16.9% | 0.832 | **0.012** (507) | 0.000 (39, 2) |
+
+The error grids separate the three methods by a few points of zone A and not at all on A+B. **Hypoglycaemia sensitivity separates them the other way**: at 30 minutes the model detects 31.8% of reference readings below 70 mg/dL, the linear AR 23.3%, persistence 54.6%; at 60 minutes the model detects **1.2%** against persistence's 35.3%, and at 54 mg/dL it detects none. A model trained on squared error forecasts the conditional mean, and the conditional mean an hour ahead is almost never below 70. Zhu's reported worst case of 8% of 60-minute forecasts in Clarke zone D is not exceeded here — the worst patient is 567 at 7.7% — but the over-prediction-into-hypoglycaemia failure Zhu describes appears as its mirror: the model under-reads the lows. The 54 mg/dL figures rest on 39 events across the cohort, 2 at the sensor floor, and are flagged as censored in the file.
+
+**Not done, and logged as not done (D-038):** no hyperparameter chosen on test; no external data; no test-time adaptation; no wearable inputs; no finger-stick or time-of-day inputs. The remaining gap to Rubin-Falcone is, on the honest reading, attributable to its ~15M steps of external pre-training (Tidepool) and its two extra inputs; the gap to Zhu (1.2 at 30 minutes, 0.2 at 60) is not explained by inputs and belongs to this implementation.
 
 ## Baselines
 
@@ -103,7 +164,7 @@ Full table for every baseline, k and H: `results/baselines_challenge_scores.csv`
 
 ## Method
 
-_To be written (5–18 Oct 2026)._ Baselines and their clinical metrics above; the clinical scorer and the model harness are frozen before the model (D-022 to D-026). Planned next: sequence model (Saturday 10 Oct); split-conformal intervals with empirical vs nominal coverage; MARD, Clarke and Parkes zones, time-in-range agreement, hypoglycaemia sensitivity at 70 and 54 mg/dL. Error-grid figure is the hero image.
+Per patient, the family that won on validation — a one-layer GRU or LSTM (hidden 64–256) or a small dilated causal CNN — over H history steps of CGM, basal, bolus and carbohydrates, predicting the change from the last reading with a zero-initialised head so that the untrained model is persistence; trained on the full horizon where that won on validation; pre-trained on the twelve training files and the 2018 test files, fine-tuned per patient with early stopping on the frozen validation tail; median over six history lengths. Five seeds per configuration. Frozen at commit `pending` for Week 5's conformal intervals. Error grids, MARD, time-in-range agreement and hypoglycaemia sensitivity from the scorer frozen before the model (D-022–024).
 
 ## Reproduce
 
@@ -112,11 +173,15 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pre-commit install && pre-commit install --hook-type pre-push   # secrets at commit; guard and data-free tests at push
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 339 tests; 208 need the dataset and skip without it
+pytest                              # 358 tests; 208 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)
 python -m src.eval.clinical_baselines  # results/clinical_baselines.csv and the two error-grid figures
+python -m src.staircase step1       # then step2 … step7: the sequence model, ~23 h on an M4 (rows to the cache; snapshot in results/)
+python -m src.eval.staircase_eval   # results/sequence_*.csv, both variants, every step
+python -m src.eval.clinical_model   # results/clinical_final.csv, figures/hero_clarke.png, figures/parkes_final.png
+python -m src.eval.best_epochs      # results/best_epochs.csv, figures/best_epochs.png
 ```
 
 Data: see [data/README.md](data/README.md). No data is included in this repository.
@@ -129,6 +194,11 @@ Known before any model was fitted. Horizon-dependent coverage failures, hypoglyc
 - **Readings at the sensor floor are censored, and the bias lands where it matters most.** CGM values are clipped to [40, 400] mg/dL. Both hypoglycaemia thresholds (70 and 54) sit inside that range and can be evaluated; what cannot be measured is error *below* 40, where a true 30 is reported as 40 and a forecast of 40 scores as exact while being 10 mg/dL high. 206 readings (0.124%) sit exactly at the floor — but **17.8% of all readings below 54 mg/dL do**, so low-end error-grid zones and any metric on floored readings are biased optimistic in the severe-hypoglycaemia region.
 - **Per-patient figures are not comparable without their target counts.** 552's test split is 40.2% missing with a 118-hour gap, so its error rests on far fewer evaluable targets than any other patient's. Every per-patient number is reported with its effective n.
 - **Wearable channels are not uniformly available**, so they are restricted to a secondary stratified analysis: heart rate is empty for five 2020 patients and absent for 596, and acceleration exists only in the 2020 cohort. Primary models use CGM, insulin and meals only — the channels all 12 patients have and the published comparisons use.
+- **The sequence-model search was a coordinate search, not a grid.** Each axis (H → hidden → cell → layers → dropout → lr) was tuned conditional on the axes already chosen, so interactions between axes — hidden size with history length, say — are invisible to it; a configuration that is only good in combination was never visited (D-033).
+- **The model that wins on RMSE is the worst at detecting hypoglycaemia.** Sensitivity at 70 mg/dL an hour ahead is 1.2% for the final model against 35.3% for persistence; at 54 mg/dL it detects nothing. A squared-error forecaster of the conditional mean is not a hypoglycaemia alarm, and the README's headline number should be read with that beside it.
+- **"Fine-tuned per patient" means one epoch of adaptation.** The fine-tunes stopped at epoch 1 in most fits and the harness never offered zero epochs, so the final model is a population model that has seen the patient's own training file, with one epoch of adaptation — comparable to Bevan's scheme, not Rubin-Falcone's.
+- **Per-patient early stopping is unreliable for 570 and 591**, whose validation tails rise from the first epoch; the split is frozen and was not changed.
+- **No external data, and narrower inputs than the published best.** Rubin-Falcone pre-trained on ~15M external steps and used finger-stick and time-of-day inputs; this repository used neither, by rule.
 - **12 patients, one sensor, one pump family, eight weeks each.** Nothing here supports a claim about other devices or populations.
 
 ## References

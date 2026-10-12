@@ -63,3 +63,707 @@ step,variant,horizon_min,patient,cohort,n_scored,rmse_model,rmse_persistence,rms
 "1 single configuration (GRU 64, H=24, 3 seeds)",bglp,60,bootstrap over 6 patients,2020,6,,,,,0.201,linear AR,-0.106,0.554,3
 "1 single configuration (GRU 64, H=24, 3 seeds)",bglp,60,bootstrap over 12 patients,all12,12,,,,5.78,,persistence,4.443,7.151,12
 "1 single configuration (GRU 64, H=24, 3 seeds)",bglp,60,bootstrap over 12 patients,all12,12,,,,,-0.327,linear AR,-0.797,0.097,4
+2 validation-selected configuration (1 seed),primary,30,540,2020,2649,20.555,28.023,20.675,7.468,0.12,,,,
+2 validation-selected configuration (1 seed),primary,30,544,2020,2563,17.356,22.477,16.344,5.122,-1.011,,,,
+2 validation-selected configuration (1 seed),primary,30,552,2020,1998,16.43,20.897,16.504,4.467,0.074,,,,
+2 validation-selected configuration (1 seed),primary,30,559,2018,2253,18.507,23.157,17.823,4.65,-0.684,,,,
+2 validation-selected configuration (1 seed),primary,30,563,2018,2541,19.254,20.771,19.289,1.517,0.035,,,,
+2 validation-selected configuration (1 seed),primary,30,567,2020,2116,19.214,27.52,20.081,8.306,0.867,,,,
+2 validation-selected configuration (1 seed),primary,30,570,2018,2542,18.285,18.664,15.909,0.38,-2.376,,,,
+2 validation-selected configuration (1 seed),primary,30,575,2018,2341,24.189,25.415,23.885,1.226,-0.304,,,,
+2 validation-selected configuration (1 seed),primary,30,584,2020,2093,21.941,25.116,21.26,3.175,-0.682,,,,
+2 validation-selected configuration (1 seed),primary,30,588,2018,2733,18.581,21.897,18.215,3.316,-0.366,,,,
+2 validation-selected configuration (1 seed),primary,30,591,2018,2702,22.999,24.776,21.704,1.776,-1.296,,,,
+2 validation-selected configuration (1 seed),primary,30,596,2020,2449,16.501,21.224,16.539,4.724,0.038,,,,
+2 validation-selected configuration (1 seed),primary,30,bootstrap over 6 patients,2020,6,,,,5.543,,persistence,4.188,6.996,6
+2 validation-selected configuration (1 seed),primary,30,bootstrap over 6 patients,2020,6,,,,,-0.099,linear AR,-0.587,0.352,4
+2 validation-selected configuration (1 seed),primary,30,bootstrap over 12 patients,all12,12,,,,3.844,,persistence,2.555,5.218,12
+2 validation-selected configuration (1 seed),primary,30,bootstrap over 12 patients,all12,12,,,,,-0.465,linear AR,-0.956,-0.028,5
+2 validation-selected configuration (1 seed),primary,60,540,2020,2630,42.57,46.595,38.239,4.026,-4.331,,,,
+2 validation-selected configuration (1 seed),primary,60,544,2020,2545,28.398,38.157,28.208,9.76,-0.189,,,,
+2 validation-selected configuration (1 seed),primary,60,552,2020,1956,28.744,33.934,29.333,5.19,0.589,,,,
+2 validation-selected configuration (1 seed),primary,60,559,2018,2200,32.149,39.116,30.044,6.966,-2.106,,,,
+2 validation-selected configuration (1 seed),primary,60,563,2018,2535,29.742,34.01,31.048,4.267,1.306,,,,
+2 validation-selected configuration (1 seed),primary,60,567,2020,2062,36.964,45.952,35.86,8.988,-1.104,,,,
+2 validation-selected configuration (1 seed),primary,60,570,2018,2430,28.262,30.467,26.503,2.205,-1.759,,,,
+2 validation-selected configuration (1 seed),primary,60,575,2018,2352,36.564,38.607,36.406,2.043,-0.158,,,,
+2 validation-selected configuration (1 seed),primary,60,584,2020,2262,34.295,40.597,34.013,6.302,-0.282,,,,
+2 validation-selected configuration (1 seed),primary,60,588,2018,2721,30.488,35.938,30.748,5.45,0.26,,,,
+2 validation-selected configuration (1 seed),primary,60,591,2018,2690,35.775,39.266,34.128,3.491,-1.647,,,,
+2 validation-selected configuration (1 seed),primary,60,596,2020,2419,28.047,35.655,27.306,7.608,-0.741,,,,
+2 validation-selected configuration (1 seed),primary,60,bootstrap over 6 patients,2020,6,,,,6.979,,persistence,5.39,8.567,6
+2 validation-selected configuration (1 seed),primary,60,bootstrap over 6 patients,2020,6,,,,,-1.01,linear AR,-2.444,0.0,1
+2 validation-selected configuration (1 seed),primary,60,bootstrap over 12 patients,all12,12,,,,5.525,,persistence,4.244,6.896,12
+2 validation-selected configuration (1 seed),primary,60,bootstrap over 12 patients,all12,12,,,,,-0.847,linear AR,-1.723,-0.11,3
+2 validation-selected configuration (1 seed),bglp,30,540,2020,2884,21.9,29.027,22.336,7.126,0.436,,,,
+2 validation-selected configuration (1 seed),bglp,30,544,2020,2704,18.116,22.638,17.041,4.522,-1.075,,,,
+2 validation-selected configuration (1 seed),bglp,30,552,2020,2352,17.551,20.862,17.499,3.311,-0.052,,,,
+2 validation-selected configuration (1 seed),bglp,30,559,2018,2514,20.942,25.05,20.516,4.108,-0.426,,,,
+2 validation-selected configuration (1 seed),bglp,30,563,2018,2570,19.245,20.732,18.821,1.487,-0.424,,,,
+2 validation-selected configuration (1 seed),bglp,30,567,2020,2377,23.952,30.704,25.525,6.752,1.573,,,,
+2 validation-selected configuration (1 seed),bglp,30,570,2018,2745,19.245,19.532,17.053,0.287,-2.192,,,,
+2 validation-selected configuration (1 seed),bglp,30,575,2018,2590,24.018,26.058,23.664,2.04,-0.354,,,,
+2 validation-selected configuration (1 seed),bglp,30,584,2020,2653,25.391,28.67,25.397,3.279,0.006,,,,
+2 validation-selected configuration (1 seed),bglp,30,588,2018,2791,18.751,22.097,18.468,3.346,-0.284,,,,
+2 validation-selected configuration (1 seed),bglp,30,591,2018,2760,23.15,24.898,22.186,1.749,-0.964,,,,
+2 validation-selected configuration (1 seed),bglp,30,596,2020,2731,16.557,21.009,16.842,4.452,0.285,,,,
+2 validation-selected configuration (1 seed),bglp,30,bootstrap over 6 patients,2020,6,,,,4.907,,persistence,3.698,6.173,6
+2 validation-selected configuration (1 seed),bglp,30,bootstrap over 6 patients,2020,6,,,,,0.195,linear AR,-0.416,0.851,4
+2 validation-selected configuration (1 seed),bglp,30,bootstrap over 12 patients,all12,12,,,,3.538,,persistence,2.475,4.675,12
+2 validation-selected configuration (1 seed),bglp,30,bootstrap over 12 patients,all12,12,,,,,-0.289,linear AR,-0.799,0.203,4
+2 validation-selected configuration (1 seed),bglp,60,540,2020,2884,44.354,48.131,40.258,3.777,-4.097,,,,
+2 validation-selected configuration (1 seed),bglp,60,544,2020,2704,28.601,37.792,28.365,9.191,-0.236,,,,
+2 validation-selected configuration (1 seed),bglp,60,552,2020,2352,30.802,33.782,30.403,2.98,-0.399,,,,
+2 validation-selected configuration (1 seed),bglp,60,559,2018,2514,34.072,41.066,32.433,6.994,-1.64,,,,
+2 validation-selected configuration (1 seed),bglp,60,563,2018,2570,29.686,33.866,30.577,4.18,0.891,,,,
+2 validation-selected configuration (1 seed),bglp,60,567,2020,2377,40.029,49.145,40.336,9.116,0.307,,,,
+2 validation-selected configuration (1 seed),bglp,60,570,2018,2745,30.634,32.502,28.922,1.868,-1.711,,,,
+2 validation-selected configuration (1 seed),bglp,60,575,2018,2590,37.014,40.198,35.995,3.184,-1.019,,,,
+2 validation-selected configuration (1 seed),bglp,60,584,2020,2653,37.241,44.662,37.963,7.422,0.723,,,,
+2 validation-selected configuration (1 seed),bglp,60,588,2018,2791,30.56,36.193,30.842,5.633,0.282,,,,
+2 validation-selected configuration (1 seed),bglp,60,591,2018,2760,35.693,39.121,34.635,3.429,-1.058,,,,
+2 validation-selected configuration (1 seed),bglp,60,596,2020,2731,28.041,34.984,27.425,6.943,-0.616,,,,
+2 validation-selected configuration (1 seed),bglp,60,bootstrap over 6 patients,2020,6,,,,6.571,,persistence,4.594,8.416,6
+2 validation-selected configuration (1 seed),bglp,60,bootstrap over 6 patients,2020,6,,,,,-0.72,linear AR,-2.166,0.243,2
+2 validation-selected configuration (1 seed),bglp,60,bootstrap over 12 patients,all12,12,,,,5.393,,persistence,4.076,6.8,12
+2 validation-selected configuration (1 seed),bglp,60,bootstrap over 12 patients,all12,12,,,,,-0.714,linear AR,-1.529,-0.05,4
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,540,2020,2649,19.86,28.023,20.675,8.163,0.815,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,544,2020,2563,16.959,22.477,16.344,5.519,-0.615,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,552,2020,1998,16.268,20.897,16.504,4.628,0.236,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,559,2018,2253,18.149,23.157,17.823,5.009,-0.326,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,563,2018,2541,18.906,20.771,19.289,1.865,0.382,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,567,2020,2116,19.401,27.52,20.081,8.119,0.679,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,570,2018,2542,15.903,18.664,15.909,2.762,0.006,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,575,2018,2341,23.914,25.415,23.885,1.502,-0.028,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,584,2020,2093,21.378,25.116,21.26,3.738,-0.119,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,588,2018,2733,17.935,21.897,18.215,3.962,0.28,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,591,2018,2702,24.001,24.776,21.704,0.775,-2.297,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,596,2020,2449,16.618,21.224,16.539,4.606,-0.079,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,bootstrap over 6 patients,2020,6,,,,5.795,,persistence,4.475,7.129,6
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,bootstrap over 6 patients,2020,6,,,,,0.153,linear AR,-0.227,0.524,3
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,bootstrap over 12 patients,all12,12,,,,4.221,,persistence,2.98,5.547,12
+3 full-horizon loss (1 seed; kept where it won on validation),primary,30,bootstrap over 12 patients,all12,12,,,,,-0.089,linear AR,-0.575,0.283,6
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,540,2020,2630,37.263,46.595,38.239,9.332,0.976,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,544,2020,2545,28.398,38.157,28.208,9.76,-0.189,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,552,2020,1956,28.415,33.934,29.333,5.519,0.918,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,559,2018,2200,32.171,39.116,30.044,6.945,-2.127,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,563,2018,2535,29.812,34.01,31.048,4.197,1.236,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,567,2020,2062,34.836,45.952,35.86,11.115,1.023,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,570,2018,2430,28.429,30.467,26.503,2.038,-1.926,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,575,2018,2352,36.581,38.607,36.406,2.026,-0.175,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,584,2020,2262,34.919,40.597,34.013,5.677,-0.906,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,588,2018,2721,30.652,35.938,30.748,5.285,0.095,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,591,2018,2690,35.749,39.266,34.128,3.517,-1.621,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,596,2020,2419,27.254,35.655,27.306,8.401,0.053,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,bootstrap over 6 patients,2020,6,,,,8.301,,persistence,6.584,9.913,6
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,bootstrap over 6 patients,2020,6,,,,,0.312,linear AR,-0.289,0.828,4
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,bootstrap over 12 patients,all12,12,,,,6.151,,persistence,4.59,7.809,12
+3 full-horizon loss (1 seed; kept where it won on validation),primary,60,bootstrap over 12 patients,all12,12,,,,,-0.22,linear AR,-0.888,0.397,6
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,540,2020,2884,21.332,29.027,22.336,7.695,1.005,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,544,2020,2704,17.618,22.638,17.041,5.02,-0.577,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,552,2020,2352,17.365,20.862,17.499,3.497,0.134,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,559,2018,2514,20.734,25.05,20.516,4.316,-0.218,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,563,2018,2570,18.899,20.732,18.821,1.833,-0.078,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,567,2020,2377,24.121,30.704,25.525,6.583,1.403,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,570,2018,2745,17.052,19.532,17.053,2.48,0.001,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,575,2018,2590,23.945,26.058,23.664,2.113,-0.281,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,584,2020,2653,24.842,28.67,25.397,3.829,0.555,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,588,2018,2791,18.112,22.097,18.468,3.985,0.356,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,591,2018,2760,24.289,24.898,22.186,0.609,-2.103,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,596,2020,2731,16.675,21.009,16.842,4.334,0.167,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,bootstrap over 6 patients,2020,6,,,,5.159,,persistence,4.026,6.432,6
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,bootstrap over 6 patients,2020,6,,,,,0.448,linear AR,-0.071,0.925,5
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,bootstrap over 12 patients,all12,12,,,,3.858,,persistence,2.818,4.971,12
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,30,bootstrap over 12 patients,all12,12,,,,,0.03,linear AR,-0.47,0.475,7
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,540,2020,2884,38.879,48.131,40.258,9.253,1.379,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,544,2020,2704,28.736,37.792,28.365,9.056,-0.371,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,552,2020,2352,30.007,33.782,30.403,3.775,0.396,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,559,2018,2514,34.327,41.066,32.433,6.739,-1.894,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,563,2018,2570,29.747,33.866,30.577,4.119,0.83,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,567,2020,2377,38.853,49.145,40.336,10.292,1.483,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,570,2018,2745,30.612,32.502,28.922,1.889,-1.69,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,575,2018,2590,37.217,40.198,35.995,2.981,-1.222,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,584,2020,2653,37.285,44.662,37.963,7.378,0.679,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,588,2018,2791,30.749,36.193,30.842,5.444,0.093,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,591,2018,2760,35.687,39.121,34.635,3.434,-1.052,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,596,2020,2731,27.172,34.984,27.425,7.811,0.253,,,,
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,bootstrap over 6 patients,2020,6,,,,7.928,,persistence,6.135,9.359,6
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,bootstrap over 6 patients,2020,6,,,,,0.637,linear AR,0.14,1.144,5
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,bootstrap over 12 patients,all12,12,,,,6.014,,persistence,4.535,7.553,12
+3 full-horizon loss (1 seed; kept where it won on validation),bglp,60,bootstrap over 12 patients,all12,12,,,,,-0.093,linear AR,-0.722,0.523,7
+"4 chosen configuration, 5 seeds",primary,30,540,2020,2649,19.783,28.023,20.675,8.239,0.891,,,,
+"4 chosen configuration, 5 seeds",primary,30,544,2020,2563,16.811,22.477,16.344,5.666,-0.467,,,,
+"4 chosen configuration, 5 seeds",primary,30,552,2020,1998,16.04,20.897,16.504,4.856,0.464,,,,
+"4 chosen configuration, 5 seeds",primary,30,559,2018,2253,18.107,23.157,17.823,5.05,-0.285,,,,
+"4 chosen configuration, 5 seeds",primary,30,563,2018,2541,18.627,20.771,19.289,2.144,0.662,,,,
+"4 chosen configuration, 5 seeds",primary,30,567,2020,2116,19.525,27.52,20.081,7.995,0.555,,,,
+"4 chosen configuration, 5 seeds",primary,30,570,2018,2542,15.142,18.664,15.909,3.522,0.766,,,,
+"4 chosen configuration, 5 seeds",primary,30,575,2018,2341,23.955,25.415,23.885,1.461,-0.07,,,,
+"4 chosen configuration, 5 seeds",primary,30,584,2020,2093,21.575,25.116,21.26,3.541,-0.315,,,,
+"4 chosen configuration, 5 seeds",primary,30,588,2018,2733,18.021,21.897,18.215,3.875,0.193,,,,
+"4 chosen configuration, 5 seeds",primary,30,591,2018,2702,23.07,24.776,21.704,1.706,-1.366,,,,
+"4 chosen configuration, 5 seeds",primary,30,596,2020,2449,16.476,21.224,16.539,4.748,0.062,,,,
+"4 chosen configuration, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,5.841,,persistence,4.517,7.219,6
+"4 chosen configuration, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,,0.198,linear AR,-0.183,0.57,4
+"4 chosen configuration, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,4.4,,persistence,3.25,5.636,12
+"4 chosen configuration, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,,0.091,linear AR,-0.274,0.421,7
+"4 chosen configuration, 5 seeds",primary,60,540,2020,2630,38.66,46.595,38.239,7.935,-0.422,,,,
+"4 chosen configuration, 5 seeds",primary,60,544,2020,2545,28.087,38.157,28.208,10.071,0.122,,,,
+"4 chosen configuration, 5 seeds",primary,60,552,2020,1956,28.336,33.934,29.333,5.598,0.997,,,,
+"4 chosen configuration, 5 seeds",primary,60,559,2018,2200,31.452,39.116,30.044,7.664,-1.408,,,,
+"4 chosen configuration, 5 seeds",primary,60,563,2018,2535,29.924,34.01,31.048,4.086,1.124,,,,
+"4 chosen configuration, 5 seeds",primary,60,567,2020,2062,34.839,45.952,35.86,11.112,1.021,,,,
+"4 chosen configuration, 5 seeds",primary,60,570,2018,2430,27.94,30.467,26.503,2.527,-1.437,,,,
+"4 chosen configuration, 5 seeds",primary,60,575,2018,2352,36.515,38.607,36.406,2.092,-0.109,,,,
+"4 chosen configuration, 5 seeds",primary,60,584,2020,2262,34.493,40.597,34.013,6.104,-0.48,,,,
+"4 chosen configuration, 5 seeds",primary,60,588,2018,2721,30.208,35.938,30.748,5.729,0.539,,,,
+"4 chosen configuration, 5 seeds",primary,60,591,2018,2690,35.392,39.266,34.128,3.874,-1.264,,,,
+"4 chosen configuration, 5 seeds",primary,60,596,2020,2419,27.085,35.655,27.306,8.57,0.221,,,,
+"4 chosen configuration, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,8.232,,persistence,6.651,9.812,6
+"4 chosen configuration, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,,0.243,linear AR,-0.237,0.734,4
+"4 chosen configuration, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,6.28,,persistence,4.784,7.863,12
+"4 chosen configuration, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,,-0.091,linear AR,-0.613,0.402,6
+"4 chosen configuration, 5 seeds",bglp,30,540,2020,2884,21.348,29.027,22.336,7.679,0.988,,,,
+"4 chosen configuration, 5 seeds",bglp,30,544,2020,2704,17.39,22.638,17.041,5.248,-0.349,,,,
+"4 chosen configuration, 5 seeds",bglp,30,552,2020,2352,16.856,20.862,17.499,4.006,0.643,,,,
+"4 chosen configuration, 5 seeds",bglp,30,559,2018,2514,20.889,25.05,20.516,4.162,-0.372,,,,
+"4 chosen configuration, 5 seeds",bglp,30,563,2018,2570,18.627,20.732,18.821,2.105,0.194,,,,
+"4 chosen configuration, 5 seeds",bglp,30,567,2020,2377,24.145,30.704,25.525,6.559,1.38,,,,
+"4 chosen configuration, 5 seeds",bglp,30,570,2018,2745,16.264,19.532,17.053,3.268,0.789,,,,
+"4 chosen configuration, 5 seeds",bglp,30,575,2018,2590,24.003,26.058,23.664,2.055,-0.339,,,,
+"4 chosen configuration, 5 seeds",bglp,30,584,2020,2653,25.009,28.67,25.397,3.662,0.388,,,,
+"4 chosen configuration, 5 seeds",bglp,30,588,2018,2791,18.175,22.097,18.468,3.922,0.292,,,,
+"4 chosen configuration, 5 seeds",bglp,30,591,2018,2760,23.244,24.898,22.186,1.654,-1.058,,,,
+"4 chosen configuration, 5 seeds",bglp,30,596,2020,2731,16.511,21.009,16.842,4.498,0.331,,,,
+"4 chosen configuration, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,5.275,,persistence,4.202,6.475,6
+"4 chosen configuration, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,,0.563,linear AR,0.133,0.969,5
+"4 chosen configuration, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,4.068,,persistence,3.142,5.083,12
+"4 chosen configuration, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,,0.241,linear AR,-0.134,0.608,8
+"4 chosen configuration, 5 seeds",bglp,60,540,2020,2884,40.202,48.131,40.258,7.929,0.055,,,,
+"4 chosen configuration, 5 seeds",bglp,60,544,2020,2704,28.444,37.792,28.365,9.348,-0.079,,,,
+"4 chosen configuration, 5 seeds",bglp,60,552,2020,2352,30.325,33.782,30.403,3.457,0.078,,,,
+"4 chosen configuration, 5 seeds",bglp,60,559,2018,2514,33.698,41.066,32.433,7.368,-1.265,,,,
+"4 chosen configuration, 5 seeds",bglp,60,563,2018,2570,29.864,33.866,30.577,4.002,0.713,,,,
+"4 chosen configuration, 5 seeds",bglp,60,567,2020,2377,38.314,49.145,40.336,10.831,2.023,,,,
+"4 chosen configuration, 5 seeds",bglp,60,570,2018,2745,30.262,32.502,28.922,2.24,-1.34,,,,
+"4 chosen configuration, 5 seeds",bglp,60,575,2018,2590,36.925,40.198,35.995,3.273,-0.93,,,,
+"4 chosen configuration, 5 seeds",bglp,60,584,2020,2653,37.183,44.662,37.963,7.48,0.781,,,,
+"4 chosen configuration, 5 seeds",bglp,60,588,2018,2791,30.299,36.193,30.842,5.894,0.543,,,,
+"4 chosen configuration, 5 seeds",bglp,60,591,2018,2760,35.328,39.121,34.635,3.794,-0.693,,,,
+"4 chosen configuration, 5 seeds",bglp,60,596,2020,2731,27.044,34.984,27.425,7.939,0.381,,,,
+"4 chosen configuration, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,7.831,,persistence,5.855,9.385,6
+"4 chosen configuration, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,,0.54,linear AR,0.069,1.164,5
+"4 chosen configuration, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,6.13,,persistence,4.691,7.65,12
+"4 chosen configuration, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,,0.022,linear AR,-0.488,0.563,7
+4e history-length ensemble (median over H),primary,30,540,2020,2649,19.747,28.023,20.675,8.276,0.928,,,,
+4e history-length ensemble (median over H),primary,30,544,2020,2563,16.721,22.477,16.344,5.756,-0.377,,,,
+4e history-length ensemble (median over H),primary,30,552,2020,1998,15.923,20.897,16.504,4.974,0.581,,,,
+4e history-length ensemble (median over H),primary,30,559,2018,2091,18.109,23.495,18.035,5.386,-0.074,,,,
+4e history-length ensemble (median over H),primary,30,563,2018,2523,18.427,20.664,19.241,2.237,0.814,,,,
+4e history-length ensemble (median over H),primary,30,567,2020,1954,19.248,27.064,19.662,7.816,0.413,,,,
+4e history-length ensemble (median over H),primary,30,570,2018,2416,15.249,17.787,15.222,2.539,-0.026,,,,
+4e history-length ensemble (median over H),primary,30,575,2018,2341,23.429,25.415,23.885,1.986,0.456,,,,
+4e history-length ensemble (median over H),primary,30,584,2020,2093,21.71,25.116,21.26,3.406,-0.45,,,,
+4e history-length ensemble (median over H),primary,30,588,2018,2697,18.523,21.917,18.238,3.394,-0.285,,,,
+4e history-length ensemble (median over H),primary,30,591,2018,2666,22.893,24.872,21.773,1.978,-1.121,,,,
+4e history-length ensemble (median over H),primary,30,596,2020,2449,16.572,21.224,16.539,4.653,-0.033,,,,
+4e history-length ensemble (median over H),primary,30,bootstrap over 6 patients,2020,6,,,,5.813,,persistence,4.475,7.229,6
+4e history-length ensemble (median over H),primary,30,bootstrap over 6 patients,2020,6,,,,,0.177,linear AR,-0.225,0.567,3
+4e history-length ensemble (median over H),primary,30,bootstrap over 12 patients,all12,12,,,,4.367,,persistence,3.241,5.594,12
+4e history-length ensemble (median over H),primary,30,bootstrap over 12 patients,all12,12,,,,,0.069,linear AR,-0.256,0.378,5
+4e history-length ensemble (median over H),primary,60,540,2020,2630,38.384,46.595,38.239,8.212,-0.145,,,,
+4e history-length ensemble (median over H),primary,60,544,2020,2545,28.123,38.157,28.208,10.034,0.086,,,,
+4e history-length ensemble (median over H),primary,60,552,2020,1956,28.095,33.934,29.333,5.839,1.237,,,,
+4e history-length ensemble (median over H),primary,60,559,2018,2038,31.362,39.822,30.306,8.46,-1.056,,,,
+4e history-length ensemble (median over H),primary,60,563,2018,2517,29.115,33.669,30.8,4.554,1.685,,,,
+4e history-length ensemble (median over H),primary,60,567,2020,1900,35.711,45.011,35.002,9.3,-0.709,,,,
+4e history-length ensemble (median over H),primary,60,570,2018,2388,27.769,29.919,26.154,2.15,-1.615,,,,
+4e history-length ensemble (median over H),primary,60,575,2018,2322,36.018,38.701,36.559,2.683,0.541,,,,
+4e history-length ensemble (median over H),primary,60,584,2020,2056,35.029,41.433,34.453,6.404,-0.576,,,,
+4e history-length ensemble (median over H),primary,60,588,2018,2685,30.027,35.983,30.818,5.957,0.792,,,,
+4e history-length ensemble (median over H),primary,60,591,2018,2654,35.332,39.385,34.15,4.053,-1.182,,,,
+4e history-length ensemble (median over H),primary,60,596,2020,2419,27.259,35.655,27.306,8.396,0.047,,,,
+4e history-length ensemble (median over H),primary,60,bootstrap over 6 patients,2020,6,,,,8.031,,persistence,6.818,9.182,6
+4e history-length ensemble (median over H),primary,60,bootstrap over 6 patients,2020,6,,,,,-0.01,linear AR,-0.454,0.523,3
+4e history-length ensemble (median over H),primary,60,bootstrap over 12 patients,all12,12,,,,6.337,,persistence,4.958,7.713,12
+4e history-length ensemble (median over H),primary,60,bootstrap over 12 patients,all12,12,,,,,-0.075,linear AR,-0.615,0.463,6
+4e history-length ensemble (median over H),bglp,30,540,2020,2884,21.284,29.027,22.336,7.743,1.052,,,,
+4e history-length ensemble (median over H),bglp,30,544,2020,2704,17.279,22.638,17.041,5.359,-0.238,,,,
+4e history-length ensemble (median over H),bglp,30,552,2020,2352,16.58,20.862,17.499,4.282,0.919,,,,
+4e history-length ensemble (median over H),bglp,30,559,2018,2514,20.819,25.05,20.516,4.231,-0.302,,,,
+4e history-length ensemble (median over H),bglp,30,563,2018,2570,18.499,20.732,18.821,2.233,0.322,,,,
+4e history-length ensemble (median over H),bglp,30,567,2020,2377,24.054,30.704,25.525,6.65,1.471,,,,
+4e history-length ensemble (median over H),bglp,30,570,2018,2745,16.932,19.532,17.053,2.6,0.122,,,,
+4e history-length ensemble (median over H),bglp,30,575,2018,2590,23.396,26.058,23.664,2.662,0.268,,,,
+4e history-length ensemble (median over H),bglp,30,584,2020,2653,24.997,28.67,25.397,3.674,0.4,,,,
+4e history-length ensemble (median over H),bglp,30,588,2018,2791,18.656,22.097,18.468,3.441,-0.189,,,,
+4e history-length ensemble (median over H),bglp,30,591,2018,2760,23.0,24.898,22.186,1.898,-0.814,,,,
+4e history-length ensemble (median over H),bglp,30,596,2020,2731,16.601,21.009,16.842,4.408,0.241,,,,
+4e history-length ensemble (median over H),bglp,30,bootstrap over 6 patients,2020,6,,,,5.352,,persistence,4.28,6.584,6
+4e history-length ensemble (median over H),bglp,30,bootstrap over 6 patients,2020,6,,,,,0.641,linear AR,0.194,1.082,5
+4e history-length ensemble (median over H),bglp,30,bootstrap over 12 patients,all12,12,,,,4.098,,persistence,3.191,5.12,12
+4e history-length ensemble (median over H),bglp,30,bootstrap over 12 patients,all12,12,,,,,0.271,linear AR,-0.066,0.619,8
+4e history-length ensemble (median over H),bglp,60,540,2020,2884,39.954,48.131,40.258,8.178,0.304,,,,
+4e history-length ensemble (median over H),bglp,60,544,2020,2704,28.6,37.792,28.365,9.192,-0.234,,,,
+4e history-length ensemble (median over H),bglp,60,552,2020,2352,29.547,33.782,30.403,4.235,0.856,,,,
+4e history-length ensemble (median over H),bglp,60,559,2018,2514,33.165,41.066,32.433,7.901,-0.733,,,,
+4e history-length ensemble (median over H),bglp,60,563,2018,2570,29.377,33.866,30.577,4.489,1.2,,,,
+4e history-length ensemble (median over H),bglp,60,567,2020,2377,39.502,49.145,40.336,9.643,0.834,,,,
+4e history-length ensemble (median over H),bglp,60,570,2018,2745,30.339,32.502,28.922,2.163,-1.416,,,,
+4e history-length ensemble (median over H),bglp,60,575,2018,2590,36.208,40.198,35.995,3.99,-0.213,,,,
+4e history-length ensemble (median over H),bglp,60,584,2020,2653,37.267,44.662,37.963,7.395,0.696,,,,
+4e history-length ensemble (median over H),bglp,60,588,2018,2791,30.02,36.193,30.842,6.173,0.822,,,,
+4e history-length ensemble (median over H),bglp,60,591,2018,2760,35.212,39.121,34.635,3.909,-0.577,,,,
+4e history-length ensemble (median over H),bglp,60,596,2020,2731,27.095,34.984,27.425,7.889,0.33,,,,
+4e history-length ensemble (median over H),bglp,60,bootstrap over 6 patients,2020,6,,,,7.755,,persistence,6.197,8.956,6
+4e history-length ensemble (median over H),bglp,60,bootstrap over 6 patients,2020,6,,,,,0.464,linear AR,0.132,0.738,5
+4e history-length ensemble (median over H),bglp,60,bootstrap over 12 patients,all12,12,,,,6.263,,persistence,4.969,7.564,12
+4e history-length ensemble (median over H),bglp,60,bootstrap over 12 patients,all12,12,,,,,0.156,linear AR,-0.293,0.565,7
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,540,2020,2739,20.032,28.257,20.915,8.225,0.883,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,544,2020,2617,16.191,22.533,16.582,6.342,0.392,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,552,2020,2142,15.72,20.94,16.682,5.22,0.963,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,559,2018,2253,17.194,23.157,17.823,5.964,0.629,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,563,2018,2541,17.696,20.771,19.289,3.075,1.593,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,567,2020,2116,19.581,27.52,20.081,7.939,0.5,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,570,2018,2542,14.783,18.664,15.909,3.881,1.126,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,575,2018,2431,21.396,25.284,23.564,3.888,2.168,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,584,2020,2305,20.957,24.66,21.003,3.703,0.046,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,588,2018,2733,17.041,21.897,18.215,4.856,1.174,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,591,2018,2702,20.388,24.776,21.704,4.388,1.316,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,596,2020,2557,16.008,21.207,16.417,5.199,0.409,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,bootstrap over 6 patients,2020,6,,,,6.105,,persistence,4.891,7.363,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,bootstrap over 6 patients,2020,6,,,,,0.532,linear AR,0.295,0.77,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,bootstrap over 12 patients,all12,12,,,,5.223,,persistence,4.377,6.155,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,30,bootstrap over 12 patients,all12,12,,,,,0.933,linear AR,0.63,1.265,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,540,2020,2630,36.936,46.595,38.239,9.659,1.303,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,544,2020,2545,27.78,38.157,28.208,10.377,0.428,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,552,2020,1956,27.917,33.934,29.333,6.017,1.416,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,559,2018,2038,29.158,39.822,30.306,10.663,1.148,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,563,2018,2517,29.033,33.669,30.8,4.636,1.767,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,567,2020,1900,33.536,45.011,35.002,11.475,1.466,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,570,2018,2388,23.942,29.919,26.154,5.977,2.212,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,575,2018,2322,32.673,38.701,36.559,6.028,3.886,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,584,2020,2056,33.976,41.433,34.453,7.457,0.477,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,588,2018,2685,27.804,35.983,30.818,8.179,3.014,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,591,2018,2654,31.581,39.385,34.15,7.804,2.568,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,596,2020,2419,25.976,35.655,27.306,9.679,1.33,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,bootstrap over 6 patients,2020,6,,,,9.111,,persistence,7.587,10.506,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,bootstrap over 6 patients,2020,6,,,,,1.07,linear AR,0.741,1.396,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,bootstrap over 12 patients,all12,12,,,,8.163,,persistence,6.973,9.341,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",primary,60,bootstrap over 12 patients,all12,12,,,,,1.751,linear AR,1.233,2.327,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,540,2020,2884,21.262,29.027,22.336,7.765,1.074,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,544,2020,2704,16.689,22.638,17.041,5.949,0.352,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,552,2020,2352,15.918,20.862,17.499,4.943,1.58,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,559,2018,2514,20.711,25.05,20.516,4.339,-0.195,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,563,2018,2570,17.689,20.732,18.821,3.043,1.132,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,567,2020,2377,23.759,30.704,25.525,6.945,1.766,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,570,2018,2745,15.914,19.532,17.053,3.618,1.139,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,575,2018,2590,21.68,26.058,23.664,4.378,1.984,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,584,2020,2653,25.762,28.67,25.397,2.908,-0.365,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,588,2018,2791,17.292,22.097,18.468,4.805,1.176,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,591,2018,2760,20.587,24.898,22.186,4.311,1.599,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,596,2020,2731,16.013,21.009,16.842,4.996,0.829,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,bootstrap over 6 patients,2020,6,,,,5.584,,persistence,4.273,6.824,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,bootstrap over 6 patients,2020,6,,,,,0.873,linear AR,0.272,1.415,5
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,bootstrap over 12 patients,all12,12,,,,4.833,,persistence,4.098,5.674,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,30,bootstrap over 12 patients,all12,12,,,,,1.006,linear AR,0.575,1.387,10
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,540,2020,2884,38.906,48.131,40.258,9.226,1.352,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,544,2020,2704,28.016,37.792,28.365,9.776,0.35,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,552,2020,2352,28.422,33.782,30.403,5.361,1.981,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,559,2018,2514,32.272,41.066,32.433,8.795,0.161,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,563,2018,2570,29.306,33.866,30.577,4.56,1.272,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,567,2020,2377,38.536,49.145,40.336,10.609,1.8,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,570,2018,2745,27.035,32.502,28.922,5.467,1.887,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,575,2018,2590,33.241,40.198,35.995,6.957,2.754,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,584,2020,2653,36.685,44.662,37.963,7.978,1.279,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,588,2018,2791,27.789,36.193,30.842,8.403,3.053,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,591,2018,2760,31.478,39.121,34.635,7.644,3.158,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,596,2020,2731,25.791,34.984,27.425,9.192,1.634,,,,
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,bootstrap over 6 patients,2020,6,,,,8.69,,persistence,7.177,9.865,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,bootstrap over 6 patients,2020,6,,,,,1.399,linear AR,0.944,1.774,6
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,bootstrap over 12 patients,all12,12,,,,7.831,,persistence,6.782,8.831,12
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",bglp,60,bootstrap over 12 patients,all12,12,,,,,1.723,linear AR,1.215,2.239,12
+"5p population model alone, LOPO (1 seed)",primary,30,540,2020,2739,21.208,28.257,20.915,7.049,-0.293,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,544,2020,2617,17.252,22.533,16.582,5.281,-0.669,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,552,2020,2142,15.884,20.94,16.682,5.056,0.798,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,559,2018,2253,18.02,23.157,17.823,5.137,-0.198,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,563,2018,2541,18.41,20.771,19.289,2.361,0.879,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,567,2020,2116,20.473,27.52,20.081,7.047,-0.392,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,570,2018,2542,15.428,18.664,15.909,3.236,0.48,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,575,2018,2431,21.064,25.284,23.564,4.221,2.501,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,584,2020,2305,22.505,24.66,21.003,2.155,-1.501,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,588,2018,2733,17.255,21.897,18.215,4.641,0.959,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,591,2018,2702,20.507,24.776,21.704,4.268,1.196,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,596,2020,2557,16.623,21.207,16.417,4.584,-0.205,,,,
+"5p population model alone, LOPO (1 seed)",primary,30,bootstrap over 6 patients,2020,6,,,,5.195,,persistence,3.853,6.421,6
+"5p population model alone, LOPO (1 seed)",primary,30,bootstrap over 6 patients,2020,6,,,,,-0.377,linear AR,-0.93,0.188,1
+"5p population model alone, LOPO (1 seed)",primary,30,bootstrap over 12 patients,all12,12,,,,4.586,,persistence,3.764,5.432,12
+"5p population model alone, LOPO (1 seed)",primary,30,bootstrap over 12 patients,all12,12,,,,,0.296,linear AR,-0.251,0.891,6
+"5p population model alone, LOPO (1 seed)",primary,60,540,2020,2630,38.287,46.595,38.239,8.308,-0.048,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,544,2020,2545,30.557,38.157,28.208,7.6,-2.349,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,552,2020,1956,28.511,33.934,29.333,5.423,0.822,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,559,2018,2038,31.062,39.822,30.306,8.759,-0.756,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,563,2018,2517,32.499,33.669,30.8,1.169,-1.699,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,567,2020,1900,34.561,45.011,35.002,10.451,0.442,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,570,2018,2388,31.96,29.919,26.154,-2.042,-5.807,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,575,2018,2322,34.76,38.701,36.559,3.941,1.799,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,584,2020,2056,40.942,41.433,34.453,0.491,-6.489,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,588,2018,2685,29.976,35.983,30.818,6.007,0.842,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,591,2018,2654,32.083,39.385,34.15,7.302,2.067,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,596,2020,2419,28.485,35.655,27.306,7.17,-1.179,,,,
+"5p population model alone, LOPO (1 seed)",primary,60,bootstrap over 6 patients,2020,6,,,,6.574,,persistence,3.795,8.78,6
+"5p population model alone, LOPO (1 seed)",primary,60,bootstrap over 6 patients,2020,6,,,,,-1.467,linear AR,-3.645,0.198,2
+"5p population model alone, LOPO (1 seed)",primary,60,bootstrap over 12 patients,all12,12,,,,5.382,,persistence,3.344,7.344,11
+"5p population model alone, LOPO (1 seed)",primary,60,bootstrap over 12 patients,all12,12,,,,,-1.03,linear AR,-2.623,0.331,5
+"5p population model alone, LOPO (1 seed)",bglp,30,540,2020,2884,22.256,29.027,22.336,6.771,0.081,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,544,2020,2704,17.649,22.638,17.041,4.989,-0.608,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,552,2020,2352,16.083,20.862,17.499,4.778,1.416,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,559,2018,2514,20.594,25.05,20.516,4.457,-0.077,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,563,2018,2570,18.393,20.732,18.821,2.34,0.429,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,567,2020,2377,24.123,30.704,25.525,6.581,1.401,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,570,2018,2745,16.639,19.532,17.053,2.893,0.415,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,575,2018,2590,21.437,26.058,23.664,4.621,2.227,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,584,2020,2653,26.786,28.67,25.397,1.884,-1.389,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,588,2018,2791,17.494,22.097,18.468,4.603,0.974,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,591,2018,2760,20.725,24.898,22.186,4.173,1.461,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,596,2020,2731,16.641,21.009,16.842,4.367,0.2,,,,
+"5p population model alone, LOPO (1 seed)",bglp,30,bootstrap over 6 patients,2020,6,,,,4.895,,persistence,3.563,6.079,6
+"5p population model alone, LOPO (1 seed)",bglp,30,bootstrap over 6 patients,2020,6,,,,,0.184,linear AR,-0.634,0.986,4
+"5p population model alone, LOPO (1 seed)",bglp,30,bootstrap over 12 patients,all12,12,,,,4.371,,persistence,3.584,5.175,12
+"5p population model alone, LOPO (1 seed)",bglp,30,bootstrap over 12 patients,all12,12,,,,,0.544,linear AR,-0.011,1.087,9
+"5p population model alone, LOPO (1 seed)",bglp,60,540,2020,2884,39.548,48.131,40.258,8.583,0.71,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,544,2020,2704,30.696,37.792,28.365,7.096,-2.331,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,552,2020,2352,29.271,33.782,30.403,4.511,1.132,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,559,2018,2514,33.592,41.066,32.433,7.474,-1.159,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,563,2018,2570,32.692,33.866,30.577,1.174,-2.115,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,567,2020,2377,39.164,49.145,40.336,9.981,1.172,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,570,2018,2745,34.437,32.502,28.922,-1.936,-5.515,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,575,2018,2590,35.226,40.198,35.995,4.972,0.769,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,584,2020,2653,42.73,44.662,37.963,1.933,-4.766,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,588,2018,2791,30.081,36.193,30.842,6.112,0.761,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,591,2018,2760,32.039,39.121,34.635,7.082,2.596,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,596,2020,2731,28.232,34.984,27.425,6.752,-0.807,,,,
+"5p population model alone, LOPO (1 seed)",bglp,60,bootstrap over 6 patients,2020,6,,,,6.476,,persistence,4.274,8.481,6
+"5p population model alone, LOPO (1 seed)",bglp,60,bootstrap over 6 patients,2020,6,,,,,-0.815,linear AR,-2.636,0.752,3
+"5p population model alone, LOPO (1 seed)",bglp,60,bootstrap over 12 patients,all12,12,,,,5.311,,persistence,3.445,7.091,11
+"5p population model alone, LOPO (1 seed)",bglp,60,bootstrap over 12 patients,all12,12,,,,,-0.796,linear AR,-2.218,0.477,6
+"6 TCN, chosen configuration, 5 seeds",primary,30,540,2020,2649,20.179,28.023,20.675,7.844,0.496,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,544,2020,2563,16.432,22.477,16.344,6.045,-0.088,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,552,2020,1998,16.407,20.897,16.504,4.49,0.097,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,559,2018,2145,18.304,23.25,17.874,4.946,-0.431,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,563,2018,2541,18.14,20.771,19.289,2.63,1.148,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,567,2020,2116,19.663,27.52,20.081,7.857,0.418,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,570,2018,2542,15.668,18.664,15.909,2.997,0.241,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,575,2018,2371,23.236,25.362,23.774,2.126,0.538,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,584,2020,2093,21.668,25.116,21.26,3.448,-0.408,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,588,2018,2733,19.956,21.897,18.215,1.941,-1.741,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,591,2018,2702,22.667,24.776,21.704,2.109,-0.963,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,596,2020,2485,16.579,21.317,16.507,4.738,-0.073,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,5.737,,persistence,4.443,7.033,6
+"6 TCN, chosen configuration, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,,0.074,linear AR,-0.164,0.309,3
+"6 TCN, chosen configuration, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,4.264,,persistence,3.168,5.445,12
+"6 TCN, chosen configuration, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,,-0.064,linear AR,-0.493,0.326,6
+"6 TCN, chosen configuration, 5 seeds",primary,60,540,2020,2660,39.09,46.824,38.473,7.734,-0.617,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,544,2020,2563,27.879,38.062,28.17,10.183,0.291,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,552,2020,1956,28.36,33.934,29.333,5.573,0.972,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,559,2018,2200,32.544,39.116,30.044,6.572,-2.5,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,563,2018,2535,29.409,34.01,31.048,4.6,1.639,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,567,2020,2062,34.822,45.952,35.86,11.13,1.038,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,570,2018,2388,27.925,29.919,26.154,1.993,-1.772,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,575,2018,2412,35.332,38.579,36.117,3.246,0.785,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,584,2020,2056,35.342,41.433,34.453,6.091,-0.888,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,588,2018,2685,32.625,35.983,30.818,3.358,-1.807,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,591,2018,2654,35.243,39.385,34.15,4.142,-1.094,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,596,2020,2419,28.004,35.655,27.306,7.651,-0.697,,,,
+"6 TCN, chosen configuration, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,8.06,,persistence,6.466,9.669,6
+"6 TCN, chosen configuration, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,,0.016,linear AR,-0.583,0.654,3
+"6 TCN, chosen configuration, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,6.023,,persistence,4.605,7.618,12
+"6 TCN, chosen configuration, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,,-0.388,linear AR,-1.11,0.326,5
+"6 TCN, chosen configuration, 5 seeds",bglp,30,540,2020,2884,21.591,29.027,22.336,7.436,0.745,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,544,2020,2704,17.099,22.638,17.041,5.539,-0.058,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,552,2020,2352,16.74,20.862,17.499,4.121,0.758,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,559,2018,2514,20.739,25.05,20.516,4.311,-0.223,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,563,2018,2570,18.133,20.732,18.821,2.599,0.688,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,567,2020,2377,24.055,30.704,25.525,6.649,1.47,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,570,2018,2745,16.728,19.532,17.053,2.804,0.325,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,575,2018,2590,23.276,26.058,23.664,2.782,0.388,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,584,2020,2653,25.182,28.67,25.397,3.489,0.215,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,588,2018,2791,20.111,22.097,18.468,1.986,-1.643,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,591,2018,2760,22.837,24.898,22.186,2.061,-0.651,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,596,2020,2731,16.604,21.009,16.842,4.405,0.238,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,5.273,,persistence,4.194,6.436,6
+"6 TCN, chosen configuration, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,,0.561,linear AR,0.185,0.989,5
+"6 TCN, chosen configuration, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,4.015,,persistence,3.107,5.027,12
+"6 TCN, chosen configuration, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,,0.188,linear AR,-0.26,0.58,8
+"6 TCN, chosen configuration, 5 seeds",bglp,60,540,2020,2884,40.141,48.131,40.258,7.99,0.117,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,544,2020,2704,28.06,37.792,28.365,9.732,0.306,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,552,2020,2352,28.978,33.782,30.403,4.804,1.425,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,559,2018,2514,34.636,41.066,32.433,6.43,-2.203,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,563,2018,2570,29.333,33.866,30.577,4.532,1.244,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,567,2020,2377,38.525,49.145,40.336,10.621,1.812,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,570,2018,2745,30.483,32.502,28.922,2.018,-1.561,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,575,2018,2590,35.804,40.198,35.995,4.394,0.191,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,584,2020,2653,37.611,44.662,37.963,7.052,0.353,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,588,2018,2791,32.686,36.193,30.842,3.507,-1.844,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,591,2018,2760,35.146,39.121,34.635,3.975,-0.511,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,596,2020,2731,27.743,34.984,27.425,7.24,-0.318,,,,
+"6 TCN, chosen configuration, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,7.907,,persistence,6.397,9.355,6
+"6 TCN, chosen configuration, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,,0.616,linear AR,0.05,1.222,5
+"6 TCN, chosen configuration, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,6.025,,persistence,4.68,7.497,12
+"6 TCN, chosen configuration, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,,-0.083,linear AR,-0.789,0.602,7
+6e TCN history-length ensemble,primary,30,540,2020,2649,20.265,28.023,20.675,7.758,0.41,,,,
+6e TCN history-length ensemble,primary,30,544,2020,2563,16.476,22.477,16.344,6.002,-0.132,,,,
+6e TCN history-length ensemble,primary,30,552,2020,1998,16.064,20.897,16.504,4.832,0.44,,,,
+6e TCN history-length ensemble,primary,30,559,2018,2091,18.41,23.495,18.035,5.085,-0.375,,,,
+6e TCN history-length ensemble,primary,30,563,2018,2523,18.053,20.664,19.241,2.611,1.188,,,,
+6e TCN history-length ensemble,primary,30,567,2020,1954,19.286,27.064,19.662,7.778,0.376,,,,
+6e TCN history-length ensemble,primary,30,570,2018,2416,14.841,17.787,15.222,2.947,0.382,,,,
+6e TCN history-length ensemble,primary,30,575,2018,2341,23.363,25.415,23.885,2.052,0.522,,,,
+6e TCN history-length ensemble,primary,30,584,2020,2093,21.429,25.116,21.26,3.687,-0.17,,,,
+6e TCN history-length ensemble,primary,30,588,2018,2697,20.103,21.917,18.238,1.814,-1.865,,,,
+6e TCN history-length ensemble,primary,30,591,2018,2666,23.027,24.872,21.773,1.844,-1.255,,,,
+6e TCN history-length ensemble,primary,30,596,2020,2449,16.558,21.224,16.539,4.666,-0.02,,,,
+6e TCN history-length ensemble,primary,30,bootstrap over 6 patients,2020,6,,,,5.787,,persistence,4.59,6.988,6
+6e TCN history-length ensemble,primary,30,bootstrap over 6 patients,2020,6,,,,,0.151,linear AR,-0.054,0.343,3
+6e TCN history-length ensemble,primary,30,bootstrap over 12 patients,all12,12,,,,4.256,,persistence,3.139,5.441,12
+6e TCN history-length ensemble,primary,30,bootstrap over 12 patients,all12,12,,,,,-0.042,linear AR,-0.51,0.377,6
+6e TCN history-length ensemble,primary,60,540,2020,2630,37.575,46.595,38.239,9.021,0.664,,,,
+6e TCN history-length ensemble,primary,60,544,2020,2545,27.924,38.157,28.208,10.233,0.284,,,,
+6e TCN history-length ensemble,primary,60,552,2020,1956,28.527,33.934,29.333,5.407,0.806,,,,
+6e TCN history-length ensemble,primary,60,559,2018,2038,32.969,39.822,30.306,6.852,-2.663,,,,
+6e TCN history-length ensemble,primary,60,563,2018,2517,29.189,33.669,30.8,4.48,1.611,,,,
+6e TCN history-length ensemble,primary,60,567,2020,1900,34.668,45.011,35.002,10.343,0.334,,,,
+6e TCN history-length ensemble,primary,60,570,2018,2388,28.458,29.919,26.154,1.46,-2.305,,,,
+6e TCN history-length ensemble,primary,60,575,2018,2322,35.34,38.701,36.559,3.361,1.219,,,,
+6e TCN history-length ensemble,primary,60,584,2020,2056,35.236,41.433,34.453,6.196,-0.783,,,,
+6e TCN history-length ensemble,primary,60,588,2018,2685,32.578,35.983,30.818,3.406,-1.76,,,,
+6e TCN history-length ensemble,primary,60,591,2018,2654,35.242,39.385,34.15,4.143,-1.092,,,,
+6e TCN history-length ensemble,primary,60,596,2020,2419,27.067,35.655,27.306,8.588,0.239,,,,
+6e TCN history-length ensemble,primary,60,bootstrap over 6 patients,2020,6,,,,8.298,,persistence,6.738,9.74,6
+6e TCN history-length ensemble,primary,60,bootstrap over 6 patients,2020,6,,,,,0.257,linear AR,-0.185,0.601,5
+6e TCN history-length ensemble,primary,60,bootstrap over 12 patients,all12,12,,,,6.124,,persistence,4.605,7.732,12
+6e TCN history-length ensemble,primary,60,bootstrap over 12 patients,all12,12,,,,,-0.287,linear AR,-1.089,0.441,7
+6e TCN history-length ensemble,bglp,30,540,2020,2884,21.674,29.027,22.336,7.352,0.662,,,,
+6e TCN history-length ensemble,bglp,30,544,2020,2704,17.116,22.638,17.041,5.522,-0.075,,,,
+6e TCN history-length ensemble,bglp,30,552,2020,2352,16.388,20.862,17.499,4.474,1.111,,,,
+6e TCN history-length ensemble,bglp,30,559,2018,2514,20.683,25.05,20.516,4.367,-0.167,,,,
+6e TCN history-length ensemble,bglp,30,563,2018,2570,18.125,20.732,18.821,2.607,0.696,,,,
+6e TCN history-length ensemble,bglp,30,567,2020,2377,24.026,30.704,25.525,6.678,1.499,,,,
+6e TCN history-length ensemble,bglp,30,570,2018,2745,16.59,19.532,17.053,2.942,0.464,,,,
+6e TCN history-length ensemble,bglp,30,575,2018,2590,23.254,26.058,23.664,2.803,0.41,,,,
+6e TCN history-length ensemble,bglp,30,584,2020,2653,24.905,28.67,25.397,3.765,0.492,,,,
+6e TCN history-length ensemble,bglp,30,588,2018,2791,20.239,22.097,18.468,1.858,-1.771,,,,
+6e TCN history-length ensemble,bglp,30,591,2018,2760,23.116,24.898,22.186,1.782,-0.93,,,,
+6e TCN history-length ensemble,bglp,30,596,2020,2731,16.594,21.009,16.842,4.415,0.248,,,,
+6e TCN history-length ensemble,bglp,30,bootstrap over 6 patients,2020,6,,,,5.368,,persistence,4.393,6.445,6
+6e TCN history-length ensemble,bglp,30,bootstrap over 6 patients,2020,6,,,,,0.656,linear AR,0.263,1.082,5
+6e TCN history-length ensemble,bglp,30,bootstrap over 12 patients,all12,12,,,,4.047,,persistence,3.116,5.058,12
+6e TCN history-length ensemble,bglp,30,bootstrap over 12 patients,all12,12,,,,,0.22,linear AR,-0.276,0.661,8
+6e TCN history-length ensemble,bglp,60,540,2020,2884,39.11,48.131,40.258,9.021,1.148,,,,
+6e TCN history-length ensemble,bglp,60,544,2020,2704,28.047,37.792,28.365,9.745,0.318,,,,
+6e TCN history-length ensemble,bglp,60,552,2020,2352,29.234,33.782,30.403,4.549,1.169,,,,
+6e TCN history-length ensemble,bglp,60,559,2018,2514,34.835,41.066,32.433,6.231,-2.402,,,,
+6e TCN history-length ensemble,bglp,60,563,2018,2570,29.379,33.866,30.577,4.487,1.199,,,,
+6e TCN history-length ensemble,bglp,60,567,2020,2377,39.07,49.145,40.336,10.075,1.267,,,,
+6e TCN history-length ensemble,bglp,60,570,2018,2745,30.982,32.502,28.922,1.52,-2.06,,,,
+6e TCN history-length ensemble,bglp,60,575,2018,2590,35.438,40.198,35.995,4.76,0.557,,,,
+6e TCN history-length ensemble,bglp,60,584,2020,2653,37.247,44.662,37.963,7.415,0.716,,,,
+6e TCN history-length ensemble,bglp,60,588,2018,2791,32.623,36.193,30.842,3.57,-1.781,,,,
+6e TCN history-length ensemble,bglp,60,591,2018,2760,35.128,39.121,34.635,3.994,-0.493,,,,
+6e TCN history-length ensemble,bglp,60,596,2020,2731,26.898,34.984,27.425,8.086,0.527,,,,
+6e TCN history-length ensemble,bglp,60,bootstrap over 6 patients,2020,6,,,,8.148,,persistence,6.536,9.456,6
+6e TCN history-length ensemble,bglp,60,bootstrap over 6 patients,2020,6,,,,,0.858,linear AR,0.561,1.126,6
+6e TCN history-length ensemble,bglp,60,bootstrap over 12 patients,all12,12,,,,6.121,,persistence,4.675,7.629,12
+6e TCN history-length ensemble,bglp,60,bootstrap over 12 patients,all12,12,,,,,0.014,linear AR,-0.763,0.692,8
+"7 final model, 5 seeds",primary,30,540,2020,2739,19.713,28.257,20.915,8.544,1.202,,,,
+"7 final model, 5 seeds",primary,30,544,2020,2617,16.052,22.533,16.582,6.481,0.531,,,,
+"7 final model, 5 seeds",primary,30,552,2020,2142,15.6,20.94,16.682,5.339,1.082,,,,
+"7 final model, 5 seeds",primary,30,559,2018,2253,17.098,23.157,17.823,6.06,0.725,,,,
+"7 final model, 5 seeds",primary,30,563,2018,2541,17.22,20.771,19.289,3.551,2.069,,,,
+"7 final model, 5 seeds",primary,30,567,2020,2116,19.818,27.52,20.081,7.702,0.263,,,,
+"7 final model, 5 seeds",primary,30,570,2018,2542,14.726,18.664,15.909,3.939,1.183,,,,
+"7 final model, 5 seeds",primary,30,575,2018,2431,21.169,25.284,23.564,4.115,2.395,,,,
+"7 final model, 5 seeds",primary,30,584,2020,2305,20.321,24.66,21.003,4.339,0.682,,,,
+"7 final model, 5 seeds",primary,30,588,2018,2733,16.628,21.897,18.215,5.268,1.587,,,,
+"7 final model, 5 seeds",primary,30,591,2018,2702,20.371,24.776,21.704,4.405,1.333,,,,
+"7 final model, 5 seeds",primary,30,596,2020,2557,15.9,21.207,16.417,5.307,0.517,,,,
+"7 final model, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,6.285,,persistence,5.185,7.513,6
+"7 final model, 5 seeds",primary,30,bootstrap over 6 patients,2020,6,,,,,0.713,linear AR,0.462,0.981,6
+"7 final model, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,5.421,,persistence,4.63,6.318,12
+"7 final model, 5 seeds",primary,30,bootstrap over 12 patients,all12,12,,,,,1.131,linear AR,0.805,1.49,12
+"7 final model, 5 seeds",primary,60,540,2020,2660,37.161,46.824,38.473,9.663,1.312,,,,
+"7 final model, 5 seeds",primary,60,544,2020,2563,26.98,38.062,28.17,11.082,1.19,,,,
+"7 final model, 5 seeds",primary,60,552,2020,2004,29.184,34.219,29.736,5.035,0.552,,,,
+"7 final model, 5 seeds",primary,60,559,2018,2092,28.219,39.512,30.118,11.292,1.899,,,,
+"7 final model, 5 seeds",primary,60,563,2018,2523,29.42,33.945,30.992,4.525,1.572,,,,
+"7 final model, 5 seeds",primary,60,567,2020,1954,34.143,45.577,35.532,11.434,1.39,,,,
+"7 final model, 5 seeds",primary,60,570,2018,2430,24.33,30.467,26.503,6.136,2.172,,,,
+"7 final model, 5 seeds",primary,60,575,2018,2352,32.818,38.607,36.406,5.789,3.588,,,,
+"7 final model, 5 seeds",primary,60,584,2020,2122,33.629,41.225,34.333,7.596,0.704,,,,
+"7 final model, 5 seeds",primary,60,588,2018,2697,29.289,35.927,30.763,6.638,1.474,,,,
+"7 final model, 5 seeds",primary,60,591,2018,2666,31.313,39.381,34.198,8.068,2.885,,,,
+"7 final model, 5 seeds",primary,60,596,2020,2455,25.765,35.788,27.241,10.022,1.476,,,,
+"7 final model, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,9.139,,persistence,7.241,10.728,6
+"7 final model, 5 seeds",primary,60,bootstrap over 6 patients,2020,6,,,,,1.104,linear AR,0.81,1.372,6
+"7 final model, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,8.107,,persistence,6.763,9.476,12
+"7 final model, 5 seeds",primary,60,bootstrap over 12 patients,all12,12,,,,,1.684,linear AR,1.246,2.181,12
+"7 final model, 5 seeds",bglp,30,540,2020,2884,20.905,29.027,22.336,8.122,1.431,,,,
+"7 final model, 5 seeds",bglp,30,544,2020,2704,16.574,22.638,17.041,6.064,0.467,,,,
+"7 final model, 5 seeds",bglp,30,552,2020,2352,15.813,20.862,17.499,5.048,1.685,,,,
+"7 final model, 5 seeds",bglp,30,559,2018,2514,19.893,25.05,20.516,5.157,0.623,,,,
+"7 final model, 5 seeds",bglp,30,563,2018,2570,17.21,20.732,18.821,3.522,1.611,,,,
+"7 final model, 5 seeds",bglp,30,567,2020,2377,23.662,30.704,25.525,7.042,1.863,,,,
+"7 final model, 5 seeds",bglp,30,570,2018,2745,15.901,19.532,17.053,3.631,1.152,,,,
+"7 final model, 5 seeds",bglp,30,575,2018,2590,21.468,26.058,23.664,4.59,2.196,,,,
+"7 final model, 5 seeds",bglp,30,584,2020,2653,25.027,28.67,25.397,3.643,0.37,,,,
+"7 final model, 5 seeds",bglp,30,588,2018,2791,16.884,22.097,18.468,5.213,1.584,,,,
+"7 final model, 5 seeds",bglp,30,591,2018,2760,20.569,24.898,22.186,4.329,1.617,,,,
+"7 final model, 5 seeds",bglp,30,596,2020,2731,15.933,21.009,16.842,5.075,0.908,,,,
+"7 final model, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,5.833,,persistence,4.684,7.07,6
+"7 final model, 5 seeds",bglp,30,bootstrap over 6 patients,2020,6,,,,,1.121,linear AR,0.654,1.56,6
+"7 final model, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,5.12,,persistence,4.418,5.929,12
+"7 final model, 5 seeds",bglp,30,bootstrap over 12 patients,all12,12,,,,,1.292,linear AR,0.962,1.603,12
+"7 final model, 5 seeds",bglp,60,540,2020,2884,38.607,48.131,40.258,9.524,1.651,,,,
+"7 final model, 5 seeds",bglp,60,544,2020,2704,27.459,37.792,28.365,10.333,0.907,,,,
+"7 final model, 5 seeds",bglp,60,552,2020,2352,29.257,33.782,30.403,4.525,1.146,,,,
+"7 final model, 5 seeds",bglp,60,559,2018,2514,31.269,41.066,32.433,9.797,1.164,,,,
+"7 final model, 5 seeds",bglp,60,563,2018,2570,29.445,33.866,30.577,4.421,1.133,,,,
+"7 final model, 5 seeds",bglp,60,567,2020,2377,38.529,49.145,40.336,10.616,1.807,,,,
+"7 final model, 5 seeds",bglp,60,570,2018,2745,27.651,32.502,28.922,4.851,1.272,,,,
+"7 final model, 5 seeds",bglp,60,575,2018,2590,33.733,40.198,35.995,6.466,2.262,,,,
+"7 final model, 5 seeds",bglp,60,584,2020,2653,36.339,44.662,37.963,8.323,1.624,,,,
+"7 final model, 5 seeds",bglp,60,588,2018,2791,29.217,36.193,30.842,6.975,1.624,,,,
+"7 final model, 5 seeds",bglp,60,591,2018,2760,31.281,39.121,34.635,7.84,3.354,,,,
+"7 final model, 5 seeds",bglp,60,596,2020,2731,25.674,34.984,27.425,9.309,1.751,,,,
+"7 final model, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,8.772,,persistence,6.959,10.093,6
+"7 final model, 5 seeds",bglp,60,bootstrap over 6 patients,2020,6,,,,,1.481,linear AR,1.207,1.727,6
+"7 final model, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,7.749,,persistence,6.508,8.954,12
+"7 final model, 5 seeds",bglp,60,bootstrap over 12 patients,all12,12,,,,,1.641,linear AR,1.332,2.043,12
+"7e final model, H-ensemble",primary,30,540,2020,2649,19.35,28.023,20.675,8.673,1.325,,,,
+"7e final model, H-ensemble",primary,30,544,2020,2563,15.943,22.477,16.344,6.534,0.401,,,,
+"7e final model, H-ensemble",primary,30,552,2020,1998,15.166,20.897,16.504,5.731,1.338,,,,
+"7e final model, H-ensemble",primary,30,559,2018,2091,16.675,23.495,18.035,6.82,1.36,,,,
+"7e final model, H-ensemble",primary,30,563,2018,2523,17.238,20.664,19.241,3.427,2.004,,,,
+"7e final model, H-ensemble",primary,30,567,2020,1954,19.218,27.064,19.662,7.846,0.444,,,,
+"7e final model, H-ensemble",primary,30,570,2018,2416,13.701,17.787,15.222,4.086,1.521,,,,
+"7e final model, H-ensemble",primary,30,575,2018,2341,21.575,25.415,23.885,3.84,2.31,,,,
+"7e final model, H-ensemble",primary,30,584,2020,2093,20.337,25.116,21.26,4.779,0.922,,,,
+"7e final model, H-ensemble",primary,30,588,2018,2697,16.893,21.917,18.238,5.024,1.345,,,,
+"7e final model, H-ensemble",primary,30,591,2018,2666,19.809,24.872,21.773,5.062,1.963,,,,
+"7e final model, H-ensemble",primary,30,596,2020,2449,15.835,21.224,16.539,5.389,0.703,,,,
+"7e final model, H-ensemble",primary,30,bootstrap over 6 patients,2020,6,,,,6.492,,persistence,5.433,7.631,6
+"7e final model, H-ensemble",primary,30,bootstrap over 6 patients,2020,6,,,,,0.856,linear AR,0.56,1.159,6
+"7e final model, H-ensemble",primary,30,bootstrap over 12 patients,all12,12,,,,5.601,,persistence,4.771,6.511,12
+"7e final model, H-ensemble",primary,30,bootstrap over 12 patients,all12,12,,,,,1.303,linear AR,0.984,1.629,12
+"7e final model, H-ensemble",primary,60,540,2020,2630,36.384,46.595,38.239,10.211,1.855,,,,
+"7e final model, H-ensemble",primary,60,544,2020,2545,26.758,38.157,28.208,11.399,1.45,,,,
+"7e final model, H-ensemble",primary,60,552,2020,1956,28.268,33.934,29.333,5.666,1.065,,,,
+"7e final model, H-ensemble",primary,60,559,2018,2038,28.505,39.822,30.306,11.316,1.801,,,,
+"7e final model, H-ensemble",primary,60,563,2018,2517,28.343,33.669,30.8,5.326,2.457,,,,
+"7e final model, H-ensemble",primary,60,567,2020,1900,33.828,45.011,35.002,11.184,1.175,,,,
+"7e final model, H-ensemble",primary,60,570,2018,2388,23.865,29.919,26.154,6.053,2.288,,,,
+"7e final model, H-ensemble",primary,60,575,2018,2322,32.469,38.701,36.559,6.232,4.09,,,,
+"7e final model, H-ensemble",primary,60,584,2020,2056,33.497,41.433,34.453,7.936,0.956,,,,
+"7e final model, H-ensemble",primary,60,588,2018,2685,28.513,35.983,30.818,7.47,2.305,,,,
+"7e final model, H-ensemble",primary,60,591,2018,2654,30.85,39.385,34.15,8.535,3.299,,,,
+"7e final model, H-ensemble",primary,60,596,2020,2419,26.182,35.655,27.306,9.473,1.125,,,,
+"7e final model, H-ensemble",primary,60,bootstrap over 6 patients,2020,6,,,,9.312,,persistence,7.599,10.769,6
+"7e final model, H-ensemble",primary,60,bootstrap over 6 patients,2020,6,,,,,1.271,linear AR,1.057,1.542,6
+"7e final model, H-ensemble",primary,60,bootstrap over 12 patients,all12,12,,,,8.4,,persistence,7.185,9.633,12
+"7e final model, H-ensemble",primary,60,bootstrap over 12 patients,all12,12,,,,,1.989,linear AR,1.508,2.538,12
+"7e final model, H-ensemble",bglp,30,540,2020,2884,20.92,29.027,22.336,8.107,1.416,,,,
+"7e final model, H-ensemble",bglp,30,544,2020,2704,16.602,22.638,17.041,6.036,0.439,,,,
+"7e final model, H-ensemble",bglp,30,552,2020,2352,15.579,20.862,17.499,5.283,1.92,,,,
+"7e final model, H-ensemble",bglp,30,559,2018,2514,20.149,25.05,20.516,4.902,0.368,,,,
+"7e final model, H-ensemble",bglp,30,563,2018,2570,17.323,20.732,18.821,3.409,1.498,,,,
+"7e final model, H-ensemble",bglp,30,567,2020,2377,23.526,30.704,25.525,7.178,1.999,,,,
+"7e final model, H-ensemble",bglp,30,570,2018,2745,15.467,19.532,17.053,4.065,1.586,,,,
+"7e final model, H-ensemble",bglp,30,575,2018,2590,21.706,26.058,23.664,4.352,1.958,,,,
+"7e final model, H-ensemble",bglp,30,584,2020,2653,24.779,28.67,25.397,3.892,0.618,,,,
+"7e final model, H-ensemble",bglp,30,588,2018,2791,17.067,22.097,18.468,5.03,1.401,,,,
+"7e final model, H-ensemble",bglp,30,591,2018,2760,19.913,24.898,22.186,4.985,2.273,,,,
+"7e final model, H-ensemble",bglp,30,596,2020,2731,15.797,21.009,16.842,5.212,1.045,,,,
+"7e final model, H-ensemble",bglp,30,bootstrap over 6 patients,2020,6,,,,5.951,,persistence,4.891,7.107,6
+"7e final model, H-ensemble",bglp,30,bootstrap over 6 patients,2020,6,,,,,1.24,linear AR,0.763,1.708,6
+"7e final model, H-ensemble",bglp,30,bootstrap over 12 patients,all12,12,,,,5.204,,persistence,4.528,5.988,12
+"7e final model, H-ensemble",bglp,30,bootstrap over 12 patients,all12,12,,,,,1.377,linear AR,1.017,1.716,12
+"7e final model, H-ensemble",bglp,60,540,2020,2884,38.081,48.131,40.258,10.05,2.177,,,,
+"7e final model, H-ensemble",bglp,60,544,2020,2704,27.277,37.792,28.365,10.515,1.088,,,,
+"7e final model, H-ensemble",bglp,60,552,2020,2352,28.937,33.782,30.403,4.846,1.466,,,,
+"7e final model, H-ensemble",bglp,60,559,2018,2514,31.401,41.066,32.433,9.665,1.032,,,,
+"7e final model, H-ensemble",bglp,60,563,2018,2570,28.646,33.866,30.577,5.219,1.931,,,,
+"7e final model, H-ensemble",bglp,60,567,2020,2377,37.981,49.145,40.336,11.164,2.356,,,,
+"7e final model, H-ensemble",bglp,60,570,2018,2745,27.163,32.502,28.922,5.339,1.759,,,,
+"7e final model, H-ensemble",bglp,60,575,2018,2590,33.136,40.198,35.995,7.062,2.859,,,,
+"7e final model, H-ensemble",bglp,60,584,2020,2653,36.324,44.662,37.963,8.338,1.639,,,,
+"7e final model, H-ensemble",bglp,60,588,2018,2791,28.51,36.193,30.842,7.682,2.331,,,,
+"7e final model, H-ensemble",bglp,60,591,2018,2760,30.81,39.121,34.635,8.311,3.825,,,,
+"7e final model, H-ensemble",bglp,60,596,2020,2731,25.989,34.984,27.425,8.995,1.436,,,,
+"7e final model, H-ensemble",bglp,60,bootstrap over 6 patients,2020,6,,,,8.985,,persistence,7.172,10.401,6
+"7e final model, H-ensemble",bglp,60,bootstrap over 6 patients,2020,6,,,,,1.694,linear AR,1.359,2.057,6
+"7e final model, H-ensemble",bglp,60,bootstrap over 12 patients,all12,12,,,,8.099,,persistence,6.935,9.239,12
+"7e final model, H-ensemble",bglp,60,bootstrap over 12 patients,all12,12,,,,,1.992,linear AR,1.596,2.445,12
+7a final configuration without covariates (5 seeds),primary,30,540,2020,2739,21.092,28.257,20.915,7.165,-0.177,,,,
+7a final configuration without covariates (5 seeds),primary,30,544,2020,2617,17.286,22.533,16.582,5.247,-0.703,,,,
+7a final configuration without covariates (5 seeds),primary,30,552,2020,2142,16.253,20.94,16.682,4.687,0.429,,,,
+7a final configuration without covariates (5 seeds),primary,30,559,2018,2253,17.955,23.157,17.823,5.203,-0.132,,,,
+7a final configuration without covariates (5 seeds),primary,30,563,2018,2541,17.569,20.771,19.289,3.202,1.72,,,,
+7a final configuration without covariates (5 seeds),primary,30,567,2020,2116,20.577,27.52,20.081,6.943,-0.496,,,,
+7a final configuration without covariates (5 seeds),primary,30,570,2018,2542,15.202,18.664,15.909,3.463,0.707,,,,
+7a final configuration without covariates (5 seeds),primary,30,575,2018,2431,22.348,25.284,23.564,2.936,1.216,,,,
+7a final configuration without covariates (5 seeds),primary,30,584,2020,2305,21.304,24.66,21.003,3.356,-0.301,,,,
+7a final configuration without covariates (5 seeds),primary,30,588,2018,2733,18.249,21.897,18.215,3.647,-0.035,,,,
+7a final configuration without covariates (5 seeds),primary,30,591,2018,2702,20.757,24.776,21.704,4.018,0.946,,,,
+7a final configuration without covariates (5 seeds),primary,30,596,2020,2557,17.26,21.207,16.417,3.947,-0.843,,,,
+7a final configuration without covariates (5 seeds),primary,30,bootstrap over 6 patients,2020,6,,,,5.224,,persistence,4.095,6.395,6
+7a final configuration without covariates (5 seeds),primary,30,bootstrap over 6 patients,2020,6,,,,,-0.349,linear AR,-0.648,-0.006,1
+7a final configuration without covariates (5 seeds),primary,30,bootstrap over 12 patients,all12,12,,,,4.484,,persistence,3.774,5.299,12
+7a final configuration without covariates (5 seeds),primary,30,bootstrap over 12 patients,all12,12,,,,,0.194,linear AR,-0.212,0.65,5
+7a final configuration without covariates (5 seeds),primary,60,540,2020,2660,37.785,46.824,38.473,9.038,0.688,,,,
+7a final configuration without covariates (5 seeds),primary,60,544,2020,2563,30.356,38.062,28.17,7.706,-2.186,,,,
+7a final configuration without covariates (5 seeds),primary,60,552,2020,2004,29.501,34.219,29.736,4.718,0.236,,,,
+7a final configuration without covariates (5 seeds),primary,60,559,2018,2092,32.396,39.512,30.118,7.115,-2.278,,,,
+7a final configuration without covariates (5 seeds),primary,60,563,2018,2523,29.133,33.945,30.992,4.811,1.858,,,,
+7a final configuration without covariates (5 seeds),primary,60,567,2020,1954,35.825,45.577,35.532,9.751,-0.293,,,,
+7a final configuration without covariates (5 seeds),primary,60,570,2018,2430,25.058,30.467,26.503,5.409,1.445,,,,
+7a final configuration without covariates (5 seeds),primary,60,575,2018,2352,34.996,38.607,36.406,3.611,1.41,,,,
+7a final configuration without covariates (5 seeds),primary,60,584,2020,2122,36.671,41.225,34.333,4.554,-2.338,,,,
+7a final configuration without covariates (5 seeds),primary,60,588,2018,2697,31.202,35.927,30.763,4.725,-0.439,,,,
+7a final configuration without covariates (5 seeds),primary,60,591,2018,2666,32.318,39.381,34.198,7.064,1.88,,,,
+7a final configuration without covariates (5 seeds),primary,60,596,2020,2455,28.752,35.788,27.241,7.036,-1.511,,,,
+7a final configuration without covariates (5 seeds),primary,60,bootstrap over 6 patients,2020,6,,,,7.134,,persistence,5.52,8.675,6
+7a final configuration without covariates (5 seeds),primary,60,bootstrap over 6 patients,2020,6,,,,,-0.901,linear AR,-1.809,0.034,2
+7a final configuration without covariates (5 seeds),primary,60,bootstrap over 12 patients,all12,12,,,,6.295,,persistence,5.3,7.37,12
+7a final configuration without covariates (5 seeds),primary,60,bootstrap over 12 patients,all12,12,,,,,-0.127,linear AR,-1.032,0.728,6
+7a final configuration without covariates (5 seeds),bglp,30,540,2020,2884,22.196,29.027,22.336,6.831,0.14,,,,
+7a final configuration without covariates (5 seeds),bglp,30,544,2020,2704,17.733,22.638,17.041,4.905,-0.691,,,,
+7a final configuration without covariates (5 seeds),bglp,30,552,2020,2352,16.246,20.862,17.499,4.616,1.253,,,,
+7a final configuration without covariates (5 seeds),bglp,30,559,2018,2514,20.85,25.05,20.516,4.2,-0.334,,,,
+7a final configuration without covariates (5 seeds),bglp,30,563,2018,2570,17.547,20.732,18.821,3.185,1.274,,,,
+7a final configuration without covariates (5 seeds),bglp,30,567,2020,2377,24.778,30.704,25.525,5.926,0.747,,,,
+7a final configuration without covariates (5 seeds),bglp,30,570,2018,2745,16.344,19.532,17.053,3.188,0.71,,,,
+7a final configuration without covariates (5 seeds),bglp,30,575,2018,2590,22.697,26.058,23.664,3.361,0.967,,,,
+7a final configuration without covariates (5 seeds),bglp,30,584,2020,2653,25.882,28.67,25.397,2.788,-0.485,,,,
+7a final configuration without covariates (5 seeds),bglp,30,588,2018,2791,18.505,22.097,18.468,3.592,-0.037,,,,
+7a final configuration without covariates (5 seeds),bglp,30,591,2018,2760,20.924,24.898,22.186,3.975,1.262,,,,
+7a final configuration without covariates (5 seeds),bglp,30,596,2020,2731,17.169,21.009,16.842,3.84,-0.327,,,,
+7a final configuration without covariates (5 seeds),bglp,30,bootstrap over 6 patients,2020,6,,,,4.818,,persistence,3.791,5.861,6
+7a final configuration without covariates (5 seeds),bglp,30,bootstrap over 6 patients,2020,6,,,,,0.106,linear AR,-0.414,0.674,3
+7a final configuration without covariates (5 seeds),bglp,30,bootstrap over 12 patients,all12,12,,,,4.201,,persistence,3.606,4.903,12
+7a final configuration without covariates (5 seeds),bglp,30,bootstrap over 12 patients,all12,12,,,,,0.373,linear AR,-0.026,0.778,7
+7a final configuration without covariates (5 seeds),bglp,60,540,2020,2884,39.074,48.131,40.258,9.057,1.183,,,,
+7a final configuration without covariates (5 seeds),bglp,60,544,2020,2704,30.54,37.792,28.365,7.252,-2.174,,,,
+7a final configuration without covariates (5 seeds),bglp,60,552,2020,2352,29.103,33.782,30.403,4.679,1.3,,,,
+7a final configuration without covariates (5 seeds),bglp,60,559,2018,2514,34.681,41.066,32.433,6.385,-2.248,,,,
+7a final configuration without covariates (5 seeds),bglp,60,563,2018,2570,29.147,33.866,30.577,4.719,1.43,,,,
+7a final configuration without covariates (5 seeds),bglp,60,567,2020,2377,40.056,49.145,40.336,9.089,0.28,,,,
+7a final configuration without covariates (5 seeds),bglp,60,570,2018,2745,27.156,32.502,28.922,5.346,1.766,,,,
+7a final configuration without covariates (5 seeds),bglp,60,575,2018,2590,35.256,40.198,35.995,4.942,0.739,,,,
+7a final configuration without covariates (5 seeds),bglp,60,584,2020,2653,39.787,44.662,37.963,4.875,-1.824,,,,
+7a final configuration without covariates (5 seeds),bglp,60,588,2018,2791,31.333,36.193,30.842,4.86,-0.491,,,,
+7a final configuration without covariates (5 seeds),bglp,60,591,2018,2760,32.175,39.121,34.635,6.947,2.46,,,,
+7a final configuration without covariates (5 seeds),bglp,60,596,2020,2731,28.328,34.984,27.425,6.656,-0.903,,,,
+7a final configuration without covariates (5 seeds),bglp,60,bootstrap over 6 patients,2020,6,,,,6.935,,persistence,5.503,8.361,6
+7a final configuration without covariates (5 seeds),bglp,60,bootstrap over 6 patients,2020,6,,,,,-0.356,linear AR,-1.436,0.724,3
+7a final configuration without covariates (5 seeds),bglp,60,bootstrap over 12 patients,all12,12,,,,6.234,,persistence,5.414,7.152,12
+7a final configuration without covariates (5 seeds),bglp,60,bootstrap over 12 patients,all12,12,,,,,0.127,linear AR,-0.782,0.975,7

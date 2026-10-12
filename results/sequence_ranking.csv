@@ -1,2 +1,13 @@
 step,rmse30,mae30,rmse60,mae60,four_score_sum,position_in_official_ranking,of
 "1 single configuration (GRU 64, H=24, 3 seeds)",20.572,14.314,34.171,25.439,94.496,8,9
+2 validation-selected configuration (1 seed),20.578,14.305,34.845,26.012,95.74,8,9
+3 full-horizon loss (1 seed; kept where it won on validation),20.326,14.042,33.489,24.891,92.748,7,9
+"4 chosen configuration, 5 seeds",20.387,14.149,34.07,25.257,93.863,7,9
+4e history-length ensemble (median over H),20.132,13.996,33.661,24.966,92.755,7,9
+"5 pre-trained on all twelve, fine-tuned per patient (5 seeds)",20.05,13.724,33.289,24.421,91.484,7,9
+"5p population model alone, LOPO (1 seed)",20.59,14.313,34.94,25.91,95.753,8,9
+"6 TCN, chosen configuration, 5 seeds",20.354,14.145,33.76,25.022,93.281,7,9
+6e TCN history-length ensemble,20.117,13.919,33.268,24.595,91.899,7,9
+"7 final model, 5 seeds",19.931,13.688,33.423,24.393,91.435,7,9
+"7e final model, H-ensemble",19.534,13.421,32.432,23.569,88.956,5,9
+7a final configuration without covariates (5 seeds),20.848,14.326,34.962,25.724,95.86,9,9
