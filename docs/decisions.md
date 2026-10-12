@@ -335,26 +335,26 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Correction (2026-10-10, evening):** the eight epoch-1 stops were not all patient 570. `results/best_epochs.csv` has them as **570 ×5 and 591 ×3**; the sentence above was written from a glance at the log, not from the file. The median best epoch in Step 1 is 22 and 64 of 72 fits learned beyond their persistence initialisation. The full best-epoch answer across every step is in the README's staircase section (Sunday addendum §1).
 
 ### D-035 · Steps 2–4: selection bought nothing, the full-horizon loss and the history-length ensemble a quarter of a mg/dL each
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted
 - **Result** (`results/sequence_steps.csv`, conforming, 2020 cohort, 30 / 60 min): the validation-selected configuration (Step 2, coordinate search, 1 seed) scored **20.58 / 34.84** against the single configuration's 20.57 / 34.17 — selection on validation bought nothing on test and lost 0.7 at 60 minutes. What validation chose: H went to the extremes (12 for ten patient-horizons, 42 for ten, 24 for two), hidden 256 for ten, GRU over LSTM 18 to 6, one layer 16 to 8, lr 1e-3 for 21 of 24. **The full-horizon loss** (Step 3, kept where it won on validation: 19 of 24 patient-horizons) scored 20.33 / 33.49 — **0.25 at 30 minutes and 1.35 at 60**, the largest single gain at the long horizon. Over 5 seeds the chosen configuration is 20.39 ± 0.15 / 34.07 ± 0.21 (Step 4); the **median over six history lengths** (Step 4e) 20.13 / 33.66, a further 0.26 / 0.41. Seed SD 0.15 at 30 minutes, 0.21 at 60.
 - **Validation-to-test gap, reported not corrected:** the configuration validation chose was not the best on test for most patients (the Step 1 configuration, which validation rejected, scored the same on test). That is what selection on a 20% tail of one patient's eight weeks looks like, and it is the reason the search's coverage (D-033) matters less than it seemed: there was little to find.
 
 ### D-036 · Step 5: pre-training on the twelve training files is worth a third of a mg/dL, and fine-tuning after it is one epoch
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted
 - **Rules as applied:** pre-training uses all twelve training files and the 2018 cohort's test files, which the challenge permits for pre-training; never a 2020 test file (asserted by construction: `fit_sets` adds test files only for `COHORT_2018`). The hold-out is every file's temporal tail. Fine-tuning starts from the pre-trained weights and early-stops on the patient's own validation tail. The population configuration at each horizon is the most-chosen per-patient one. **No external data.**
 - **Result:** pre-trained and fine-tuned per patient, 5 seeds: **20.05 ± 0.14 / 33.29 ± 0.52** against Step 4's 20.39 / 34.07 — 0.34 / 0.78. The leave-one-patient-out population model alone, which has never seen the evaluated patient: 20.59 / 34.94 (comparable to Bevan 18.23 / 31.10 and Hameed 19.21 / 31.77 in kind, and 2.4 behind them).
 - **What the best-epoch distribution says** (`results/best_epochs.csv`, D-040): **62 of 120 fine-tunes stopped at epoch 1**, and in Step 7 74 of 120 and 78 of 120. The pre-trained models peaked around epoch 6. Fine-tuning from pre-trained weights barely moves on validation; the 0.54 between the LOPO population model and the fine-tuned one is mostly that the pre-trained model has seen the patient's own training file. The harness never offered the pre-trained state itself as a candidate (zero fine-tuning epochs), so the fine-tuned model may be marginally worse than its starting point — a harness limitation, stated in the README, not fixed after the fact.
 
 ### D-037 · Step 6: a dilated causal CNN wins on validation for 9 of 24 patient-horizons and ties the recurrent family
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted
 - **Decision:** the second family is a dilated causal 1-D CNN (Zhu's lineage): blocks with dilations 1, 2, 4, …, the last time step into the same zero-initialised change head; searched with the same coordinate discipline over H, hidden {32, 64, 128}, levels {2, 3, 4}, kernel {2, 3, 5}, dropout and lr, then the full-horizon loss, 5 seeds and the history-length ensemble. Validation chose small nets (hidden 32–64, 2–4 levels, kernel 3).
 - **Result:** TCN won on validation for **9 of 24** patient-horizons (mean validation RMSE 20.59 against 20.37 recurrent at 30 minutes, 32.70 against 32.74 at 60). On test, 5 seeds: 20.35 ± 0.12 / 33.76 ± 0.20; its ensemble 20.12 / 33.27 — within seed variability of the recurrent ensemble's 20.13 / 33.66 at 30 minutes, 0.4 better at 60. The final model takes, per patient-horizon, whichever family won on validation.
 
 ### D-038 · Step 7, the final model: 19.53 / 32.43 conforming, fifth of nine, frozen for Week 5
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted — **frozen**
 - **Definition:** per patient and horizon, the family and configuration that won on validation (recurrent for 15, TCN for 9), with the full-horizon loss where it won on validation, pre-trained on the twelve training files and the 2018 test files, fine-tuned per patient with early stopping on the frozen validation tail (D-025), **median over six history lengths H ∈ {12, 18, 24, 30, 36, 42}** (one seed per H); the single-H model reported over 5 seeds (20261010–20261014). `results/sequence_selection.json["step7"]` holds the per-patient choice; `results/sequence_runs.jsonl` every fit.
 - **Result** (`results/sequence_steps.csv`, `results/sequence_ranking.csv`, `results/sequence_paired.csv`): single-H, 5 seeds **19.93 ± 0.12 / 33.42 ± 0.21**; **ensemble 19.53 / 32.43 conforming, 2020, four-score 88.96 — position 5 of 9**, behind Rubin-Falcone 86.31, Hameed 87.15, Zhu 88.12, Yang 88.41, ahead of Bevan 89.45. Primary protocol 17.64 / 30.82; all twelve patients conforming 19.07 / 31.19. Paired over the six 2020 patients, bootstrap over patients: **+1.24 [0.76, 1.71] over the linear AR at 30 minutes and +1.69 [1.36, 2.06] at 60, 6 of 6**; over persistence +5.95 / +8.98.
@@ -364,7 +364,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Not done, logged as not done:** no hyperparameter chosen on test; no external data; no test-time adaptation; no wearable inputs; no finger-stick or time of day. **Nothing is built after this commit; Week 5 wraps this model in conformal intervals.**
 
 ### D-039 · Clinical scoring of the final model: the grids cannot tell it from persistence, and it is the worst hypoglycaemia detector of the three
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted
 - **Result** (`results/clinical_final.csv`, conforming, 2020 pooled, n = 15,701 per horizon): Clarke zone A at 30 minutes 88.9% (model) / 86.3% (linear AR) / 80.7% (persistence), zones A+B 98.4 / 97.9 / 98.6; Parkes A 90.7 / 89.8 / 83.0; MARD 9.6 / 10.6 / 12.5%; time-in-range agreement 0.899 / 0.887 / 0.867. **Hypoglycaemia sensitivity at 70 mg/dL: 0.318 / 0.233 / 0.546 at 30 minutes; 0.012 / 0.047 / 0.353 at 60.** At 54 mg/dL the model detects none of 39 events at either horizon (2 at the sensor floor; flagged censored in every affected row).
 - **Reading:** squared error trains a forecaster of the conditional mean, and the conditional mean an hour ahead is almost never below 70. The grids, which score agreement in the bulk, reward it; the alarm metric, which scores the tail, punishes it. Zhu's reported worst case of 8% of 60-minute forecasts in Clarke zone D is not exceeded (worst patient 567 at 7.7%); the failure Zhu describes — over-prediction into hypoglycaemia — appears here as its mirror, under-reading of the lows. **Persistence's A+B of 98.6% beside the model's 98.4% is the demonstration that grids alone flatter**, now with the model on the page.
@@ -372,7 +372,7 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **For Week 5:** a conformal interval around a conditional-mean forecast inherits this; whether the interval's lower bound detects hypoglycaemia is a question for Monday, and the sensitivity numbers here are its baseline.
 
 ### D-040 · The Part G stop conditions, the best-epoch audit, and one per-patient flag
-- **Date / commit:** 2026-10-11 · `pending`
+- **Date / commit:** 2026-10-11 · `75e0817`
 - **Status:** adopted
 - **Checks that ran** (`src/eval/staircase_eval.py`, every step, both variants): 60-minute error exceeds 30-minute error for every patient, seed and step — no violation; conforming is never easier than primary at cohort level — no violation; no step scored below 18.0 conforming at 30 minutes (lowest 19.53), so the leakage re-check was not triggered; no configuration was kept for being better on test — selection is recorded in `results/sequence_selection.json` and made on validation RMSE only; gains smaller than seed SD are labelled within seed variability (selection, family choice).
 - **One per-row flag:** the runner flagged 596 at 60 minutes in the final fine-tune (conforming 28.90 against primary 29.43, 0.53 easier). 596's fallback windows are few (174 / 204) and its conforming set is marginally easier for the ensemble too (−0.19 at 60, −0.04 at 30); the cohort-level check passed with margin. Reported, not acted on.
