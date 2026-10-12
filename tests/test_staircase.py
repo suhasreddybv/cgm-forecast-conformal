@@ -87,3 +87,40 @@ def test_four_score_places_the_model_in_the_official_ranking():
     assert r["four_score_sum"] == 88.5 and r["position_in_official_ranking"] == 5 and r["of"] == 9   # Yang 88.41 is ahead, Bevan 89.45 behind
     assert [s for _, s in OFFICIAL] == sorted(s for _, s in OFFICIAL)
     assert four_score(coh[:1], "x") is None
+
+
+# ------------------------------------------------------- the persisted frozen model (D-049)
+
+from src.data import loader as _loader  # noqa: E402
+
+_have_data = (_loader.DATA_ROOT / "2018" / "train" / "559-ws-training.xml").exists()
+
+
+@pytest.mark.skipif(not _have_data, reason="OhioT1DM not present")
+def test_a_loaded_frozen_member_reproduces_its_cached_test_predictions_exactly():
+    """Loading the persisted weights - never regenerating - is the path for every later step."""
+    import src.staircase as st
+    from src.data.windows import windows_for
+    from src.train import predict
+    keys = st.frozen_member_keys()
+    assert len(keys) == 144
+    for key in (keys[0], keys[len(keys) // 2], keys[-1]):
+        if not (st.WEIGHTS_DIR / f"{key}.pt").exists():
+            pytest.skip("frozen weights not persisted on this machine")
+        model, m = st.load_member(key)
+        cached = np.load(st.PRED_DIR / f"{key}.npz")
+        for variant in ("primary", "bglp"):
+            ws = windows_for(m["patient"], "test", m["horizon"], m["H"], variant=variant)
+            _, p = predict(model, ws, m["covariates"])
+            assert np.array_equal(p, cached[f"{variant}_{m['patient']}_pred"]), (key, variant)
+
+
+def test_frozen_weight_manifest_lists_144_members_and_matches_the_files_when_present():
+    import hashlib
+    import src.staircase as st
+    from pathlib import Path
+    lines = [l.split() for l in (Path(__file__).resolve().parents[1] / "results" / "frozen_weights.sha256").read_text().splitlines() if l.strip()]
+    assert len(lines) == 144 and len({k for _, k in lines}) == 144
+    present = [(h, k) for h, k in lines if (st.WEIGHTS_DIR / k).exists()]
+    for h, k in present[:5]:
+        assert hashlib.sha256((st.WEIGHTS_DIR / k).read_bytes()).hexdigest() == h, k

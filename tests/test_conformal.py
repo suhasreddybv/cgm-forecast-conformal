@@ -136,3 +136,32 @@ def test_persistence_detects_no_onset_by_construction():
     r = onset_detection(y, origin, origin, 70.0)                 # persistence: lower = point = origin
     assert r["tp"] == 0 and r["fp"] == 0 and (r["sensitivity"] == 0.0 or r["n_onsets"] == 0)
     assert len(LEVELS) == 3
+
+
+def test_operating_curve_reads_sensitivity_at_a_false_alarm_rate():
+    from src.eval.operating_curve import DELTAS, LEVELS_FINE, pooled_onset, sensitivity_at
+    rows = [dict(threshold=70.0, horizon_min=30, curve="x", parameter=i, false_alarms_per_day=fa, sensitivity=s)
+            for i, (fa, s) in enumerate([(0.5, 0.1), (1.5, 0.3), (4.0, 0.8)])]
+    assert sensitivity_at(rows, 70.0, 30, "x", 1.0) == pytest.approx(0.2)        # interpolated between 0.5 and 1.5
+    assert np.isnan(sensitivity_at(rows, 70.0, 30, "x", 10.0))                  # never reached
+    assert DELTAS[0] == 0 and DELTAS[-1] == 60 and len(DELTAS) == 31
+    assert LEVELS_FINE[0] == 0.05 and LEVELS_FINE[-1] == 0.95 and len(LEVELS_FINE) == 19
+    parts = [dict(tp=2, fn=1, fp=1, tn=10, n_at_risk=14, n_onsets_at_sensor_floor=0),
+             dict(tp=0, fn=1, fp=3, tn=20, n_at_risk=24, n_onsets_at_sensor_floor=1)]
+    p = pooled_onset(parts)
+    assert p["n_onsets"] == 4 and p["sensitivity"] == 0.5 and p["censored"] is True
+    assert p["false_alarms_per_day"] == pytest.approx(4 / (38 * 5 / 1440))
+
+
+def test_a_constant_offset_lower_bound_is_the_point_forecast_sweep():
+    """c0's lower bound at any level is the point forecast minus a constant: the control."""
+    rng = np.random.default_rng(6)
+    cal_pred = rng.uniform(80, 200, 500); cal_y = cal_pred + rng.normal(0, 12, 500)
+    pred = rng.uniform(60, 200, 300)
+    iv = c0(cal_y, cal_pred, pred, 0.2)
+    offset = pred - iv.lower
+    assert np.allclose(offset, offset[0]), "constant width per calibration set"
+    origin = rng.uniform(70, 200, 300); y = pred + rng.normal(0, 12, 300)
+    a = onset_detection(y, origin, iv.lower, 70.0)
+    b = onset_detection(y, origin, pred - offset[0], 70.0)
+    assert (a["tp"], a["fp"]) == (b["tp"], b["fp"])

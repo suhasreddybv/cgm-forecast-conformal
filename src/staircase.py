@@ -40,6 +40,7 @@ RUNS = CACHE_DIR / "sequence_runs.jsonl"
 RUNS_SNAPSHOT = REPO_ROOT / "results" / "sequence_runs.jsonl"
 SELECTION = REPO_ROOT / "results" / "sequence_selection.json"
 PRED_DIR = CACHE_DIR / "predictions"
+WEIGHTS_DIR = CACHE_DIR / "frozen_weights"      # the persisted frozen model (D-049), outside the tree
 WORKERS = int(os.environ.get("STAIRCASE_WORKERS", "3"))
 THREADS = int(os.environ.get("STAIRCASE_THREADS", "3"))
 
@@ -408,13 +409,43 @@ def regen_job(key: str) -> dict:
         out[f"{variant}_is_val"] = np.isin(keep, val)
         out[f"{variant}_history_end"] = tr.history[keep, -1]
     np.savez(PRED_DIR / f"{key}-val.npz", **out)
+    # the frozen weights, persisted (D-049): from here, "frozen at 75e0817" means these files
+    torch.save(model.state_dict(), WEIGHTS_DIR / f"{key}.pt")
     return dict(key=key, epochs=info["epochs_run"], val_rmse=info["val_rmse"], identical=True)
 
 
-def regen(args) -> None:
+def member_config(key: str) -> dict:
+    r = existing_rows()[key]
+    cfg = {k: r[k] for k in ("hidden", "dropout")}
+    for k in ("layers", "levels", "kernel"):
+        if r.get(k) not in (None, ""):
+            cfg[k] = r[k]
+    return dict(family=r["family"], H=r["H"], covariates=r["covariates"], horizon=r["horizon_steps"],
+                patient=r["patient"], full_horizon=r["full_horizon"], cfg=cfg)
+
+
+def load_member(key: str):
+    """Load a frozen ensemble member from its persisted weights. The path for every later
+    step: loading, never regenerating."""
+    from src.models.sequence import build_model
+    m = member_config(key)
+    n_features = 4 if m["covariates"] else 1
+    n_out = m["horizon"] if m["full_horizon"] else 1
+    model = build_model(m["family"], n_features, n_out, **m["cfg"])
+    model.load_state_dict(torch.load(WEIGHTS_DIR / f"{key}.pt", weights_only=True))
+    model.eval()
+    return model, m
+
+
+def frozen_member_keys() -> list[str]:
     rows = existing_rows()
-    keys = [k for k, r in rows.items() if r["step"] == "step7ens" or (r["step"] == "step7" and r["seed"] == SEEDS5[0])]
-    todo = [k for k in keys if not (PRED_DIR / f"{k}-val.npz").exists()]
+    return sorted(k for k, r in rows.items() if r["step"] == "step7ens" or (r["step"] == "step7" and r["seed"] == SEEDS5[0]))
+
+
+def regen(args) -> None:
+    keys = frozen_member_keys()
+    WEIGHTS_DIR.mkdir(parents=True, exist_ok=True)
+    todo = [k for k in keys if not ((PRED_DIR / f"{k}-val.npz").exists() and (WEIGHTS_DIR / f"{k}.pt").exists())]
     print(f"[regen] {len(keys)} frozen members, {len(todo)} to regenerate", flush=True)
     t0 = time.time()
     with mp.get_context("spawn").Pool(WORKERS) as pool:
