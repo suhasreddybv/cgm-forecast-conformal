@@ -213,7 +213,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pre-commit install && pre-commit install --hook-type pre-push   # secrets at commit; guard and data-free tests at push
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 374 tests; 209 need the dataset and skip without it
+pytest                              # 380 tests; 209 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)
