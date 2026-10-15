@@ -117,6 +117,69 @@ The model is frozen at `75e0817`; nothing here retrains, re-selects or refits it
 
 **The point forecast detects 7.0% of 30-minute onsets and 0.0% of 60-minute ones.** The 90% lower bound detects 90.4% and 87.5% — by alarming on **41 and 79 non-events per day**, with a positive predictive value of 0.09 and 0.06. At this level the lower bound is not an alarm; it is the bottom of a wide interval. Whether any level or method sits on a usable point of the sensitivity–false-alarm trade-off is Saturday's operating curve, which is now the figure this repository is building toward.
 
+## Where coverage breaks
+
+Pooled, every method is on nominal at the 90% level (c0 0.909, c1 0.898, c2 0.910, c3 0.900 at 30 minutes, conforming, 2020 — the Week 5 first pass above); this section is where it stops being. The rules for calling a cell a finding were logged before the tables were read (D-053): **n ≥ 100** or the cell is greyed and never cited; **more than 5 points from nominal at 90% in both evaluation variants**, or it is "variant-specific", not a finding; true-glucose bin at 90%, conforming, 2020 is the headline stratification; and every miss is split into *below* the lower bound (the lower bound too high — the dangerous direction for a hypoglycaemia target) and *above* the upper bound. All 2,304 cells are in `results/coverage_breakdown.csv`; the prose cites by the rule.
+
+![Coverage by true-glucose bin for c0, c2 and c3 at the 90% level](figures/coverage_by_glucose.png)
+
+| Method | h | <54 | 54-70 | 70-180 | 180-250 | >250 |
+|---|---|---|---|---|---|---|
+| c0 split conformal | 30 | — (n = 39) | 0.923 · 100% below · n 468 · 63 mg/dL · within 5 | 0.930 · 55% below · n 10,715 · 63 mg/dL · within 5 | 0.880 · 19% below · n 3,386 · 63 mg/dL · within 5 | 0.793 · 8% below · n 1,093 · 63 mg/dL · **finding** |
+| c2 Mondrian, by **true** bin | 30 | — (n = 39) | 0.906 · 100% below · n 468 · 59 mg/dL · within 5 | 0.924 · 51% below · n 10,715 · 59 mg/dL · within 5 | 0.893 · 15% below · n 3,386 · 67 mg/dL · within 5 | 0.841 · 5% below · n 1,093 · 67 mg/dL · **finding** |
+| c2 Mondrian, by **forecast** bin (what it guarantees) | 30 | — (n = 3) | 0.868 · 16% below · n 242 · 41 mg/dL · within 5 | 0.911 · 36% below · n 11,097 · 59 mg/dL · within 5 | 0.921 · 45% below · n 3,411 · 67 mg/dL · within 5 | 0.883 · 45% below · n 948 · 67 mg/dL · within 5 |
+| c3 adaptive | 30 | — (n = 39) | 0.910 · 100% below · n 468 · 56 mg/dL · within 5 | 0.906 · 54% below · n 10,715 · 49 mg/dL · within 5 | 0.887 · 23% below · n 3,386 · 55 mg/dL · within 5 | 0.881 · 13% below · n 1,093 · 71 mg/dL · within 5 |
+| c0 split conformal | 60 | — (n = 39) | 0.857 · 100% below · n 468 · 108 mg/dL · within 5 | 0.943 · 68% below · n 10,715 · 107 mg/dL · within 5 | 0.848 · 12% below · n 3,386 · 108 mg/dL · **finding** | 0.668 · 0% below · n 1,093 · 108 mg/dL · **finding** |
+| c2 Mondrian, by **true** bin | 60 | — (n = 39) | 0.850 · 100% below · n 468 · 108 mg/dL · within 5 | 0.940 · 65% below · n 10,715 · 99 mg/dL · within 5 | 0.846 · 8% below · n 3,386 · 109 mg/dL · **finding** | 0.678 · 1% below · n 1,093 · 109 mg/dL · **finding** |
+| c2 Mondrian, by **forecast** bin (what it guarantees) | 60 | — (n = 0) | — (n = 28) | 0.907 · 29% below · n 11,549 · 99 mg/dL · within 5 | 0.885 · 43% below · n 3,440 · 109 mg/dL · within 5 | 0.822 · 57% below · n 684 · 115 mg/dL · **finding** |
+| c3 adaptive | 60 | — (n = 39) | 0.885 · 100% below · n 468 · 77 mg/dL · within 5 | 0.914 · 59% below · n 10,715 · 77 mg/dL · within 5 | 0.864 · 13% below · n 3,386 · 88 mg/dL · within 5 | 0.883 · 7% below · n 1,093 · 121 mg/dL · within 5 |
+
+*Each cell: coverage · share of misses that are below the lower bound · n · median width · verdict under D-053. Conforming evaluation, 2020 cohort, 90% level. The < 54 bin has 39 targets and is not cited.*
+
+**By true glucose, the expectation did not come true where it was expected and came true where it was not.** The constant-width c0 was expected to under-cover below 70 with the misses below. In the 54–70 bin (n = 468) it covers **0.923 at 30 minutes and 0.857 at 60** — within the 5-point rule at both horizons, so *not a finding* — and every miss it does make there is below the lower bound (36 of 36 misses at 30 minutes, 67 of 67 at 60): when the interval fails on a low reading, it fails in the dangerous direction, every time. **The finding under the rule is at the top of the range:** above 250 mg/dL (n = 1,093) c0 covers **0.793 at 30 minutes and 0.668 at 60**, and 180–250 at 60 minutes 0.848 — in both variants, with the misses *above* the upper bound (100% of them at 60 minutes). The model shrinks toward the mean at the top of the range as much as at the bottom, and a constant-width interval cannot follow it there. **c3 holds nominal in every reportable bin** (0.881 / 0.883 above 250) by widening online — its median width above 250 at 60 minutes is 121 mg/dL.
+
+**c2, both ways.** Mondrian by forecast bin guarantees coverage per *forecast* bin, which is not the bin a clinician asks about. By forecast bin it holds within the rule at 30 minutes everywhere reportable and fails above 250 at 60 minutes (0.822, n = 684); by *true* bin it fails above 250 at both horizons (0.841 / 0.678) and 180–250 at 60. In the 54–70 true bin it covers 0.906 / 0.850 — within the rule. The forecast bin below 70 is nearly empty (242 forecasts at 30 minutes, 28 at 60): **the model almost never forecasts below 70, which is why conditioning on its forecast cannot protect the readings that end up there.** That is a statement about the model's bias (Week 4's sensitivity result), not about conformal.
+
+![Coverage by rate of change at the origin, c0 against c1](figures/coverage_by_rate.png)
+
+**Rate of change: fast-moving glucose breaks the constant-width methods, and c1 fixes it at a price.**
+
+| Rate at origin (mg/dL/min) | n (30 / 60) | c0 coverage 30 / 60 | c1 coverage 30 / 60 | c1 median width 30 / 60 | c1 useless 30 / 60 |
+|---|---|---|---|---|---|
+| <=1 | 12,265 / 12,307 | 0.928 (within 5) / 0.916 (within 5) | 0.903 (within 5) / 0.892 (within 5) | 47 / 86 | 12% / 42% |
+| 1-2 | 2,521 / 2,506 | 0.864 (variant-specific) / 0.863 (variant-specific) | 0.887 (within 5) / 0.921 (within 5) | 77 / 140 | 28% / 74% |
+| 2-3 | 675 / 661 | 0.809 (**finding**) / 0.782 (**finding**) | 0.874 (within 5) / 0.894 (within 5) | 88 / 161 | 36% / 87% |
+| >3 | 240 / 227 | 0.713 (**finding**) / 0.811 (**finding**) | 0.838 (**finding**) / 0.890 (within 5) | 94 / 167 | 46% / 79% |
+
+c0 falls to 0.809 / 0.782 at 2–3 mg/dL/min and 0.713 / 0.811 above 3 — findings in both variants. c1's volatility-scaled width brings every one of those cells back within the rule except above 3 mg/dL/min at 30 minutes (0.838), **and it does so with intervals of 94 / 167 mg/dL at the median, 46% / 79% of them wider than 100.** On fast-moving glucose c1 holds coverage largely by saying it does not know.
+
+![Interval width against absolute error for c1 and c3](figures/width_vs_error.png)
+
+**Width against error: does the uncertainty inform?** c0's width is constant within a patient, so its within-patient correlation is zero by construction; across the six patients the correlation between a patient's c0 width and its RMSE is 0.66 at 30 minutes and 0.83 at 60 — the patient with the wider interval is the patient with the larger errors. Within patient, **c3's width correlates with the error at a Spearman median of 0.34 (range 0.24–0.41) at 30 minutes and 0.36 at 60; c1's at 0.28 and 0.18; c2's at 0.08 and 0.09.** The online method's intervals are wide where the errors are; the volatility-scaled ones less so; Mondrian's barely at all.
+
+![c3 rolling coverage around the ten largest test-file gaps](figures/c3_after_gaps.png)
+
+**Recovery after outages.** For the ten largest test-file gaps, 552's 118 hours first, the minutes after the gap closes until c3's rolling one-hour coverage is back within 5 points of nominal:
+
+| # | Patient | Gap (h) | Minutes to recover, 30 / 60 min | Infinite share, first hour, 30 / 60 | Median finite width, first hour, 30 / 60 |
+|---|---|---|---|---|---|
+| 1 | 552 | 118.0 | 0.0 / 0.0 | 0% / 0% | 47.3 / 76.5 |
+| 2 | 544 | 28.9 | 55.0 / 0.0 | 0% / 0% | 43.4 / 64.5 |
+| 3 | 584 | 16.9 | 55.0 / 45.0 | 54% / 54% | 92.0 / 269.2 |
+| 4 | 567 | 16.0 | 60.0 / 70.0 | 0% / 15% | 68.2 / 101.1 |
+| 5 | 567 | 11.3 | 20.0 / 0.0 | 0% / 0% | 140.3 / 140.6 |
+| 6 | 596 | 10.7 | 40.0 / 45.0 | 0% / 0% | 71.5 / 80.1 |
+| 7 | 563 | 9.9 | 0.0 / 0.0 | 0% / 0% | 55.5 / 51.9 |
+| 8 | 540 | 9.6 | 55.0 / 65.0 | 38% / 23% | 66.5 / 94.5 |
+| 9 | 559 | 9.0 | 55.0 / 40.0 | 54% / 69% | 68.7 / 248.4 |
+| 10 | 559 | 7.4 | 40.0 / 40.0 | 8% / 0% | 99.2 / 115.5 |
+
+*`results/c3_recovery.csv`; "0" means the first hour after the gap was already within 5 points. Widths in mg/dL.*
+
+Every gap recovered within the 24 hours examined; the median is **48 minutes at 30 minutes and 40 at 60**, the longest 60 / 70. After 552's 118-hour gap c3 was within 5 points from the first hour with no infinite intervals and a median width of 47.3 / 76.5 mg/dL. On 4 of the ten gaps at 30 minutes (4 at 60) the first hour contained infinite intervals, up to 54% / 69% of its targets. **For a deployed system: a user coming back from a sensor outage gets intervals that track nominal coverage again within about an hour, and in that hour they are 43–140 mg/dL wide at 30 minutes, 52–269 at 60, with no finite bound at all on some readings after some outages.**
+
+**What this does not show.** Cells with fewer than 100 targets — the whole < 54 mg/dL bin (39 targets at 90%), the forecast bins below 70 — are in the CSV and greyed in the figures, and nothing is claimed from them; the level-2 hypoglycaemia question is answered on Saturday by the onset metric, not by a coverage cell. Mondrian c2 conditions on the forecast bin and is reported by the true bin as well because the two are different questions; a method conditioned on the *true* bin would condition on the target and is not permitted (D-053). None of this is a claim about sensor accuracy: the reference is a CGM, every interval is an interval around agreement with a device ([Limitations](#limitations-and-failure-cases)). The iCGM analogues are not computed: the criteria have not yet been transcribed from the regulation (D-058).
+
 ## Baselines
 
 Written before any sequence model exists. Test split only, scored targets only (D-017), RMSE and MAE in mg/dL as mean of per-patient values with the pooled figure in brackets, MAPE beside them, and the number of real targets under every figure. Per-patient figures, including those for each cohort, are in `results/baselines_per_patient.csv`; the cohort rows are in `results/baselines.csv`.
@@ -213,7 +276,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pre-commit install && pre-commit install --hook-type pre-push   # secrets at commit; guard and data-free tests at push
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 380 tests; 209 need the dataset and skip without it
+pytest                              # 383 tests; 209 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)

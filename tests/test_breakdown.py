@@ -71,3 +71,28 @@ def test_breakdown_rows_partition_the_cohort_when_the_results_exist():
         total = sum(int(r["n"]) for r in g)
         pat = sum(int(r["n"]) for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["dimension"]) == ("c0", "0.9", "bglp", "30", "patient") and r["cohort"] == "2020")
         assert total == pat, (dim, total, pat)
+
+
+def test_miss_split_sums_to_n_and_reportability_follows_the_rule():
+    import csv
+    from pathlib import Path
+    path = Path(__file__).resolve().parents[1] / "results" / "coverage_breakdown.csv"
+    if not path.exists():
+        return
+    rows = list(csv.DictReader(open(path)))
+    assert "miss_below" in rows[0] and "miss_above" in rows[0] and "reportable" in rows[0]
+    for r in rows:
+        n = int(r["n"])
+        assert int(r["covered"]) + int(r["miss_below"]) + int(r["miss_above"]) == n, r
+        assert (r["reportable"] == "True") == (n >= 100), r
+        if n:
+            assert abs(float(r["coverage"]) - int(r["covered"]) / n) < 1e-3
+
+
+def test_c0_width_is_constant_within_patient():
+    import numpy as np
+    from src.conformal import c0
+    rng = np.random.default_rng(1)
+    cal_p = rng.uniform(80, 250, 400); cal_y = cal_p + rng.normal(0, 10, 400)
+    iv = c0(cal_y, cal_p, rng.uniform(60, 300, 1000), 0.1)
+    assert np.ptp(iv.width) < 1e-6        # constant up to floating-point: (p+q)-(p-q) can differ by an ulp

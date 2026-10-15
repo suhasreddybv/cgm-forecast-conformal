@@ -85,3 +85,30 @@ def test_conformal_first_pass_numbers_are_in_the_files_and_the_readme():
     persist = [r for r in onset if r["detector"] == "persistence"]
     assert persist and all(int(r["tp"]) == 0 and int(r["fp"]) == 0 for r in persist), "persistence detects no onset by construction"
     assert all("sensitivity" in r and "specificity" in r and "ppv" in r and "false_alarms_per_day" in r for r in onset)
+
+
+def test_where_coverage_breaks_cites_only_reportable_cells_and_matches_the_csv():
+    """Every coverage value the section cites by bin resolves to a CSV cell with n >= 100 (D-053)."""
+    rows = _rows("coverage_breakdown.csv")
+    readme = (REPO / "README.md").read_text()
+    sec = readme[readme.index("## Where coverage breaks"):readme.index("## Baselines")]
+    def cell(m, h, dim, b):
+        return next(r for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["cohort"], r["dimension"], r["bin"]) == (m, "0.9", "bglp", h, "2020", dim, b))
+    cited = [("c0", "30", "true_glucose", "54-70"), ("c0", "60", "true_glucose", "54-70"), ("c0", "30", "true_glucose", ">250"),
+             ("c0", "60", "true_glucose", ">250"), ("c0", "60", "true_glucose", "180-250"), ("c3", "30", "true_glucose", ">250"),
+             ("c3", "60", "true_glucose", ">250"), ("c2", "60", "forecast_glucose", ">250"), ("c2", "60", "true_glucose", ">250"),
+             ("c0", "30", "rate_of_change", "2-3"), ("c0", "60", "rate_of_change", "2-3"), ("c0", "30", "rate_of_change", ">3"),
+             ("c0", "60", "rate_of_change", ">3"), ("c1", "30", "rate_of_change", ">3"), ("c1", "60", "rate_of_change", ">3")]
+    for m, h, dim, b in cited:
+        r = cell(m, h, dim, b)
+        assert int(r["n"]) >= 100 and r["reportable"] == "True", (m, h, dim, b)
+        assert f"{float(r['coverage']):.3f}" in sec, (m, h, dim, b, r["coverage"])
+    # the one bin the section says it does not cite
+    below54 = cell("c0", "30", "true_glucose", "<54")
+    assert int(below54["n"]) < 100 and f"{float(below54['coverage']):.3f}" not in sec
+    # the finding rule: a cited finding must exceed 5 points in BOTH variants
+    def primary(m, h, dim, b):
+        return next(r for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["cohort"], r["dimension"], r["bin"]) == (m, "0.9", "primary", h, "2020", dim, b))
+    for m, h, dim, b in (("c0", "30", "true_glucose", ">250"), ("c0", "60", "true_glucose", ">250"), ("c0", "30", "rate_of_change", ">3")):
+        assert float(cell(m, h, dim, b)["coverage"]) < 0.85 and float(primary(m, h, dim, b)["coverage"]) < 0.85, (m, h, dim, b)
+    assert "n ≥ 100" in sec and "D-053" in sec
