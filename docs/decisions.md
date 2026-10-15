@@ -600,33 +600,33 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Decision:** `docs/icgm_criteria.md` exists with headings only — source (21 CFR 862.1355), the accuracy-criteria table (reference range × tolerance × required percentage × paragraph), the rate-of-change conditions, the sensor-versus-reference caveat, and a "forecast analogues" section marked for Saturday. **The criteria are not filled from memory or from a search**; Suhas transcribes them from the regulation on 13 October, and the metric functions are written only after that transcription is in. The caveat is written now because it does not depend on the numbers: iCGM criteria govern sensor-versus-laboratory-reference agreement; everything here is forecast-versus-CGM at a horizon, so Saturday computes *analogues*, labelled as such, and a forecast meeting one is not a claim about device clearance.
 
 ### D-053 · Rules for calling a coverage deviation a finding, written before the breakdown tables were read
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted
 - **Decision:** Tuesday's `results/coverage_breakdown.csv` has 1,824 cells across four methods, three levels, two horizons, two variants and four stratifications; read without rules that many cells produce findings by chance. The rules, fixed before any cell was read on 15 October: **(1) a cell is reportable only if n ≥ 100 targets** — smaller cells stay in the CSV, are greyed in figures, and are never cited in prose; **(2) a deviation is a finding only if coverage differs from nominal by more than 5 points at the 90% level** (Monday's stop-condition threshold, D-048) **and the deviation holds in both evaluation variants**; a deviation in one variant only is reported as variant-specific, not as a finding; **(3) the headline stratification is true-glucose bin at 90%, conforming, 2020 cohort**; rate of change, time since gap and patient are secondary; prose cites by the rule, not by interest; **(4) direction matters**: every cell's miscoverage is split into misses *below* the lower bound and *above* the upper bound — a miss below means the lower bound was too high, the dangerous direction for a hypoglycaemia target — recomputed from the intervals with no refit, as `miss_below` and `miss_above` columns.
 - **Also fixed now:** Mondrian c2 conditions on the *forecast* bin and guarantees coverage per forecast bin, not per true-glucose bin; it is reported both ways, and a c2 that holds by forecast bin and fails by true bin below 70 is a finding about the model's bias in hypoglycaemia, not about conformal. The expectation to test, not assume: constant-width c0 under-covers below 70 with the misses below, because the model over-predicts as glucose falls (Week 4's sensitivity result, Zhu's observation).
 - **Not permitted, whatever the tables show:** recalibrating on a stratum where coverage broke. Mondrian by true bin conditions on the target. A break is reported and becomes Saturday's and the limitations' material.
 
 ### D-054 · B1: by true glucose, c0 holds below 70 and breaks above 250; every miss on a low reading is below the bound
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted (read under D-053)
 - **Result** (`results/coverage_breakdown.csv`, 90%, conforming, 2020; primary beside it for the rule): in the 54–70 bin (n = 468) c0 covers 0.923 at 30 minutes and 0.857 at 60 — within 5 points, **not a finding**, so the pre-registered expectation of under-coverage below 70 did not hold under the rule; but every miss in that bin is below the lower bound (36 of 36 at 30 minutes, 67 of 67 at 60), the dangerous direction. **Findings:** c0 above 250 mg/dL covers 0.793 / 0.668 (n = 1,093) and 180–250 at 60 minutes 0.848 — both variants, misses above the upper bound. c2 by true bin fails the same cells (0.841 / 0.678); by forecast bin it holds at 30 minutes and fails above 250 at 60 (0.822, n = 684). c3 holds every reportable bin. The < 54 bin has 39 targets and is not cited. The forecast bin 54–70 holds 242 / 28 forecasts: the model almost never forecasts below 70, so Mondrian-by-forecast cannot protect the readings that end there — a statement about the model's bias (D-039), not about conformal.
 
 ### D-055 · B2: fast-moving glucose breaks constant width; c1 restores coverage by widening into the useless range
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted (read under D-053)
 - **Result:** c0 at 2–3 mg/dL/min covers 0.809 / 0.782 (n = 675 / 661) and above 3 mg/dL/min 0.713 / 0.811 (n = 240 / 227) — findings in both variants; the 1–2 bin is variant-specific. c1 brings 2–3 back to 0.874 / 0.894 and above 3 to 0.838 / 0.890 (the 30-minute cell still a finding), with median widths 94 / 167 mg/dL and useless fractions 46% / 79% above 3 mg/dL/min, against c0's constant 63 / 108. Coverage on fast glucose is bought with width.
 
 ### D-056 · B3: c3's width tracks the error; c1's less; c2's barely; c0's only across patients
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted
 - **Result** (`results/width_vs_error.csv`, Spearman between interval width and |error|, 90%, conforming, six 2020 patients): c3 median 0.34 (range 0.24–0.41) at 30 minutes and 0.36 at 60; c1 0.28 / 0.18; c2 0.08 / 0.09. c0 is constant within a patient — its rows are blank by construction, after a first pass reported spurious correlations of up to 0.11 from floating-point differences of one ulp between (p + q) and (p − q); the constancy check now tolerates that. Across patients, c0's width and the patient's RMSE correlate at 0.66 / 0.83. Figure: `figures/width_vs_error.png`.
 
 ### D-057 · B4: c3 is back within 5 points of nominal about an hour after an outage, sometimes with no finite bound in that hour
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted
 - **Result** (`results/c3_recovery.csv`, the ten largest test-file gaps, 90%): every gap recovered within the 24 hours examined; median 48 minutes at 30-minute horizon and 40 at 60, longest 60 / 70. After 552's 118-hour gap the first hour was already within 5 points, with no infinite intervals and median widths 47.3 / 76.5 mg/dL. 4 of ten gaps at 30 minutes and 4 at 60 had infinite intervals in the first hour (up to 54% / 69% of targets); first-hour median finite widths 43–140 / 52–269 mg/dL. The gap figure was corrected on 13 October to draw test-file gaps only (D-051).
 
 ### D-058 · Part C skipped; the README section "Where coverage breaks" written from B1–B4 under D-053
-- **Date / commit:** 2026-10-15 · `pending`
+- **Date / commit:** 2026-10-15 · `3c95ba4`
 - **Status:** adopted
 - **Decision:** `docs/icgm_criteria.md` still has an empty accuracy table, so `src/eval/icgm.py` was not written and no criterion was filled from memory or search; the analogues wait for the transcription. The README gains "Where coverage breaks": the true-glucose table (c0, c2 both ways, c3; coverage, miss-below share, n, width, verdict), the rate-of-change table with c1's width cost, the width-versus-error figure, the recovery table and the deployed-system sentence, and a "what this does not show" paragraph. Every number in it is generated from the CSVs, and `tests/test_results_consistency.py` checks the cited cells against the files and that no cited cell has n < 100.
