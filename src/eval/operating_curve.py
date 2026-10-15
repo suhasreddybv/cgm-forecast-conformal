@@ -6,7 +6,7 @@ c0's lower bound at any level is the point forecast minus a per-patient constant
 alarm on it is an alarm on the point forecast with an offset. The curve's baseline is
 therefore the sweep "alarm when point forecast < threshold + delta", delta from 0 to 60
 mg/dL in 2-mg/dL steps, for the final model and for the linear AR. The conformal curves
-are c0-c3's lower bounds at nominal levels 5-95% in 5-point steps. Persistence is
+are c0-c4's lower bounds at nominal levels 5-95% in 5-point steps (c4 one-sided, D-062). Persistence is
 excluded: its onset sensitivity is zero by construction (D-047).
 
 The claim is read off the figure at 1 and 2 false alarms per day: c1/c3 above the sweep
@@ -31,7 +31,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-from src.conformal import c0, c1, c2, c3, choose_gamma, onset_detection  # noqa: E402
+from src.conformal import c0, c1, c2, c3, c4, choose_gamma, onset_detection  # noqa: E402
 from src.data.loader import COHORT_2020, REPO_ROOT  # noqa: E402
 from src.data.windows import HORIZONS  # noqa: E402
 from src.eval.coverage import aligned_windows, frozen_predictions, member_keys  # noqa: E402
@@ -80,13 +80,15 @@ def curves(variant: str = "bglp", patients=COHORT_2020) -> list[dict]:
                 for d in DELTAS:
                     parts = [onset_detection(s["y"], s["origin"], s[key] - d, thr) for s in sets]
                     rows.append(dict(threshold=thr, horizon_min=h * 5, curve=name, parameter=float(d), **pooled_onset(parts)))
-            for method in ("c0", "c1", "c2", "c3"):
+            for method in ("c0", "c1", "c2", "c3", "c4"):
                 for level in LEVELS_FINE:
                     alpha = 1 - level
                     parts = []
                     for s in sets:
                         if method == "c0":
                             iv = c0(s["cal_y"], s["cal_p"], s["p"], alpha)
+                        elif method == "c4":
+                            iv = c4(s["cal_y"], s["cal_p"], s["p"], alpha)
                         elif method == "c1":
                             iv = c1(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)
                         elif method == "c2":
@@ -95,7 +97,8 @@ def curves(variant: str = "bglp", patients=COHORT_2020) -> list[dict]:
                             g = choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha)
                             iv = c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, g)
                         parts.append(onset_detection(s["y"], s["origin"], iv.lower, thr))
-                    rows.append(dict(threshold=thr, horizon_min=h * 5, curve=f"{method} lower bound", parameter=float(level), **pooled_onset(parts)))
+                    rows.append(dict(threshold=thr, horizon_min=h * 5, curve=f"{method} lower bound" + (" (one-sided)" if method == "c4" else ""),
+                                     parameter=float(level), **pooled_onset(parts)))
     return rows
 
 
@@ -113,7 +116,8 @@ def sensitivity_at(rows: list[dict], thr: float, h: int, curve: str, fa: float) 
 def figure(rows: list[dict], thr: float, out: Path, censored: bool) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
     styles = {"point forecast − δ": ("#444444", "-"), "linear AR − δ": ("#999999", "--"),
-              "c0 lower bound": ("#1f77b4", "-"), "c1 lower bound": ("#ff7f0e", "-"), "c2 lower bound": ("#2ca02c", "-"), "c3 lower bound": ("#9467bd", "-")}
+              "c0 lower bound": ("#1f77b4", "-"), "c1 lower bound": ("#ff7f0e", "-"), "c2 lower bound": ("#2ca02c", "-"), "c3 lower bound": ("#9467bd", "-"),
+              "c4 lower bound (one-sided)": ("#d62728", "-")}
     for ax, h in zip(axes, (30, 60)):
         for curve, (col, ls) in styles.items():
             pts = sorted((r["false_alarms_per_day"], r["sensitivity"]) for r in rows if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == curve)
@@ -147,7 +151,7 @@ def main() -> None:
     print(f"\n{'curve':<22}" + "".join(f"{f'{h} min @ {fa:.0f}/day':>16}" for h in (30, 60) for fa in FA_MARKS))
     for thr in THRESHOLDS:
         print(f"-- {thr:.0f} mg/dL")
-        for curve in ("point forecast − δ", "linear AR − δ", "c0 lower bound", "c1 lower bound", "c2 lower bound", "c3 lower bound"):
+        for curve in ("point forecast − δ", "linear AR − δ", "c0 lower bound", "c1 lower bound", "c2 lower bound", "c3 lower bound", "c4 lower bound (one-sided)"):
             print(f"{curve:<22}" + "".join(f"{sensitivity_at(rows, thr, h, curve, fa):>16.3f}" for h in (30, 60) for fa in FA_MARKS))
 
 

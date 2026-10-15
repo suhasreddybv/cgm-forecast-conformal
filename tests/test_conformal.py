@@ -165,3 +165,35 @@ def test_a_constant_offset_lower_bound_is_the_point_forecast_sweep():
     a = onset_detection(y, origin, iv.lower, 70.0)
     b = onset_detection(y, origin, pred - offset[0], 70.0)
     assert (a["tp"], a["fp"]) == (b["tp"], b["fp"])
+
+
+def test_c4_one_sided_lower_bound_covers_at_nominal_and_emits_no_upper_bound():
+    from src.conformal import c4
+    rng = np.random.default_rng(7)
+    cal_pred = rng.uniform(80, 250, 3000); cal_y = cal_pred + rng.normal(0, 15, 3000)
+    pred = rng.uniform(80, 250, 20000); y = pred + rng.normal(0, 15, 20000)
+    for alpha in (0.2, 0.1, 0.05):
+        iv = c4(cal_y, cal_pred, pred, alpha)
+        assert np.isinf(iv.upper).all() and iv.note == "one-sided lower bound"
+        one_sided = float(np.mean(y >= iv.lower))
+        assert abs(one_sided - (1 - alpha)) < 0.015, (alpha, one_sided)
+
+
+def test_c4_is_never_below_c0_and_is_tighter_for_the_same_one_sided_coverage():
+    """The hand-off expected the signed score to reach further down than the symmetric one.
+    It cannot: |yhat - y| >= yhat - y pointwise, so q(|r|) >= q(r) and c4.lower >= c0.lower
+    always, with equality when every residual is positive. What c4 buys is a tighter bound
+    at exact one-sided coverage - the symmetric score spends margin on the upper side."""
+    from src.conformal import c4
+    rng = np.random.default_rng(8)
+    cal_pred = rng.uniform(80, 250, 3000); pred = rng.uniform(80, 250, 5000)
+    # all residuals positive: the two bounds coincide
+    cal_y = cal_pred - np.abs(rng.normal(0, 20, 3000))
+    a, b = c0(cal_y, cal_pred, pred, 0.1), c4(cal_y, cal_pred, pred, 0.1)
+    assert np.allclose(a.lower, b.lower)
+    # symmetric residuals: c4 is strictly tighter and still covers one-sided at nominal
+    cal_y = cal_pred + rng.normal(0, 20, 3000); y = pred + rng.normal(0, 20, 5000)
+    a, b = c0(cal_y, cal_pred, pred, 0.1), c4(cal_y, cal_pred, pred, 0.1)
+    assert np.all(b.lower >= a.lower - 1e-9) and (pred - b.lower).mean() < (pred - a.lower).mean()
+    assert abs(float(np.mean(y >= b.lower)) - 0.9) < 0.015
+    assert float(np.mean(y >= a.lower)) > float(np.mean(y >= b.lower)), "c0's lower side over-covers"

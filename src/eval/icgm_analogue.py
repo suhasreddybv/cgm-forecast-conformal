@@ -4,7 +4,7 @@ evaluation, 2020 cohort pooled; the linear AR and persistence point forecasts be
 
 Every row is an analogue of a sensor criterion (docs/icgm_criteria.md §5): a forecast or a
 bound stands in for the iCGM reading, the CGM target for the laboratory reference. Writes
-results/icgm_analogue.csv. Aggregate only; cells with n < 100 are marked not reportable.
+results/icgm_analogues.csv. Aggregate only; cells with n < 100 are marked not reportable.
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import re
 
 import numpy as np
 
-from src.conformal import c0, c1, c2, c3, choose_gamma
+from src.conformal import c0, c1, c2, c3, c4, choose_gamma
 from src.data.loader import COHORT_2020, REPO_ROOT
 from src.data.windows import HORIZONS, windows_for
 from src.eval.baselines import design, fit_ols
@@ -40,12 +40,14 @@ def estimators(sets, h):
                "c3": c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha))}
         for m, iv in ivs.items():
             lowers[m].append(iv.lower); uppers[m].append(iv.upper)
+        lowers.setdefault("c4", []).append(c4(s["cal_y"], s["cal_p"], s["p"], alpha).lower)
     y, o = np.concatenate(ys), np.concatenate(origins)
     out = {"final model, point forecast": (y, np.concatenate(ps), o), "linear AR, point forecast": (y, np.concatenate(lins), o),
            "persistence": (y, np.concatenate(pers), o)}
     for m in lowers:
         out[f"{m} lower bound, 90%"] = (y, np.concatenate(lowers[m]), o)
-        out[f"{m} upper bound, 90%"] = (y, np.concatenate(uppers[m]), o)
+        if m in uppers:
+            out[f"{m} upper bound, 90%"] = (y, np.concatenate(uppers[m]), o)
     return out
 
 
@@ -77,12 +79,12 @@ def main() -> None:
                                  estimate_range="all", tolerance=f"indicated {'>' if para == 'J' else '<'} {'+' if para == 'J' else '−'}{crit.rate_indicated:g}, true {'<' if para == 'J' else '>'} {'−' if para == 'J' else '+'}{crit.rate_true:g} mg/dL/min",
                                  n=rt["n"], within=rt[f"{key}_count"], pct=rt[f"{key}_wrong_direction_pct"], wilson_lower_95="",
                                  required_pct=crit.rate_limit_pct, met=rt[f"{key}_met"], reportable=True, note="wrong-direction share, limit is a maximum"))
-    with open(REPO_ROOT / "results" / "icgm_analogue.csv", "w", newline="") as f:
+    with open(REPO_ROOT / "results" / "icgm_analogues.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
-    print(f"wrote results/icgm_analogue.csv ({len(rows)} rows)\n")
+    print(f"wrote results/icgm_analogues.csv ({len(rows)} rows)\n")
     print(f"{'estimator':<30}{'h':>4}" + "".join(f"{p:>14}" for p in ("(A) <70", "(B) 70-180", "(C) >180", "(D) <70/40", "(G) all 20%", "H | I", "J% | K%")))
     for h in (30, 60):
-        for name in ("final model, point forecast", "linear AR, point forecast", "persistence", "c0 lower bound, 90%", "c3 lower bound, 90%", "c0 upper bound, 90%", "c3 upper bound, 90%"):
+        for name in ("final model, point forecast", "linear AR, point forecast", "persistence", "c0 lower bound, 90%", "c3 lower bound, 90%", "c4 lower bound, 90%", "c0 upper bound, 90%", "c3 upper bound, 90%"):
             g = {re.search(r"\((\w)\)$", r["criterion"]).group(1): r for r in rows if r["estimator"] == name and r["horizon_min"] == h}
             def cell(p):
                 r = g[p]

@@ -112,3 +112,32 @@ def test_where_coverage_breaks_cites_only_reportable_cells_and_matches_the_csv()
     for m, h, dim, b in (("c0", "30", "true_glucose", ">250"), ("c0", "60", "true_glucose", ">250"), ("c0", "30", "rate_of_change", ">3")):
         assert float(cell(m, h, dim, b)["coverage"]) < 0.85 and float(primary(m, h, dim, b)["coverage"]) < 0.85, (m, h, dim, b)
     assert "n ≥ 100" in sec and "D-053" in sec
+
+
+def test_icgm_analogues_table_matches_the_readme_and_flags_small_cells():
+    rows = _rows("icgm_analogues.csv")
+    readme = (REPO / "README.md").read_text()
+    assert "### iCGM analogues" in readme and "analogue" in rows[0]["criterion"]
+    pf = {(r["horizon_min"], r["criterion"][-2]): r for r in rows if r["estimator"] == "final model, point forecast"}
+    assert pf[("60", "A")]["reportable"] == "False" and int(pf[("60", "A")]["n"]) < 100
+    assert pf[("30", "A")]["reportable"] == "True" and pf[("30", "A")]["met"] == "False"
+    assert f"{float(pf[('30', 'A')]['wilson_lower_95']):.0f}% within 15 mg/dL against the 85% required" in readme
+    for r in rows:
+        if r["reportable"] == "False":
+            assert "not reportable" in r["note"]
+    # c4 appears as a lower bound only
+    assert any(r["estimator"] == "c4 lower bound, 90%" for r in rows) and not any(r["estimator"].startswith("c4 upper") for r in rows)
+
+
+def test_c4_is_tighter_and_covers_one_sided_at_nominal_in_the_mid_range():
+    rows = _rows("c4_hypoglycaemic_bins.csv")
+    def cell(m, v, h, b):
+        return next(r for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["true_bin"]) == (m, "0.9", v, h, b))
+    for v in ("bglp", "primary"):
+        for h in ("30", "60"):
+            mid = {m: cell(m, v, h, "70-180") for m in ("c0", "c3", "c4")}
+            assert abs(float(mid["c4"]["one_sided_coverage"]) - 0.9) < 0.025
+            assert float(mid["c0"]["one_sided_coverage"]) > float(mid["c4"]["one_sided_coverage"])
+            assert float(mid["c4"]["median_distance_forecast_to_bound"]) < float(mid["c0"]["median_distance_forecast_to_bound"])
+            low = {m: cell(m, v, h, "54-70") for m in ("c0", "c4")}
+            assert int(low["c4"]["miss_below"]) >= int(low["c0"]["miss_below"])

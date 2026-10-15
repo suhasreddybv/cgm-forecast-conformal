@@ -14,6 +14,8 @@ regression is excluded because the model is frozen as a point forecaster.
       Coverage conditional on where the forecast sits; the hypoglycaemia question in its
       simplest form. A bin with fewer than MIN_BIN calibration scores falls back to the
       global quantile and says so.
+  c4  one-sided lower bound on the signed residual yhat - y: lower = yhat - q(yhat - y),
+      no upper bound. Does a signed score reach down where symmetric ones cannot?
   c3  adaptive conformal inference (Gibbs & Candes 2021): c0's score, with the miscoverage
       level updated online from recent miscoverage, alpha_{t+1} = alpha_t + gamma (alpha -
       err_t). No exchangeability assumption; tracks nominal coverage under drift and after
@@ -105,6 +107,17 @@ def c2(cal_y, cal_pred, pred, alpha) -> Intervals:
         elif (test_bin == b).any():
             fell_back.append(f"{BIN_NAMES[b]} ({int(m.sum())} calibration scores)")
     return Intervals(pred - q, pred + q, "fallback to global quantile in " + ", ".join(fell_back) if fell_back else "")
+
+
+def c4(cal_y, cal_pred, pred, alpha) -> Intervals:
+    """One-sided lower bound on the SIGNED residual yhat - y (positive when the model
+    over-predicts): lower = yhat - q_alpha(yhat - y). No upper bound is produced (upper is
+    +inf); coverage is one-sided, P(y >= lower), nominal by construction. Added 15 Oct
+    because every miss in the 54-70 bin was below the bound for c0 and c3 in both
+    variants: a symmetric score cannot correct direction (D-062)."""
+    q = conformal_quantile(cal_pred - cal_y, alpha)
+    pred = np.asarray(pred, float)
+    return Intervals(pred - q, np.full(len(pred), np.inf), "one-sided lower bound")
 
 
 def c3(cal_y, cal_pred, y, pred, alpha, gamma) -> Intervals:
