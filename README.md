@@ -2,7 +2,7 @@
 
 Glucose forecasting at 30 and 60 minutes with calibrated conformal prediction intervals, evaluated by clinical error grids rather than RMSE alone.
 
-**Result.** Under the Blood Glucose Level Prediction Challenge's own rules — every post-outage test point predicted, no interpolation, nothing after the forecast origin, 2020 cohort, mean of six — the final sequence model scores **19.53 / 32.43 mg/dL RMSE at 30 / 60 minutes**, four-score sum **88.96**, which places it **5th of nine** against the eight officially ranked systems — behind Rubin-Falcone (86.31), Hameed (87.15), Zhu (88.12) and Yang (88.41), ahead of Bevan (89.45). It beats the linear autoregression with the same inputs by **+1.24 [0.76, 1.71] mg/dL at 30 minutes and +1.69 [1.36, 2.06] at 60** (paired over the six patients, bootstrap over patients, 6 of 6 improved), and persistence by +5.95 / +8.98. It does not reach the published best with matching inputs: Zhu 18.34 / 32.21 and Rubin-Falcone 18.22 / 31.66 are 1.2–1.3 mg/dL ahead at 30 minutes and 0.2–0.8 at 60. **The staircase below shows where each mg/dL came from**: a single-configuration GRU with the same inputs as the linear autoregression does not meaningfully beat it (20.57); full-horizon training, ensembling over history lengths and pre-training on the other patients bought the rest. **And the model that wins on RMSE detects hypoglycaemia worst**: sensitivity at 70 mg/dL an hour ahead is 0.012, against persistence's 0.353. Under this repository's primary protocol the same model scores 17.64 / 30.82 on the 2020 cohort (all twelve patients, conforming: 19.07 / 31.19); every method is reported under both rules. **Intervals (Week 5, first pass): split conformal is on nominal pooled (0.909 / 0.900 at 90%) but a 90% interval an hour ahead is 107 mg/dL wide; the point forecast detects 7% of hypoglycaemia onsets at 30 minutes and the 90% lower bound detects 90% by alarming 41 times a day.** The operating curve across levels is Saturday's; the evaluation protocol was frozen before anything was fitted ([docs/protocol.md](docs/protocol.md)).
+**Result.** At two false alarms per day — a rate a person might tolerate — **a hypoglycaemia alarm built on this model detects 27% of onsets 30 minutes ahead, and that number belongs to the point forecast, not to any uncertainty method**: every conformal lower bound (c0–c5) is within the six-patient bootstrap interval of simply alarming when the point forecast drops below 70 + δ (c3 0.30 against the sweep's 0.27, +0.03 [-0.03, 0.09]). An hour ahead the picture changes: the point forecast detects 8% at that rate and **the adaptive conformal method (c3) detects 19% — +0.12 [0.02, 0.18] above the sweep, the one method to clear the rule logged before the curve was drawn** (D-064, D-065). At 54 mg/dL and 60 minutes the point forecast detects nothing and c3 26% of 39 censored events. The model is the frozen Week 4 sequence model (19.53 / 32.43 mg/dL RMSE at 30 / 60 minutes under the challenge's rules, fifth of nine in the official ranking); every interval is a post-hoc wrap around it, calibrated on a validation tail that early stopping had consumed and bracketed to show the cost (D-045). Nothing here is a claim about sensor accuracy: the reference is a CGM ([Limitations](#limitations-and-failure-cases)).
 
 ## The data layer
 
@@ -13,6 +13,12 @@ The cohorts do not share a sensor-band channel set. The 2018 cohort wore the Bas
 **Gaps are the thing that would corrupt this silently** (`results/gap_analysis.csv`). The CGM series is **11.9% incomplete on average in training and 10.7% in test**; the worst patient/split, 552/test, is **40.2% missing**; and the longest single gap is **118 hours**. Cut naively, 1.6% of 30-minute history windows cross a gap, 3.4% of 1-hour windows and **7.1% of 2-hour windows** — 13.9% for the worst patient. The frozen rule: history may be interpolated across at most 30 minutes, longer gaps drop the window, and **a target is never interpolated** — a forecast is scored only against a real CGM reading.
 
 **Windows are built on that rule** (`src/data/windows.py`, D-013 to D-016). One window per real reading with enough history; history slots sit at exactly 30 or 60 minutes before the target and are valued by interpolation in time, because the cadence is not exactly 300 s (503 of 166,000 intervals are 301–360 s). Covariates the primary models may use — basal with temporary overrides, boluses with extended ones spread over their delivery, carbohydrates — are aligned to the same slots and see nothing after the history end. **`results/effective_n.csv` is the n column that accompanies every result from here on**: 92–97% of raw readings are evaluable depending on horizon and history length, and 552's test split, 40% missing, keeps 89% of its own readings but only **53% of the readings its sensor should have produced**. Reconciling the windower against the naive gap count found that index-space windows miss every target whose latest reading is older than it looks — the true cost of gaps at 30 minutes is about twice the naive figure (D-016).
+
+![Hypoglycaemia onset sensitivity against false alarms per day: the point-forecast sweep and six conformal lower bounds, 30 and 60 minutes](figures/operating_curve.png)
+
+*The operating curve (D-065). Onset = a reading below 70 mg/dL whose forecast-origin reading was at or above it; persistence detects none by construction and is excluded. The heavy line is the control — alarm when the point forecast falls below 70 + δ — which any constant-width lower bound reduces to. Conformal lower bounds at nominal levels 5–95%. Vertical lines at 1 and 2 false alarms per day; the legend carries each curve's sensitivity at 2 per day. Conforming evaluation, 2020 cohort, 230 / 328 onsets. 54 mg/dL in [figures/operating_curve_54.png](figures/operating_curve_54.png), censored.*
+
+**Three sentences the week established.** Pooled coverage is nominal for every method and breaks in both tails — c0 covers 0.668 above 250 mg/dL at 60 minutes, and in the 54–70 bin every miss of every method is below the bound — because the point forecast is shrunk toward the centre. The symmetric methods protect hypoglycaemic readings only by over-covering everywhere else (c0's lower side covers 0.962 in 70–180); the signed-residual method is tighter and loses the low bin (0.675 at 60 minutes); conditioning on the rate of change widens where residuals are large but not where the low readings are — **no residual-only score can move the interval's centre** (D-061–D-063). A 90% interval an hour ahead has a median width of 107 mg/dL and is wider than 100 in 65% of cases, and 85% of such intervals straddle the 70–180 boundary; the adaptive method narrows it to 85 at 31% useless and 67% straddling.
 
 ![Clarke error grid at 30 minutes, conforming evaluation, 2020 cohort: persistence against the final model](figures/hero_clarke.png)
 
@@ -116,6 +122,52 @@ The model is frozen at `75e0817`; nothing here retrains, re-selects or refits it
 *Conforming, 2020 cohort, 70 mg/dL, 90% level for the lower bound; the at-risk set is every target whose origin reading was ≥ 70. At 54 mg/dL: 37 onsets at 30 minutes, the point forecast detects 0, 2 at the sensor floor. `results/onset_first_pass.csv`.*
 
 **The point forecast detects 7.0% of 30-minute onsets and 0.0% of 60-minute ones.** The 90% lower bound detects 90.4% and 87.5% — by alarming on **41 and 79 non-events per day**, with a positive predictive value of 0.09 and 0.06. At this level the lower bound is not an alarm; it is the bottom of a wide interval. Whether any level or method sits on a usable point of the sensitivity–false-alarm trade-off is Saturday's operating curve, which is now the figure this repository is building toward.
+
+### Operating points at two false alarms per day
+
+| Method | h | Setting at ≤ 2/day | Achieved false alarms/day | Sensitivity | Specificity | PPV | Interpolated sensitivity at 2/day | Verdict vs sweep (D-064) |
+|---|---|---|---|---|---|---|---|---|
+| **point forecast − δ (reference)** | 30 | δ = 4 mg/dL | 1.18 | 0.170 | 0.996 | 0.386 | 0.266 | — |
+| linear AR − δ | 30 | δ = 6 mg/dL | 1.40 | 0.196 | 0.995 | 0.378 | 0.245 (-0.021 [-0.076, 0.025]) | within variability |
+| c0 split | 30 | level 0.30 | 1.88 | 0.248 | 0.993 | 0.365 | 0.262 (-0.004 [-0.037, 0.037]) | within variability |
+| c1 volatility-scaled | 30 | level 0.30 | 1.82 | 0.222 | 0.994 | 0.347 | 0.233 (-0.033 [-0.111, 0.032]) | within variability |
+| c2 Mondrian by forecast | 30 | level 0.30 | 1.63 | 0.230 | 0.994 | 0.381 | 0.267 (+0.001 [-0.036, 0.040]) | within variability |
+| **c3 adaptive** | 30 | level 0.25 | 1.55 | 0.261 | 0.995 | 0.422 | 0.296 (+0.030 [-0.026, 0.093]) | within variability |
+| c4 signed, one-sided | 30 | level 0.60 | 1.16 | 0.183 | 0.996 | 0.408 | 0.260 (-0.006 [-0.036, 0.023]) | within variability |
+| c5 Mondrian by rate | 30 | level 0.30 | 1.71 | 0.243 | 0.994 | 0.384 | 0.271 (+0.005 [-0.060, 0.039]) | within variability |
+| **point forecast − δ (reference)** | 60 | δ = 8 mg/dL | 1.32 | 0.037 | 0.995 | 0.146 | 0.076 | — |
+| linear AR − δ | 60 | δ = 10 mg/dL | 1.72 | 0.064 | 0.994 | 0.188 | 0.069 (-0.007 [-0.111, 0.079]) | within variability |
+| c0 split | 60 | level 0.30 | 1.95 | 0.079 | 0.993 | 0.202 | 0.081 (+0.005 [-0.012, 0.041]) | within variability |
+| c1 volatility-scaled | 60 | level 0.25 | 1.70 | 0.018 | 0.994 | 0.062 | 0.021 (-0.055 [-0.102, -0.006]) | below the sweep |
+| c2 Mondrian by forecast | 60 | level 0.30 | 1.69 | 0.067 | 0.994 | 0.198 | 0.080 (+0.005 [-0.011, 0.025]) | within variability |
+| **c3 adaptive** | 60 | level 0.25 | 1.99 | 0.192 | 0.993 | 0.375 | 0.193 (+0.117 [0.019, 0.179]) | above the sweep |
+| c4 signed, one-sided | 60 | level 0.60 | 1.21 | 0.021 | 0.996 | 0.099 | 0.056 (-0.020 [-0.043, 0.017]) | within variability |
+| c5 Mondrian by rate | 60 | level 0.25 | 1.42 | 0.037 | 0.995 | 0.138 | 0.075 (-0.001 [-0.046, 0.021]) | within variability |
+
+*`results/operating_points.csv`, `results/operating_curve_claim.csv`; 70 mg/dL, conforming, 2020 pooled. "Setting" is the last point on each curve at or below 2 per day (the grid is discrete, so the achieved rate sits below the mark); the interpolated column is what the claim rule reads, with its difference from the sweep and the six-patient bootstrap interval. Specificity exceeds 0.99 for every method at these rates — false alarms per day is the axis that discriminates. The regulation's (b)(7)(iv) quartet reads off these rows: true alert rate = sensitivity, missed = 1 − sensitivity, false alert rate = false alarms per day, correct alert rate = PPV (D-066).*
+
+### The clinical tables, computed for the intervals
+
+| Estimate (90%, conforming, 2020) | h | Both bounds in Clarke A+B | Any bound in C/D/E | MARD, lower / upper | Entirely in 70–180 | Entirely out | **Straddles** | Onset sens / FA per day at 70 (this setting) |
+|---|---|---|---|---|---|---|---|---|
+| point forecast | 30 | 98.4% | 1.6% | 9.5 | 70.68% | 29.32% | **0.0%** | 0.070 / 0.4 |
+| persistence | 30 | 98.6% | 1.4% | 12.5 | 68.8% | 31.2% | **0.0%** | 0.000 / 0.0 |
+| c0 | 30 | 95.6% | 4.4% | lower 23.8 / upper 27.2 | 32.7% | 13.99% | **53.31%** | 0.904 / 41.1 |
+| c1 | 30 | 92.6% | 7.4% | lower 24.3 / upper 27.9 | 37.27% | 14.04% | **48.68%** | 0.913 / 39.6 |
+| c2 | 30 | 95.8% | 4.2% | lower 23.0 / upper 26.5 | 34.52% | 13.04% | **52.44%** | 0.900 / 38.5 |
+| c3 | 30 | 94.0% | 6.0% | lower 19.1 / upper 22.6 | 42.43% | 15.21% | **42.36%** | 0.917 / 29.2 |
+| c4 (lower bound only) | 30 | 99.3% | 0.7% | 15.8 | — | — | **—** | 0.787 / 18.2 |
+| c5 | 30 | 95.0% | 5.0% | lower 23.0 / upper 26.4 | 35.04% | 14.08% | **50.88%** | 0.913 / 37.9 |
+| point forecast | 60 | 95.9% | 4.1% | 16.9 | 73.56% | 26.44% | **0.0%** | 0.000 / 0.2 |
+| persistence | 60 | 96.1% | 3.9% | 21.2 | 68.88% | 31.12% | **0.0%** | 0.000 / 0.0 |
+| c0 | 60 | 88.1% | 11.9% | lower 36.8 / upper 45.8 | 7.95% | 7.07% | **84.98%** | 0.875 / 79.3 |
+| c1 | 60 | 76.2% | 23.8% | lower 42.8 / upper 52.1 | 18.46% | 6.88% | **74.66%** | 0.939 / 88.8 |
+| c2 | 60 | 87.9% | 12.1% | lower 36.0 / upper 45.1 | 10.2% | 6.6% | **83.2%** | 0.854 / 76.0 |
+| c3 | 60 | 85.9% | 14.1% | lower 28.6 / upper 38.0 | 24.86% | 7.67% | **67.47%** | 0.927 / 57.2 |
+| c4 (lower bound only) | 60 | 96.6% | 3.4% | 24.8 | — | — | **—** | 0.658 / 36.3 |
+| c5 | 60 | 87.5% | 12.5% | lower 36.0 / upper 45.0 | 9.43% | 6.8% | **83.77%** | 0.875 / 76.1 |
+
+*`results/interval_clinical.csv`, 90% level. "Both bounds in A+B" is the share of intervals whose lower and upper bound both fall in Clarke zone A or B; infinite c3 intervals count as outside. A bound is not an estimate, which its MARD shows. **Straddles** is the honest indeterminate rate: at 60 minutes 85% of c0's intervals say neither "in range" nor "out" (D-067).*
 
 ## Where coverage breaks
 
@@ -316,7 +368,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pre-commit install && pre-commit install --hook-type pre-push   # secrets at commit; guard and data-free tests at push
 # obtain OhioT1DM first: see data/README.md
-pytest                              # 392 tests; 209 need the dataset and skip without it
+pytest                              # 395 tests; 209 need the dataset and skip without it
 python -m src.data.gap_analysis     # results/gap_analysis.csv
 python -m src.data.effective_n      # results/effective_n.csv and window_reconciliation.csv (~3 min first run)
 python -m src.eval.baselines        # baselines under both variants: results/baselines*.csv and baselines_challenge_scores.csv (~6 min)
@@ -329,7 +381,9 @@ python -m src.staircase regen       # regenerate the 144 frozen ensemble members
 python -m src.eval.coverage         # results/coverage.csv, onset_first_pass.csv, the coverage and width figures
 python -m src.eval.coverage_breakdown  # results/coverage_breakdown.csv, width_vs_error.csv, c3_recovery.csv and their figures
 python -m src.eval.icgm_analogue    # results/icgm_analogues.csv — forecast analogues of 21 CFR 862.1355(b), thresholds parsed from docs/icgm_criteria.md
-python -m src.eval.c4_lower         # results/c4_hypoglycaemic_bins.csv — the one-sided bound against c0 and c3 below 70
+python -m src.eval.c4_lower         # results/c4_hypoglycaemic_bins.csv — the one-sided bound against c0, c3 and c5 below 70
+python -m src.eval.operating_curve  # results/operating_curve.csv, operating_curve_claim.csv, operating_points.csv and the hero figure (~15 min)
+python -m src.eval.interval_clinical  # results/interval_clinical.csv — zones, MARD, straddle rate and the onset table for the intervals
 ```
 
 Data: see [data/README.md](data/README.md). No data is included in this repository.
@@ -342,6 +396,9 @@ Known before any model was fitted. Horizon-dependent coverage failures, hypoglyc
 - **Readings at the sensor floor are censored, and the bias lands where it matters most.** CGM values are clipped to [40, 400] mg/dL. Both hypoglycaemia thresholds (70 and 54) sit inside that range and can be evaluated; what cannot be measured is error *below* 40, where a true 30 is reported as 40 and a forecast of 40 scores as exact while being 10 mg/dL high. 206 readings (0.124%) sit exactly at the floor — but **17.8% of all readings below 54 mg/dL do**, so low-end error-grid zones and any metric on floored readings are biased optimistic in the severe-hypoglycaemia region.
 - **Per-patient figures are not comparable without their target counts.** 552's test split is 40.2% missing with a 118-hour gap, so its error rests on far fewer evaluable targets than any other patient's. Every per-patient number is reported with its effective n.
 - **Wearable channels are not uniformly available**, so they are restricted to a secondary stratified analysis: heart rate is empty for five 2020 patients and absent for 596, and acceleration exists only in the 2020 cohort. Primary models use CGM, insulin and meals only — the channels all 12 patients have and the published comparisons use.
+- **No conformal method moves the interval's centre, and training with a quantile or asymmetric loss — the route the post-hoc results point to — was not done.** Conformalised quantile regression was excluded because the model is a frozen point forecaster; a model trained with a pinball or asymmetric loss would produce the lower quantile directly. Logged as the next step, not taken (D-069).
+- **Every bootstrap is over six patients.** The intervals around the operating-curve differences are wide (c3 at 60 minutes: +0.12 [0.02, 0.18]); per patient, c3 is above the sweep on three of six at 30 minutes and below on two.
+- **The iCGM analogues are analogues** — sensor criteria applied to forecast-versus-CGM agreement — and the Wilson bounds in them are optimistic under serial correlation.
 - **The conformal calibration set was consumed by early stopping**, and the model is frozen, so no clean split exists; the consequence is measured (bracket beside every number) rather than removed. Conformalised quantile regression is excluded because the model is a point forecaster.
 - **A 90% interval an hour ahead is mostly too wide to act on** (107 mg/dL median, 65% over 100), and the adaptive method's narrower intervals come with infinite ones after outages. The 90% lower bound is not a hypoglycaemia alarm at any usable false-alarm rate on this first pass.
 - **Two patient sets fail split-conformal coverage by more than five points** (596 at 30 min, 540 at 60) — an exchangeability failure that the online method repairs and the others do not.

@@ -18,11 +18,11 @@ def test_final_model_headline_matches_the_steps_table():
     final = {r["horizon_min"]: float(r["rmse_mean"]) for r in steps
              if r["step"].startswith("7e") and r["variant"] == "bglp" and r["cohort"] == "2020"}
     readme = (REPO / "README.md").read_text()
-    assert f"**{final['30']:.2f} / {final['60']:.2f} mg/dL RMSE at 30 / 60 minutes**" in readme
+    assert f"{final['30']:.2f} / {final['60']:.2f} mg/dL RMSE at 30 / 60 minutes" in readme
     rank = next(r for r in _rows("sequence_ranking.csv") if r["step"].startswith("7e"))
     assert abs(float(rank["four_score_sum"]) - sum(float(rank[k]) for k in ("rmse30", "mae30", "rmse60", "mae60"))) < 0.01
-    assert f"four-score sum **{float(rank['four_score_sum']):.2f}**" in readme
-    assert f"**{rank['position_in_official_ranking']}th of nine**" in readme
+    assert f"{float(rank['four_score_sum']):.2f}" in readme                   # the staircase table
+    assert f"| {rank['position_in_official_ranking']} of 9 |" in readme
 
 
 def test_every_step_has_both_variants_and_the_2020_cohort():
@@ -141,3 +141,21 @@ def test_c4_is_tighter_and_covers_one_sided_at_nominal_in_the_mid_range():
             assert float(mid["c4"]["median_distance_forecast_to_bound"]) < float(mid["c0"]["median_distance_forecast_to_bound"])
             low = {m: cell(m, v, h, "54-70") for m in ("c0", "c4")}
             assert int(low["c4"]["miss_below"]) >= int(low["c0"]["miss_below"])
+
+
+def test_result_line_and_hero_come_from_the_operating_curve_files():
+    cl = _rows("operating_curve_claim.csv")
+    readme = (REPO / "README.md").read_text()
+    result = readme[readme.index("**Result.**"):readme.index("\n", readme.index("**Result.**"))]
+    def c(h, m): return next(r for r in cl if (r["threshold"], r["horizon_min"], r["method"], r["false_alarms_per_day"]) == ("70.0", h, m, "2.0"))
+    sw30, sw60 = float(c("30", "c0 lower bound")["sweep_sensitivity"]), float(c("60", "c0 lower bound")["sweep_sensitivity"])
+    assert f"detects {sw30:.0%} of onsets 30 minutes ahead" in result and f"detects {sw60:.0%} at that rate" in result
+    c3 = c("60", "c3 lower bound")
+    assert c3["verdict"] == "above the sweep" and f"{float(c3['difference']):+.2f} [{float(c3['ci_low']):.2f}, {float(c3['ci_high']):.2f}]" in result
+    # at 30 minutes no method clears the rule
+    for m in ("c0 lower bound", "c1 lower bound", "c2 lower bound", "c3 lower bound", "c4 lower bound (one-sided)", "c5 lower bound"):
+        assert c("30", m)["verdict"] in ("within variability", "below the sweep"), m
+    assert "figures/operating_curve.png" in readme and readme.index("figures/operating_curve.png") < readme.index("figures/hero_clarke.png")
+    ic = _rows("interval_clinical.csv")
+    c0_60 = next(r for r in ic if r["section"] == "interval, 90%" and r["method"] == "c0" and r["horizon_min"] == "60")
+    assert f"{float(c0_60['tir_straddle_pct']):.0f}% of c0's intervals" in readme
