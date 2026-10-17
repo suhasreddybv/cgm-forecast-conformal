@@ -1,5 +1,7 @@
 # Design decisions
 
+> **Next (18 Oct 2026):** the repository resumes in January 2027 on one question — [docs/NEXT.md](NEXT.md). D-069 is the open item it answers.
+
 An append-only record of the design choices in this repository, the measured evidence behind
 each, and what was rejected. Entries are dated by when the decision landed in git, with the
 commit cited.
@@ -706,3 +708,8 @@ Same format and rules as the decision log in `wrist-ppg-motion-robust-hr`.
 - **Date / commit:** 2026-10-17 · `ae95006`
 - **Status:** adopted
 - **Result** (`results/operating_points.csv`; the last setting on each curve at or below the rate — the discrete grid, so the achieved rate is below the mark and the sensitivity below the interpolated figure of D-065; pooled and per patient, 70 and 54 mg/dL): at 2 per day and 30 minutes the point forecast at δ = 4 mg/dL achieves 1.18 per day with sensitivity 0.170, specificity 0.996, PPV 0.386; c3 at level 0.25 achieves 1.55 per day with 0.261 / 0.995 / 0.422. At 60 minutes: point forecast δ = 8 mg/dL, 0.037 / 0.995 / 0.146 at 1.32 per day; c3 at level 0.25, **0.192 / 0.993 / 0.375 at 1.99**. The nominal levels that reach 2 per day are 25–30% for the two-sided methods and 60% for the one-sided c4 — far below the 90% at which coverage is reported; an alarm from a 90% bound is not a usable alarm (D-048), and the curve says at which level one would be. Specificity is above 0.99 for every method at these rates: false alarms per day, not specificity, is the axis that discriminates. The regulation's quartet (b)(7)(iv) reads off the same rows: true alert rate = sensitivity, missed = 1 − sensitivity, false alert rate = false alarms per day, correct alert rate = PPV.
+
+### D-070 · Repository complete: the front page split into `docs/`, two sentences added, and the one open item marked for return
+- **Date / commit:** 2026-10-18 · `pending`
+- **Status:** adopted
+- **Decision:** no analysis changed. The README keeps the one-line statement, the Result line, the operating curve as hero with the Clarke grid second, the three sentences the week established, the Week 4 staircase and hypoglycaemia sentences, the per-patient conforming table with fallback counts, the operating points at one and two false alarms per day, the published-ranking row, the method, reproduce, limitations in full and an index of `docs/`. The stage detail, the baselines, the evaluation variants, the staircase, the intervals and their clinical tables, "Where coverage breaks" and the iCGM analogues moved to `docs/*.md` with their links adjusted; the verification tests now read the front page for what stays there and the docs for what moved. **Two sentences added to the Result paragraph:** the c3 claim at 60 minutes *clears the rule as logged; suggestive, not established* — one of six methods at one of two horizons, a bootstrap lower bound of 0.02, a rule with no allowance for twelve comparisons, the 54 mg/dL result pointing the same way — and the alarms that reach two false alarms per day sit at 25–30% nominal (60% for c4), an adaptive threshold rather than the 90% interval reported elsewhere. `docs/NEXT.md`, linked from the front page and from the top of this log, states the one question the repository resumes on in January 2027 (D-069). Pins and the profile README are Suhas's.

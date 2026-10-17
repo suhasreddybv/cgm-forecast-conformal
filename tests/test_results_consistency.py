@@ -13,16 +13,21 @@ def _rows(name):
     return list(csv.DictReader(open(REPO / "results" / name)))
 
 
+def _doc(name):
+    """The front page is README.md; the sections moved to docs/ on 18 Oct (D-070)."""
+    return (REPO / ("README.md" if name == "README.md" else f"docs/{name}")).read_text()
+
+
 def test_final_model_headline_matches_the_steps_table():
     steps = _rows("sequence_steps.csv")
     final = {r["horizon_min"]: float(r["rmse_mean"]) for r in steps
              if r["step"].startswith("7e") and r["variant"] == "bglp" and r["cohort"] == "2020"}
-    readme = (REPO / "README.md").read_text()
+    readme, seqdoc = _doc("README.md"), _doc("sequence-model.md")
     assert f"{final['30']:.2f} / {final['60']:.2f} mg/dL RMSE at 30 / 60 minutes" in readme
     rank = next(r for r in _rows("sequence_ranking.csv") if r["step"].startswith("7e"))
     assert abs(float(rank["four_score_sum"]) - sum(float(rank[k]) for k in ("rmse30", "mae30", "rmse60", "mae60"))) < 0.01
-    assert f"{float(rank['four_score_sum']):.2f}" in readme                   # the staircase table
-    assert f"| {rank['position_in_official_ranking']} of 9 |" in readme
+    assert f"**{float(rank['four_score_sum']):.2f}**" in readme               # the published-ranking table on the front page
+    assert f"| {rank['position_in_official_ranking']} of 9 |" in readme and f"| {rank['position_in_official_ranking']} of 9 |" in seqdoc
 
 
 def test_every_step_has_both_variants_and_the_2020_cohort():
@@ -74,8 +79,8 @@ def test_conformal_first_pass_numbers_are_in_the_files_and_the_readme():
     for m in ("c0", "c1", "c2", "c3"):
         for h in ("30", "60"):
             assert abs(pooled[(m, "0.9", h)] - 0.90) < 0.02, (m, h, pooled[(m, "0.9", h)])
-    readme = (REPO / "README.md").read_text()
-    assert f"**{pooled[('c0', '0.9', '30')]:.3f} / {pooled[('c0', '0.9', '60')]:.3f} at the 90% level**" in readme
+    doc = _doc("intervals.md")
+    assert f"**{pooled[('c0', '0.9', '30')]:.3f} / {pooled[('c0', '0.9', '60')]:.3f} at the 90% level**" in doc
     # the stop condition that fired is recorded, and c3 repairs both sets
     def pat(m, h, pid):
         return float(next(r for r in rows if (r["method"], r["level"], r["calibration"], r["variant"], r["horizon_min"], r["patient"]) == (m, "0.9", "validation", "bglp", h, pid))["coverage"])
@@ -90,8 +95,8 @@ def test_conformal_first_pass_numbers_are_in_the_files_and_the_readme():
 def test_where_coverage_breaks_cites_only_reportable_cells_and_matches_the_csv():
     """Every coverage value the section cites by bin resolves to a CSV cell with n >= 100 (D-053)."""
     rows = _rows("coverage_breakdown.csv")
-    readme = (REPO / "README.md").read_text()
-    sec = readme[readme.index("## Where coverage breaks"):readme.index("## Baselines")]
+    doc = _doc("where-coverage-breaks.md")
+    sec = doc[doc.index("# Where coverage breaks"):doc.index("## iCGM analogues")]
     def cell(m, h, dim, b):
         return next(r for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["cohort"], r["dimension"], r["bin"]) == (m, "0.9", "bglp", h, "2020", dim, b))
     cited = [("c0", "30", "true_glucose", "54-70"), ("c0", "60", "true_glucose", "54-70"), ("c0", "30", "true_glucose", ">250"),
@@ -116,8 +121,8 @@ def test_where_coverage_breaks_cites_only_reportable_cells_and_matches_the_csv()
 
 def test_icgm_analogues_table_matches_the_readme_and_flags_small_cells():
     rows = _rows("icgm_analogues.csv")
-    readme = (REPO / "README.md").read_text()
-    assert "### iCGM analogues" in readme and "analogue" in rows[0]["criterion"]
+    readme = _doc("where-coverage-breaks.md")
+    assert "## iCGM analogues" in readme and "analogue" in rows[0]["criterion"]
     pf = {(r["horizon_min"], r["criterion"][-2]): r for r in rows if r["estimator"] == "final model, point forecast"}
     assert pf[("60", "A")]["reportable"] == "False" and int(pf[("60", "A")]["n"]) < 100
     assert pf[("30", "A")]["reportable"] == "True" and pf[("30", "A")]["met"] == "False"
@@ -158,4 +163,10 @@ def test_result_line_and_hero_come_from_the_operating_curve_files():
     assert "figures/operating_curve.png" in readme and readme.index("figures/operating_curve.png") < readme.index("figures/hero_clarke.png")
     ic = _rows("interval_clinical.csv")
     c0_60 = next(r for r in ic if r["section"] == "interval, 90%" and r["method"] == "c0" and r["horizon_min"] == "60")
-    assert f"{float(c0_60['tir_straddle_pct']):.0f}% of c0's intervals" in readme
+    assert f"{float(c0_60['tir_straddle_pct']):.0f}% of such intervals straddle" in readme       # the three sentences on the front page
+    assert f"{float(c0_60['tir_straddle_pct']):.0f}% of c0's intervals" in _doc("intervals.md")
+    # the two sentences of 18 Oct: the c3 caveat and the nominal level, in the Result paragraph
+    assert "suggestive, not established" in result and "25–30% nominal" in result
+    # the front page keeps the published row and links to every docs file
+    for name in ("data-layer", "baselines", "evaluation-variants", "sequence-model", "intervals", "where-coverage-breaks", "published_comparison", "icgm_criteria", "protocol", "decisions", "NEXT"):
+        assert f"docs/{name}.md" in readme, name
