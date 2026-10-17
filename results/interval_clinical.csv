@@ -1,0 +1,55 @@
+section,method,horizon_min,n,clarke_AB_pct,clarke_CDE_pct,parkes_AB_pct,parkes_CDE_pct,mard_pct,tir_in_pct,tir_out_pct,tir_straddle_pct,note,sensitivity,specificity,ppv,false_alarms_per_day,n_onsets,censored
+point estimate,point forecast,30,15701,98.41,1.59,99.55,0.45,9.542,70.68,29.32,0.0,,,,,,,
+point estimate,"linear AR, point",30,15701,97.9,2.1,99.59,0.41,10.618,70.8,29.2,0.0,,,,,,,
+point estimate,persistence,30,15701,98.62,1.38,99.41,0.59,12.523,68.8,31.2,0.0,,,,,,,
+"interval, 90%",c0,30,15701,95.57,4.43,95.1,4.9,lower 23.8 / upper 27.2,32.7,13.99,53.31,,,,,,,
+"interval, 90%",c1,30,15701,92.63,7.37,93.05,6.95,lower 24.3 / upper 27.9,37.27,14.04,48.68,,,,,,,
+"interval, 90%",c2,30,15701,95.75,4.25,95.83,4.17,lower 23.0 / upper 26.5,34.52,13.04,52.44,,,,,,,
+"interval, 90%",c3,30,15701,93.96,6.04,94.55,5.45,lower 19.1 / upper 22.6,42.43,15.21,42.36,224 infinite intervals (1.4%) counted as outside A+B and as straddling,,,,,,
+"interval, 90%",c4 (lower bound only),30,15701,99.34,0.66,99.7,0.3,15.764,,,,one-sided: zone and MARD of the lower bound; no TIR classification without an upper bound,,,,,,
+"interval, 90%",c5,30,15701,94.99,5.01,95.1,4.9,lower 23.0 / upper 26.4,35.04,14.08,50.88,,,,,,,
+hypoglycaemia onset at 70,point forecast,30,15203,,,,,,,,,onsets 230; sensitivity 0.0696; specificity 0.9986; ppv 0.4324; false alarms/day 0.398; censored: 2 at floor,0.0696,0.9986,0.4324,0.398,230,True
+hypoglycaemia onset at 70,"linear AR, point",30,15203,,,,,,,,,onsets 230; sensitivity 0.0826; specificity 0.9981; ppv 0.3958; false alarms/day 0.549; censored: 2 at floor,0.0826,0.9981,0.3958,0.549,230,True
+hypoglycaemia onset at 70,persistence,30,15203,,,,,,,,,onsets 230; sensitivity 0.0; specificity 1.0; ppv nan; false alarms/day 0.0; censored: 2 at floor,0.0,1.0,nan,0.0,230,True
+hypoglycaemia onset at 70,"c0 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.9043; specificity 0.8549; ppv 0.0874; false alarms/day 41.146; censored: 2 at floor,0.9043,0.8549,0.0874,41.146,230,True
+hypoglycaemia onset at 70,"c1 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.913; specificity 0.8605; ppv 0.0914; false alarms/day 39.554; censored: 2 at floor,0.913,0.8605,0.0914,39.554,230,True
+hypoglycaemia onset at 70,"c2 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.9; specificity 0.8642; ppv 0.0924; false alarms/day 38.512; censored: 2 at floor,0.9,0.8642,0.0924,38.512,230,True
+hypoglycaemia onset at 70,"c3 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.9174; specificity 0.8972; ppv 0.1206; false alarms/day 29.154; censored: 2 at floor,0.9174,0.8972,0.1206,29.154,230,True
+hypoglycaemia onset at 70,"c4 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.787; specificity 0.9358; ppv 0.1584; false alarms/day 18.224; censored: 2 at floor,0.787,0.9358,0.1584,18.224,230,True
+hypoglycaemia onset at 70,"c5 lower bound, 90%",30,15203,,,,,,,,,onsets 230; sensitivity 0.913; specificity 0.8663; ppv 0.0949; false alarms/day 37.925; censored: 2 at floor,0.913,0.8663,0.0949,37.925,230,True
+hypoglycaemia onset at 54,point forecast,30,15657,,,,,,,,,onsets 37; sensitivity 0.0; specificity 0.9999; ppv 0.0; false alarms/day 0.037; censored: 2 at floor,0.0,0.9999,0.0,0.037,37,True
+hypoglycaemia onset at 54,"linear AR, point",30,15657,,,,,,,,,onsets 37; sensitivity 0.0541; specificity 0.999; ppv 0.1111; false alarms/day 0.294; censored: 2 at floor,0.0541,0.999,0.1111,0.294,37,True
+hypoglycaemia onset at 54,persistence,30,15657,,,,,,,,,onsets 37; sensitivity 0.0; specificity 1.0; ppv nan; false alarms/day 0.0; censored: 2 at floor,0.0,1.0,nan,0.0,37,True
+hypoglycaemia onset at 54,"c0 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.7297; specificity 0.9208; ppv 0.0214; false alarms/day 22.754; censored: 2 at floor,0.7297,0.9208,0.0214,22.754,37,True
+hypoglycaemia onset at 54,"c1 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.8919; specificity 0.9156; ppv 0.0244; false alarms/day 24.244; censored: 2 at floor,0.8919,0.9156,0.0244,24.244,37,True
+hypoglycaemia onset at 54,"c2 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.6757; specificity 0.9333; ppv 0.0234; false alarms/day 19.167; censored: 2 at floor,0.6757,0.9333,0.0234,19.167,37,True
+hypoglycaemia onset at 54,"c3 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.8378; specificity 0.9408; ppv 0.0324; false alarms/day 17.015; censored: 2 at floor,0.8378,0.9408,0.0324,17.015,37,True
+hypoglycaemia onset at 54,"c4 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.6486; specificity 0.9761; ppv 0.0603; false alarms/day 6.879; censored: 2 at floor,0.6486,0.9761,0.0603,6.879,37,True
+hypoglycaemia onset at 54,"c5 lower bound, 90%",30,15657,,,,,,,,,onsets 37; sensitivity 0.7027; specificity 0.9304; ppv 0.0234; false alarms/day 19.995; censored: 2 at floor,0.7027,0.9304,0.0234,19.995,37,True
+point estimate,point forecast,60,15701,95.87,4.13,97.8,2.2,16.874,73.56,26.44,0.0,,,,,,,
+point estimate,"linear AR, point",60,15701,95.52,4.48,97.47,2.53,18.674,73.45,26.55,0.0,,,,,,,
+point estimate,persistence,60,15701,96.08,3.92,96.93,3.07,21.224,68.88,31.12,0.0,,,,,,,
+"interval, 90%",c0,60,15701,88.06,11.94,80.4,19.6,lower 36.8 / upper 45.8,7.95,7.07,84.98,,,,,,,
+"interval, 90%",c1,60,15701,76.21,23.79,72.72,27.28,lower 42.8 / upper 52.1,18.46,6.88,74.66,,,,,,,
+"interval, 90%",c2,60,15701,87.89,12.11,81.24,18.76,lower 36.0 / upper 45.1,10.2,6.6,83.2,,,,,,,
+"interval, 90%",c3,60,15701,85.89,14.11,82.59,17.41,lower 28.6 / upper 38.0,24.86,7.67,67.47,387 infinite intervals (2.5%) counted as outside A+B and as straddling,,,,,,
+"interval, 90%",c4 (lower bound only),60,15701,96.63,3.37,97.95,2.05,24.817,,,,one-sided: zone and MARD of the lower bound; no TIR classification without an upper bound,,,,,,
+"interval, 90%",c5,60,15701,87.54,12.46,80.8,19.2,lower 36.0 / upper 45.0,9.43,6.8,83.77,,,,,,,
+hypoglycaemia onset at 70,point forecast,60,15211,,,,,,,,,onsets 328; sensitivity 0.0; specificity 0.9993; ppv 0.0; false alarms/day 0.189; censored: 2 at floor,0.0,0.9993,0.0,0.189,328,True
+hypoglycaemia onset at 70,"linear AR, point",60,15211,,,,,,,,,onsets 328; sensitivity 0.0122; specificity 0.9981; ppv 0.1212; false alarms/day 0.549; censored: 2 at floor,0.0122,0.9981,0.1212,0.549,328,True
+hypoglycaemia onset at 70,persistence,60,15211,,,,,,,,,onsets 328; sensitivity 0.0; specificity 1.0; ppv nan; false alarms/day 0.0; censored: 2 at floor,0.0,1.0,nan,0.0,328,True
+hypoglycaemia onset at 70,"c0 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.875; specificity 0.7187; ppv 0.0641; false alarms/day 79.275; censored: 2 at floor,0.875,0.7187,0.0641,79.275,328,True
+hypoglycaemia onset at 70,"c1 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.939; specificity 0.6849; ppv 0.0616; false alarms/day 88.799; censored: 2 at floor,0.939,0.6849,0.0616,88.799,328,True
+hypoglycaemia onset at 70,"c2 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.8537; specificity 0.7302; ppv 0.0652; false alarms/day 76.038; censored: 2 at floor,0.8537,0.7302,0.0652,76.038,328,True
+hypoglycaemia onset at 70,"c3 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.9268; specificity 0.7972; ppv 0.0915; false alarms/day 57.161; censored: 2 at floor,0.9268,0.7972,0.0915,57.161,328,True
+hypoglycaemia onset at 70,"c4 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.6585; specificity 0.8712; ppv 0.1013; false alarms/day 36.296; censored: 2 at floor,0.6585,0.8712,0.1013,36.296,328,True
+hypoglycaemia onset at 70,"c5 lower bound, 90%",60,15211,,,,,,,,,onsets 328; sensitivity 0.875; specificity 0.7298; ppv 0.0666; false alarms/day 76.132; censored: 2 at floor,0.875,0.7298,0.0666,76.132,328,True
+hypoglycaemia onset at 54,point forecast,60,15652,,,,,,,,,onsets 39; sensitivity 0.0; specificity 1.0; ppv nan; false alarms/day 0.0; censored: 2 at floor,0.0,1.0,nan,0.0,39,True
+hypoglycaemia onset at 54,"linear AR, point",60,15652,,,,,,,,,onsets 39; sensitivity 0.0; specificity 0.999; ppv 0.0; false alarms/day 0.294; censored: 2 at floor,0.0,0.999,0.0,0.294,39,True
+hypoglycaemia onset at 54,persistence,60,15652,,,,,,,,,onsets 39; sensitivity 0.0; specificity 1.0; ppv nan; false alarms/day 0.0; censored: 2 at floor,0.0,1.0,nan,0.0,39,True
+hypoglycaemia onset at 54,"c0 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.6667; specificity 0.8225; ppv 0.0093; false alarms/day 50.987; censored: 2 at floor,0.6667,0.8225,0.0093,50.987,39,True
+hypoglycaemia onset at 54,"c1 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.6923; specificity 0.7888; ppv 0.0081; false alarms/day 60.665; censored: 2 at floor,0.6923,0.7888,0.0081,60.665,39,True
+hypoglycaemia onset at 54,"c2 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.641; specificity 0.8352; ppv 0.0096; false alarms/day 47.344; censored: 2 at floor,0.641,0.8352,0.0096,47.344,39,True
+hypoglycaemia onset at 54,"c3 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.8205; specificity 0.8708; ppv 0.0156; false alarms/day 37.113; censored: 2 at floor,0.8205,0.8708,0.0156,37.113,39,True
+hypoglycaemia onset at 54,"c4 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.2308; specificity 0.9532; ppv 0.0122; false alarms/day 13.432; censored: 2 at floor,0.2308,0.9532,0.0122,13.432,39,True
+hypoglycaemia onset at 54,"c5 lower bound, 90%",60,15652,,,,,,,,,onsets 39; sensitivity 0.641; specificity 0.8352; ppv 0.0096; false alarms/day 47.344; censored: 2 at floor,0.641,0.8352,0.0096,47.344,39,True

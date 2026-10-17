@@ -118,17 +118,23 @@ def sensitivity_at(rows: list[dict], thr: float, h: int, curve: str, fa: float) 
     return float(np.interp(fa, xs, ys))
 
 
-def curve_from_parts(rows: list[dict], thr: float, h: int, curve: str, idx) -> tuple[np.ndarray, np.ndarray]:
-    """The (false alarms/day, sensitivity) curve re-pooled over the patients in idx."""
-    pts = []
-    for r in rows:
-        if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == curve:
-            parts = [r["_parts"][i] for i in idx]
-            p = pooled_onset(parts)
-            if np.isfinite(p["false_alarms_per_day"]) and np.isfinite(p["sensitivity"]):
-                pts.append((p["false_alarms_per_day"], p["sensitivity"]))
-    pts.sort()
-    return np.array([a for a, _ in pts]), np.array([b for _, b in pts])
+def _count_array(rows: list[dict], thr: float, h: int, curve: str) -> np.ndarray:
+    """[n_settings, n_patients, 4] of (tp, fn, fp, n_at_risk) for one curve, settings in
+    row order."""
+    sel = [r for r in rows if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == curve]
+    return np.array([[[q["tp"], q["fn"], q["fp"], q["n_at_risk"]] for q in r["_parts"]] for r in sel], float)
+
+
+def _curve_from_counts(a: np.ndarray, idx) -> tuple[np.ndarray, np.ndarray]:
+    """(false alarms/day, sensitivity) re-pooled over the patients in idx, sorted by rate."""
+    c = a[:, idx, :].sum(axis=1)                       # [n_settings, 4]
+    tp, fn, fp, risk = c[:, 0], c[:, 1], c[:, 2], c[:, 3]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        sens = tp / (tp + fn)
+        fa = fp / (risk * 5 / 1440)
+    ok = np.isfinite(sens) & np.isfinite(fa)
+    order = np.argsort(fa[ok])
+    return fa[ok][order], sens[ok][order]
 
 
 def sens_at(xs, ys, fa):
@@ -139,24 +145,24 @@ def sens_at(xs, ys, fa):
 
 def claim_rule(rows: list[dict], n_patients: int, seed: int = 0) -> list[dict]:
     """D-064: each method's sensitivity minus the point-forecast sweep's at 1 and 2 false
-    alarms per day, bootstrapped over patients."""
+    alarms per day, bootstrapped over patients (numpy sums over a precomputed count array)."""
     rng = np.random.default_rng(seed)
     out = []
     methods = sorted({r["curve"] for r in rows if "lower bound" in r["curve"]} | {"linear AR − δ"})
     for thr in THRESHOLDS:
         for h in (30, 60):
+            ref = _count_array(rows, thr, h, "point forecast − δ")
             full = np.arange(n_patients)
-            ref_x, ref_y = curve_from_parts(rows, thr, h, "point forecast − δ", full)
+            ref_x, ref_y = _curve_from_counts(ref, full)
+            boots = [rng.integers(0, n_patients, n_patients) for _ in range(N_BOOT)]
+            ref_b = {fa: np.array([sens_at(*_curve_from_counts(ref, b), fa) for b in boots]) for fa in FA_MARKS}
             for m in methods:
-                mx, my = curve_from_parts(rows, thr, h, m, full)
+                a = _count_array(rows, thr, h, m)
+                mx, my = _curve_from_counts(a, full)
                 for fa in FA_MARKS:
                     point = sens_at(mx, my, fa) - sens_at(ref_x, ref_y, fa)
-                    diffs = []
-                    for _ in range(N_BOOT):
-                        idx = rng.integers(0, n_patients, n_patients)
-                        bx, by = curve_from_parts(rows, thr, h, m, idx); rx, ry = curve_from_parts(rows, thr, h, "point forecast − δ", idx)
-                        diffs.append(sens_at(bx, by, fa) - sens_at(rx, ry, fa))
-                    diffs = np.array(diffs); fin = diffs[np.isfinite(diffs)]
+                    mb = np.array([sens_at(*_curve_from_counts(a, b), fa) for b in boots])
+                    diffs = mb - ref_b[fa]; fin = diffs[np.isfinite(diffs)]
                     lo, hi = (np.percentile(fin, [2.5, 97.5]) if len(fin) > 100 else (float("nan"), float("nan")))
                     verdict = ("not reached" if not np.isfinite(point) else "above the sweep" if lo > 0 else "below the sweep" if hi < 0 else "within variability")
                     out.append(dict(threshold=thr, horizon_min=h, method=m, false_alarms_per_day=fa,
@@ -175,27 +181,26 @@ def operating_points(rows: list[dict], n_patients: int) -> list[dict]:
     for thr in THRESHOLDS:
         for h in (30, 60):
             for m in curves:
+                sel = [r for r in rows if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == m]
+                a = np.array([[[q["tp"], q["fn"], q["fp"], q["tn"], q["n_at_risk"]] for q in r["_parts"]] for r in sel], float)
+                params = [r["parameter"] for r in sel]
                 for scope, idx in [("pooled", np.arange(n_patients))] + [(f"patient {i}", np.array([i])) for i in range(n_patients)]:
-                    cand = []
-                    for r in rows:
-                        if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == m:
-                            p = pooled_onset([r["_parts"][i] for i in idx])
-                            parts = [r["_parts"][i] for i in idx]
-                            tn, fp, tp = sum(q["tn"] for q in parts), sum(q["fp"] for q in parts), sum(q["tp"] for q in parts)
-                            p["specificity"] = tn / (tn + fp) if tn + fp else float("nan"); p["ppv"] = tp / (tp + fp) if tp + fp else float("nan")
-                            cand.append((r["parameter"], p))
-                    for fa in FA_MARKS:
-                        ok = [(par, p) for par, p in cand if np.isfinite(p["false_alarms_per_day"]) and p["false_alarms_per_day"] <= fa]
-                        if not ok:
-                            out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=fa, setting="not reached",
+                    c = a[:, idx, :].sum(axis=1)
+                    tp, fn, fp, tn, risk = (c[:, k] for k in range(5))
+                    with np.errstate(divide="ignore", invalid="ignore"):
+                        fa = fp / (risk * 5 / 1440); sens = tp / (tp + fn); spec = tn / (tn + fp); ppv = tp / (tp + fp)
+                    for mark in FA_MARKS:
+                        ok = np.flatnonzero(np.isfinite(fa) & (fa <= mark))
+                        if len(ok) == 0:
+                            out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=mark, setting="not reached",
                                             sensitivity="", specificity="", ppv="", achieved_false_alarms_per_day="", n_onsets=""))
                             continue
-                        par, p = max(ok, key=lambda t: t[1]["false_alarms_per_day"])
-                        out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=fa,
-                                        setting=(f"δ = {par:.0f} mg/dL" if "δ" in m else f"level {par:.2f}"),
-                                        sensitivity=round(p["sensitivity"], 4), specificity=round(p["specificity"], 4),
-                                        ppv=round(p["ppv"], 4) if np.isfinite(p["ppv"]) else "", achieved_false_alarms_per_day=round(p["false_alarms_per_day"], 3),
-                                        n_onsets=p["n_onsets"]))
+                        k = ok[np.argmax(fa[ok])]
+                        out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=mark,
+                                        setting=(f"δ = {params[k]:.0f} mg/dL" if "δ" in m else f"level {params[k]:.2f}"),
+                                        sensitivity=round(float(sens[k]), 4) if np.isfinite(sens[k]) else "", specificity=round(float(spec[k]), 4) if np.isfinite(spec[k]) else "",
+                                        ppv=round(float(ppv[k]), 4) if np.isfinite(ppv[k]) else "", achieved_false_alarms_per_day=round(float(fa[k]), 3),
+                                        n_onsets=int(tp[k] + fn[k])))
     return out
 
 
@@ -218,10 +223,22 @@ def figure(rows: list[dict], thr: float, out: Path, censored: bool) -> None:
         ax.grid(True, which="both", lw=0.3, alpha=0.5)
     axes[0].set_ylabel(f"onset sensitivity at {thr:.0f} mg/dL"); axes[0].legend(fontsize=8, frameon=False, loc="lower right")
     n_on = next(r["n_onsets"] for r in rows if r["threshold"] == thr and r["horizon_min"] == 30 and r["curve"] == "c0 lower bound")
-    fig.suptitle(f"Hypoglycaemia onset detection at {thr:.0f} mg/dL — conforming evaluation, 2020 cohort pooled ({n_on} onsets at 30 min). "
-                 f"Persistence excluded: its onset sensitivity is zero by construction." + (" Reference events at the sensor floor are censored." if censored else ""),
-                 fontsize=9)
-    fig.tight_layout(); fig.savefig(out, dpi=130)
+    fig.suptitle(f"Hypoglycaemia onset detection at {thr:.0f} mg/dL — conforming evaluation, 2020 cohort pooled ({n_on} onsets at 30 min)\n"
+                 f"Point-forecast sweep drawn heavier as the reference. Persistence excluded: its onset sensitivity is zero by construction."
+                 + ("\nReference events at the sensor floor are censored (D-023)." if censored else ""), fontsize=9)
+    fig.tight_layout(rect=(0, 0, 1, 0.94)); fig.savefig(out, dpi=130)
+
+
+def redraw_from_csv(root: Path = REPO_ROOT) -> None:
+    """Redraw both figures from results/operating_curve.csv without recomputing."""
+    import csv as _csv
+    rows = []
+    for r in _csv.DictReader(open(root / "results" / "operating_curve.csv")):
+        rows.append(dict(threshold=float(r["threshold"]), horizon_min=int(r["horizon_min"]), curve=r["curve"], parameter=float(r["parameter"]),
+                         n_onsets=int(r["n_onsets"]), false_alarms_per_day=float(r["false_alarms_per_day"]), sensitivity=float(r["sensitivity"]),
+                         censored=r["censored"] == "True"))
+    for thr, fn in ((70.0, "operating_curve.png"), (54.0, "operating_curve_54.png")):
+        figure(rows, thr, root / "figures" / fn, any(r["censored"] for r in rows if r["threshold"] == thr))
 
 
 def main() -> None:

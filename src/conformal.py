@@ -168,11 +168,14 @@ def c3(cal_y, cal_pred, y, pred, alpha, gamma) -> Intervals:
     """Adaptive conformal inference over a time-ordered test sequence. y is read only AFTER
     each interval is formed, to update the level - the online protocol."""
     scores = np.sort(np.abs(cal_y - cal_pred))
+    n = len(scores)
     a_t = alpha
     lower, upper = np.empty(len(pred)), np.empty(len(pred))
     for t in range(len(pred)):
         a_clip = min(max(a_t, 0.0), 1.0)
-        q = conformal_quantile(scores, a_clip) if a_clip > 0 else float("inf")
+        # the finite-sample quantile, indexed into the pre-sorted scores (no re-sort per step)
+        k = int(np.ceil((n + 1) * (1 - a_clip))) if a_clip > 0 else n + 1
+        q = float("inf") if (a_clip <= 0 or k > n) else float(scores[max(k, 1) - 1])
         lower[t], upper[t] = pred[t] - q, pred[t] + q
         err = 0.0 if lower[t] <= y[t] <= upper[t] else 1.0
         a_t = a_t + gamma * (alpha - err)

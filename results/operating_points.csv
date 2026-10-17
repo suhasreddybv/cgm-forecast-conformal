@@ -1,0 +1,449 @@
+threshold,horizon_min,method,scope,false_alarms_per_day,setting,sensitivity,specificity,ppv,achieved_false_alarms_per_day,n_onsets
+70.0,30,c0 lower bound,pooled,1.0,level 0.20,0.1565,0.9965,0.4091,0.985,230
+70.0,30,c0 lower bound,pooled,2.0,level 0.30,0.2478,0.9934,0.3654,1.875,230
+70.0,30,c0 lower bound,patient 0,1.0,level 0.05,0.1127,0.9966,0.4706,0.942,71
+70.0,30,c0 lower bound,patient 0,2.0,level 0.30,0.2958,0.9933,0.5385,1.883,71
+70.0,30,c0 lower bound,patient 1,1.0,level 0.20,0.1765,0.9974,0.3,0.753,17
+70.0,30,c0 lower bound,patient 1,2.0,level 0.25,0.1765,0.9951,0.1875,1.399,17
+70.0,30,c0 lower bound,patient 2,1.0,level 0.05,0.0811,0.9969,0.3,0.881,37
+70.0,30,c0 lower bound,patient 2,2.0,level 0.25,0.1892,0.9933,0.3182,1.888,37
+70.0,30,c0 lower bound,patient 3,1.0,not reached,,,,,
+70.0,30,c0 lower bound,patient 3,2.0,level 0.15,0.1628,0.993,0.3182,1.97,43
+70.0,30,c0 lower bound,patient 4,1.0,level 0.45,0.0556,0.9985,0.2,0.439,18
+70.0,30,c0 lower bound,patient 4,2.0,level 0.50,0.1111,0.9943,0.1176,1.644,18
+70.0,30,c0 lower bound,patient 5,1.0,level 0.50,0.2273,0.9966,0.5263,0.972,44
+70.0,30,c0 lower bound,patient 5,2.0,level 0.65,0.4091,0.9939,0.5294,1.728,44
+70.0,30,c1 lower bound,pooled,1.0,level 0.15,0.1261,0.9967,0.3718,0.928,230
+70.0,30,c1 lower bound,pooled,2.0,level 0.30,0.2217,0.9936,0.3469,1.819,230
+70.0,30,c1 lower bound,patient 0,1.0,level 0.05,0.1127,0.997,0.5,0.837,71
+70.0,30,c1 lower bound,patient 0,2.0,level 0.20,0.1972,0.994,0.4667,1.674,71
+70.0,30,c1 lower bound,patient 1,1.0,level 0.15,0.1765,0.9977,0.3333,0.646,17
+70.0,30,c1 lower bound,patient 1,2.0,level 0.30,0.1765,0.9955,0.2,1.291,17
+70.0,30,c1 lower bound,patient 2,1.0,not reached,,,,,
+70.0,30,c1 lower bound,patient 2,2.0,level 0.25,0.1892,0.9933,0.3182,1.888,37
+70.0,30,c1 lower bound,patient 3,1.0,not reached,,,,,
+70.0,30,c1 lower bound,patient 3,2.0,level 0.10,0.1163,0.993,0.25,1.97,43
+70.0,30,c1 lower bound,patient 4,1.0,level 0.40,0.0,0.9973,0.0,0.767,18
+70.0,30,c1 lower bound,patient 4,2.0,level 0.40,0.0,0.9973,0.0,0.767,18
+70.0,30,c1 lower bound,patient 5,1.0,level 0.50,0.4318,0.9969,0.7037,0.864,44
+70.0,30,c1 lower bound,patient 5,2.0,level 0.55,0.5455,0.9935,0.5854,1.836,44
+70.0,30,c2 lower bound,pooled,1.0,level 0.20,0.1522,0.9966,0.407,0.966,230
+70.0,30,c2 lower bound,pooled,2.0,level 0.30,0.2304,0.9943,0.3813,1.629,230
+70.0,30,c2 lower bound,patient 0,1.0,level 0.05,0.1127,0.9966,0.4706,0.942,71
+70.0,30,c2 lower bound,patient 0,2.0,level 0.30,0.2958,0.994,0.5676,1.674,71
+70.0,30,c2 lower bound,patient 1,1.0,level 0.25,0.1765,0.997,0.2727,0.861,17
+70.0,30,c2 lower bound,patient 1,2.0,level 0.30,0.1765,0.994,0.1579,1.722,17
+70.0,30,c2 lower bound,patient 2,1.0,level 0.05,0.0811,0.9969,0.3,0.881,37
+70.0,30,c2 lower bound,patient 2,2.0,level 0.25,0.1892,0.9933,0.3182,1.888,37
+70.0,30,c2 lower bound,patient 3,1.0,level 0.05,0.1163,0.9967,0.4167,0.919,43
+70.0,30,c2 lower bound,patient 3,2.0,level 0.15,0.1628,0.993,0.3182,1.97,43
+70.0,30,c2 lower bound,patient 4,1.0,level 0.45,0.0556,0.9985,0.2,0.439,18
+70.0,30,c2 lower bound,patient 4,2.0,level 0.50,0.1111,0.995,0.1333,1.425,18
+70.0,30,c2 lower bound,patient 5,1.0,level 0.50,0.2273,0.9966,0.5263,0.972,44
+70.0,30,c2 lower bound,patient 5,2.0,level 0.65,0.4091,0.9947,0.5625,1.512,44
+70.0,30,c3 lower bound,pooled,1.0,level 0.15,0.1696,0.9965,0.4286,0.985,230
+70.0,30,c3 lower bound,pooled,2.0,level 0.25,0.2609,0.9945,0.4225,1.553,230
+70.0,30,c3 lower bound,patient 0,1.0,level 0.10,0.169,0.9966,0.5714,0.942,71
+70.0,30,c3 lower bound,patient 0,2.0,level 0.20,0.2394,0.9933,0.4857,1.883,71
+70.0,30,c3 lower bound,patient 1,1.0,level 0.25,0.1765,0.997,0.2727,0.861,17
+70.0,30,c3 lower bound,patient 1,2.0,level 0.35,0.1765,0.9932,0.1429,1.937,17
+70.0,30,c3 lower bound,patient 2,1.0,level 0.05,0.1081,0.9969,0.3636,0.881,37
+70.0,30,c3 lower bound,patient 2,2.0,level 0.15,0.1622,0.9933,0.2857,1.888,37
+70.0,30,c3 lower bound,patient 3,1.0,not reached,,,,,
+70.0,30,c3 lower bound,patient 3,2.0,level 0.10,0.186,0.9935,0.3636,1.839,43
+70.0,30,c3 lower bound,patient 4,1.0,level 0.40,0.0556,0.9973,0.125,0.767,18
+70.0,30,c3 lower bound,patient 4,2.0,level 0.45,0.1667,0.995,0.1875,1.425,18
+70.0,30,c3 lower bound,patient 5,1.0,level 0.40,0.3409,0.9966,0.625,0.972,44
+70.0,30,c3 lower bound,patient 5,2.0,level 0.60,0.5,0.9947,0.6111,1.512,44
+70.0,30,c4 lower bound (one-sided),pooled,1.0,level 0.55,0.1217,0.9975,0.4308,0.701,230
+70.0,30,c4 lower bound (one-sided),pooled,2.0,level 0.60,0.1826,0.9959,0.4078,1.156,230
+70.0,30,c4 lower bound (one-sided),patient 0,1.0,level 0.50,0.1408,0.9966,0.5263,0.942,71
+70.0,30,c4 lower bound (one-sided),patient 0,2.0,level 0.60,0.2817,0.9944,0.5714,1.569,71
+70.0,30,c4 lower bound (one-sided),patient 1,1.0,level 0.55,0.1765,0.9992,0.6,0.215,17
+70.0,30,c4 lower bound (one-sided),patient 1,2.0,level 0.60,0.1765,0.9955,0.2,1.291,17
+70.0,30,c4 lower bound (one-sided),patient 2,1.0,level 0.55,0.0811,0.9969,0.3,0.881,37
+70.0,30,c4 lower bound (one-sided),patient 2,2.0,level 0.65,0.1892,0.9933,0.3182,1.888,37
+70.0,30,c4 lower bound (one-sided),patient 3,1.0,level 0.45,0.0465,0.9981,0.3333,0.525,43
+70.0,30,c4 lower bound (one-sided),patient 3,2.0,level 0.55,0.1628,0.993,0.3182,1.97,43
+70.0,30,c4 lower bound (one-sided),patient 4,1.0,level 0.70,0.0556,0.9992,0.3333,0.219,18
+70.0,30,c4 lower bound (one-sided),patient 4,2.0,level 0.75,0.1111,0.9962,0.1667,1.096,18
+70.0,30,c4 lower bound (one-sided),patient 5,1.0,level 0.75,0.2273,0.9966,0.5263,0.972,44
+70.0,30,c4 lower bound (one-sided),patient 5,2.0,level 0.75,0.2273,0.9966,0.5263,0.972,44
+70.0,30,c5 lower bound,pooled,1.0,level 0.20,0.1478,0.9965,0.3953,0.985,230
+70.0,30,c5 lower bound,pooled,2.0,level 0.30,0.2435,0.994,0.3836,1.705,230
+70.0,30,c5 lower bound,patient 0,1.0,level 0.05,0.1268,0.9966,0.5,0.942,71
+70.0,30,c5 lower bound,patient 0,2.0,level 0.30,0.3099,0.9937,0.5641,1.778,71
+70.0,30,c5 lower bound,patient 1,1.0,level 0.25,0.1765,0.9966,0.25,0.969,17
+70.0,30,c5 lower bound,patient 1,2.0,level 0.30,0.2941,0.9936,0.2273,1.83,17
+70.0,30,c5 lower bound,patient 2,1.0,not reached,,,,,
+70.0,30,c5 lower bound,patient 2,2.0,level 0.25,0.1892,0.9933,0.3182,1.888,37
+70.0,30,c5 lower bound,patient 3,1.0,level 0.05,0.1163,0.9967,0.4167,0.919,43
+70.0,30,c5 lower bound,patient 3,2.0,level 0.15,0.1628,0.993,0.3182,1.97,43
+70.0,30,c5 lower bound,patient 4,1.0,level 0.40,0.1111,0.9969,0.2,0.877,18
+70.0,30,c5 lower bound,patient 4,2.0,level 0.50,0.2222,0.9943,0.2105,1.644,18
+70.0,30,c5 lower bound,patient 5,1.0,level 0.45,0.2273,0.9966,0.5263,0.972,44
+70.0,30,c5 lower bound,patient 5,2.0,level 0.65,0.4773,0.9939,0.5676,1.728,44
+70.0,30,linear AR − δ,pooled,1.0,δ = 2 mg/dL,0.113,0.9975,0.4127,0.701,230
+70.0,30,linear AR − δ,pooled,2.0,δ = 6 mg/dL,0.1957,0.9951,0.3782,1.402,230
+70.0,30,linear AR − δ,patient 0,1.0,not reached,,,,,
+70.0,30,linear AR − δ,patient 0,2.0,δ = 2 mg/dL,0.1549,0.994,0.4074,1.674,71
+70.0,30,linear AR − δ,patient 1,1.0,δ = 2 mg/dL,0.1176,0.997,0.2,0.861,17
+70.0,30,linear AR − δ,patient 1,2.0,δ = 6 mg/dL,0.2353,0.9932,0.1818,1.937,17
+70.0,30,linear AR − δ,patient 2,1.0,δ = 6 mg/dL,0.1081,0.9973,0.4,0.755,37
+70.0,30,linear AR − δ,patient 2,2.0,δ = 8 mg/dL,0.1081,0.9947,0.25,1.51,37
+70.0,30,linear AR − δ,patient 3,1.0,δ = 6 mg/dL,0.1628,0.9967,0.5,0.919,43
+70.0,30,linear AR − δ,patient 3,2.0,δ = 6 mg/dL,0.1628,0.9967,0.5,0.919,43
+70.0,30,linear AR − δ,patient 4,1.0,δ = 10 mg/dL,0.0556,0.9973,0.125,0.767,18
+70.0,30,linear AR − δ,patient 4,2.0,δ = 12 mg/dL,0.0556,0.9946,0.0667,1.535,18
+70.0,30,linear AR − δ,patient 5,1.0,δ = 4 mg/dL,0.2273,0.9966,0.5263,0.972,44
+70.0,30,linear AR − δ,patient 5,2.0,δ = 8 mg/dL,0.4091,0.9931,0.5,1.944,44
+70.0,30,point forecast − δ,pooled,1.0,δ = 2 mg/dL,0.1087,0.9977,0.4167,0.663,230
+70.0,30,point forecast − δ,pooled,2.0,δ = 4 mg/dL,0.1696,0.9959,0.3861,1.175,230
+70.0,30,point forecast − δ,patient 0,1.0,δ = 2 mg/dL,0.1408,0.9966,0.5263,0.942,71
+70.0,30,point forecast − δ,patient 0,2.0,δ = 6 mg/dL,0.2958,0.9929,0.525,1.988,71
+70.0,30,point forecast − δ,patient 1,1.0,δ = 0 mg/dL,0.1176,0.9996,0.6667,0.108,17
+70.0,30,point forecast − δ,patient 1,2.0,δ = 4 mg/dL,0.1765,0.9947,0.1765,1.507,17
+70.0,30,point forecast − δ,patient 2,1.0,δ = 0 mg/dL,0.0811,0.9973,0.3333,0.755,37
+70.0,30,point forecast − δ,patient 2,2.0,δ = 4 mg/dL,0.1892,0.9933,0.3182,1.888,37
+70.0,30,point forecast − δ,patient 3,1.0,δ = 0 mg/dL,0.0698,0.9977,0.375,0.657,43
+70.0,30,point forecast − δ,patient 3,2.0,δ = 2 mg/dL,0.1163,0.9944,0.2941,1.576,43
+70.0,30,point forecast − δ,patient 4,1.0,δ = 12 mg/dL,0.0556,0.9985,0.2,0.439,18
+70.0,30,point forecast − δ,patient 4,2.0,δ = 14 mg/dL,0.1111,0.9954,0.1429,1.316,18
+70.0,30,point forecast − δ,patient 5,1.0,δ = 8 mg/dL,0.2955,0.9966,0.5909,0.972,44
+70.0,30,point forecast − δ,patient 5,2.0,δ = 10 mg/dL,0.4091,0.9939,0.5294,1.728,44
+70.0,60,c0 lower bound,pooled,1.0,level 0.20,0.0152,0.9972,0.1087,0.776,328
+70.0,60,c0 lower bound,pooled,2.0,level 0.30,0.0793,0.9931,0.2016,1.95,328
+70.0,60,c0 lower bound,patient 0,1.0,level 0.30,0.0105,0.9966,0.1,0.943,95
+70.0,60,c0 lower bound,patient 0,2.0,level 0.30,0.0105,0.9966,0.1,0.943,95
+70.0,60,c0 lower bound,patient 1,1.0,level 0.20,0.0476,0.9974,0.125,0.753,21
+70.0,60,c0 lower bound,patient 1,2.0,level 0.25,0.2857,0.9932,0.25,1.937,21
+70.0,60,c0 lower bound,patient 2,1.0,level 0.15,0.0,0.9982,0.0,0.503,58
+70.0,60,c0 lower bound,patient 2,2.0,level 0.25,0.1552,0.9955,0.4737,1.257,58
+70.0,60,c0 lower bound,patient 3,1.0,not reached,,,,,
+70.0,60,c0 lower bound,patient 3,2.0,level 0.05,0.0,0.9939,0.0,1.703,72
+70.0,60,c0 lower bound,patient 4,1.0,level 0.45,0.0,0.9988,0.0,0.329,25
+70.0,60,c0 lower bound,patient 4,2.0,level 0.45,0.0,0.9988,0.0,0.329,25
+70.0,60,c0 lower bound,patient 5,1.0,level 0.55,0.0,0.9981,0.0,0.54,57
+70.0,60,c0 lower bound,patient 5,2.0,level 0.60,0.0351,0.9954,0.1429,1.296,57
+70.0,60,c1 lower bound,pooled,1.0,level 0.15,0.0122,0.9973,0.0909,0.757,328
+70.0,60,c1 lower bound,pooled,2.0,level 0.25,0.0183,0.994,0.0625,1.704,328
+70.0,60,c1 lower bound,patient 0,1.0,level 0.20,0.0105,0.997,0.1111,0.838,95
+70.0,60,c1 lower bound,patient 0,2.0,level 0.25,0.0105,0.9943,0.0625,1.571,95
+70.0,60,c1 lower bound,patient 1,1.0,level 0.30,0.0,0.9966,0.0,0.969,21
+70.0,60,c1 lower bound,patient 1,2.0,level 0.35,0.0476,0.9936,0.0556,1.83,21
+70.0,60,c1 lower bound,patient 2,1.0,level 0.15,0.0517,0.9978,0.375,0.629,58
+70.0,60,c1 lower bound,patient 2,2.0,level 0.25,0.0862,0.9937,0.2632,1.76,58
+70.0,60,c1 lower bound,patient 3,1.0,not reached,,,,,
+70.0,60,c1 lower bound,patient 3,2.0,not reached,,,,,
+70.0,60,c1 lower bound,patient 4,1.0,level 0.25,0.0,0.9992,0.0,0.219,25
+70.0,60,c1 lower bound,patient 4,2.0,level 0.30,0.0,0.9935,0.0,1.862,25
+70.0,60,c1 lower bound,patient 5,1.0,level 0.45,0.1053,0.9973,0.4615,0.756,57
+70.0,60,c1 lower bound,patient 5,2.0,level 0.50,0.3158,0.995,0.5806,1.404,57
+70.0,60,c2 lower bound,pooled,1.0,level 0.20,0.0122,0.9974,0.0952,0.719,328
+70.0,60,c2 lower bound,pooled,2.0,level 0.30,0.0671,0.994,0.1982,1.685,328
+70.0,60,c2 lower bound,patient 0,1.0,level 0.30,0.0105,0.997,0.1111,0.838,95
+70.0,60,c2 lower bound,patient 0,2.0,level 0.30,0.0105,0.997,0.1111,0.838,95
+70.0,60,c2 lower bound,patient 1,1.0,level 0.20,0.0476,0.9985,0.2,0.43,21
+70.0,60,c2 lower bound,patient 1,2.0,level 0.25,0.1905,0.9936,0.1905,1.83,21
+70.0,60,c2 lower bound,patient 2,1.0,level 0.20,0.0345,0.9982,0.3333,0.503,58
+70.0,60,c2 lower bound,patient 2,2.0,level 0.30,0.1897,0.9946,0.4783,1.509,58
+70.0,60,c2 lower bound,patient 3,1.0,not reached,,,,,
+70.0,60,c2 lower bound,patient 3,2.0,level 0.05,0.0,0.9939,0.0,1.703,72
+70.0,60,c2 lower bound,patient 4,1.0,level 0.50,0.0,0.9977,0.0,0.657,25
+70.0,60,c2 lower bound,patient 4,2.0,level 0.50,0.0,0.9977,0.0,0.657,25
+70.0,60,c2 lower bound,patient 5,1.0,level 0.60,0.0175,0.9966,0.1,0.972,57
+70.0,60,c2 lower bound,patient 5,2.0,level 0.60,0.0175,0.9966,0.1,0.972,57
+70.0,60,c3 lower bound,pooled,1.0,level 0.15,0.0579,0.9965,0.2676,0.985,328
+70.0,60,c3 lower bound,pooled,2.0,level 0.25,0.1921,0.9929,0.375,1.988,328
+70.0,60,c3 lower bound,patient 0,1.0,level 0.15,0.0737,0.9985,0.6364,0.419,95
+70.0,60,c3 lower bound,patient 0,2.0,level 0.20,0.0842,0.9962,0.4444,1.048,95
+70.0,60,c3 lower bound,patient 1,1.0,level 0.25,0.1905,0.997,0.3333,0.861,21
+70.0,60,c3 lower bound,patient 1,2.0,level 0.30,0.2381,0.9959,0.3125,1.184,21
+70.0,60,c3 lower bound,patient 2,1.0,level 0.15,0.0172,0.9973,0.1429,0.754,58
+70.0,60,c3 lower bound,patient 2,2.0,level 0.25,0.3276,0.9933,0.5588,1.886,58
+70.0,60,c3 lower bound,patient 3,1.0,not reached,,,,,
+70.0,60,c3 lower bound,patient 3,2.0,level 0.05,0.0,0.9944,0.0,1.572,72
+70.0,60,c3 lower bound,patient 4,1.0,level 0.35,0.12,0.9973,0.3,0.767,25
+70.0,60,c3 lower bound,patient 4,2.0,level 0.45,0.32,0.9935,0.32,1.862,25
+70.0,60,c3 lower bound,patient 5,1.0,level 0.45,0.0526,0.9973,0.3,0.756,57
+70.0,60,c3 lower bound,patient 5,2.0,level 0.55,0.1228,0.9935,0.2917,1.836,57
+70.0,60,c4 lower bound (one-sided),pooled,1.0,level 0.55,0.003,0.9979,0.0312,0.587,328
+70.0,60,c4 lower bound (one-sided),pooled,2.0,level 0.60,0.0213,0.9957,0.0986,1.212,328
+70.0,60,c4 lower bound (one-sided),patient 0,1.0,level 0.60,0.0105,0.9977,0.1429,0.629,95
+70.0,60,c4 lower bound (one-sided),patient 0,2.0,level 0.65,0.0316,0.9928,0.1364,1.991,95
+70.0,60,c4 lower bound (one-sided),patient 1,1.0,level 0.55,0.0,0.9992,0.0,0.215,21
+70.0,60,c4 lower bound (one-sided),patient 1,2.0,level 0.55,0.0,0.9992,0.0,0.215,21
+70.0,60,c4 lower bound (one-sided),patient 2,1.0,level 0.65,0.069,0.9973,0.4,0.754,58
+70.0,60,c4 lower bound (one-sided),patient 2,2.0,level 0.65,0.069,0.9973,0.4,0.754,58
+70.0,60,c4 lower bound (one-sided),patient 3,1.0,level 0.40,0.0,0.9976,0.0,0.655,72
+70.0,60,c4 lower bound (one-sided),patient 3,2.0,level 0.50,0.0,0.9929,0.0,1.965,72
+70.0,60,c4 lower bound (one-sided),patient 4,1.0,level 0.75,0.0,0.9996,0.0,0.11,25
+70.0,60,c4 lower bound (one-sided),patient 4,2.0,level 0.75,0.0,0.9996,0.0,0.11,25
+70.0,60,c4 lower bound (one-sided),patient 5,1.0,level 0.75,0.0,0.9985,0.0,0.432,57
+70.0,60,c4 lower bound (one-sided),patient 5,2.0,level 0.80,0.0526,0.9935,0.15,1.836,57
+70.0,60,c5 lower bound,pooled,1.0,level 0.20,0.0152,0.9966,0.0909,0.947,328
+70.0,60,c5 lower bound,pooled,2.0,level 0.25,0.0366,0.995,0.1379,1.42,328
+70.0,60,c5 lower bound,patient 0,1.0,level 0.30,0.0105,0.997,0.1111,0.838,95
+70.0,60,c5 lower bound,patient 0,2.0,level 0.35,0.0316,0.9936,0.15,1.781,95
+70.0,60,c5 lower bound,patient 1,1.0,level 0.20,0.0476,0.9974,0.125,0.753,21
+70.0,60,c5 lower bound,patient 1,2.0,level 0.25,0.2857,0.9932,0.25,1.937,21
+70.0,60,c5 lower bound,patient 2,1.0,level 0.10,0.0,0.9982,0.0,0.503,58
+70.0,60,c5 lower bound,patient 2,2.0,level 0.20,0.0517,0.9951,0.2143,1.383,58
+70.0,60,c5 lower bound,patient 3,1.0,not reached,,,,,
+70.0,60,c5 lower bound,patient 3,2.0,level 0.05,0.0,0.9934,0.0,1.834,72
+70.0,60,c5 lower bound,patient 4,1.0,level 0.45,0.0,0.9977,0.0,0.657,25
+70.0,60,c5 lower bound,patient 4,2.0,level 0.45,0.0,0.9977,0.0,0.657,25
+70.0,60,c5 lower bound,patient 5,1.0,level 0.55,0.0702,0.9966,0.3077,0.972,57
+70.0,60,c5 lower bound,patient 5,2.0,level 0.60,0.0877,0.9939,0.2381,1.728,57
+70.0,60,linear AR − δ,pooled,1.0,δ = 4 mg/dL,0.0396,0.997,0.2241,0.852,328
+70.0,60,linear AR − δ,pooled,2.0,δ = 10 mg/dL,0.064,0.9939,0.1875,1.723,328
+70.0,60,linear AR − δ,patient 0,1.0,not reached,,,,,
+70.0,60,linear AR − δ,patient 0,2.0,δ = 4 mg/dL,0.0211,0.9928,0.0952,1.991,95
+70.0,60,linear AR − δ,patient 1,1.0,δ = 6 mg/dL,0.0,0.9966,0.0,0.969,21
+70.0,60,linear AR − δ,patient 1,2.0,δ = 10 mg/dL,0.0,0.9936,0.0,1.83,21
+70.0,60,linear AR − δ,patient 2,1.0,δ = 12 mg/dL,0.0,0.9973,0.0,0.754,58
+70.0,60,linear AR − δ,patient 2,2.0,δ = 16 mg/dL,0.0,0.9946,0.0,1.509,58
+70.0,60,linear AR − δ,patient 3,1.0,δ = 6 mg/dL,0.0417,0.9976,0.375,0.655,72
+70.0,60,linear AR − δ,patient 3,2.0,δ = 12 mg/dL,0.0556,0.9953,0.2857,1.31,72
+70.0,60,linear AR − δ,patient 4,1.0,δ = 16 mg/dL,0.0,0.9969,0.0,0.876,25
+70.0,60,linear AR − δ,patient 4,2.0,δ = 22 mg/dL,0.0,0.9939,0.0,1.752,25
+70.0,60,linear AR − δ,patient 5,1.0,δ = 0 mg/dL,0.0175,0.9969,0.1111,0.864,57
+70.0,60,linear AR − δ,patient 5,2.0,δ = 6 mg/dL,0.1754,0.9931,0.3571,1.944,57
+70.0,60,point forecast − δ,pooled,1.0,δ = 6 mg/dL,0.0152,0.9974,0.1136,0.738,328
+70.0,60,point forecast − δ,pooled,2.0,δ = 8 mg/dL,0.0366,0.9953,0.1463,1.325,328
+70.0,60,point forecast − δ,patient 0,1.0,δ = 10 mg/dL,0.0105,0.9977,0.1429,0.629,95
+70.0,60,point forecast − δ,patient 0,2.0,δ = 12 mg/dL,0.0105,0.9962,0.0909,1.048,95
+70.0,60,point forecast − δ,patient 1,1.0,δ = 6 mg/dL,0.1429,0.997,0.2727,0.861,21
+70.0,60,point forecast − δ,patient 1,2.0,δ = 6 mg/dL,0.1429,0.997,0.2727,0.861,21
+70.0,60,point forecast − δ,patient 2,1.0,δ = 6 mg/dL,0.0172,0.9982,0.2,0.503,58
+70.0,60,point forecast − δ,patient 2,2.0,δ = 10 mg/dL,0.2069,0.9946,0.5,1.509,58
+70.0,60,point forecast − δ,patient 3,1.0,not reached,,,,,
+70.0,60,point forecast − δ,patient 3,2.0,δ = 2 mg/dL,0.0,0.9939,0.0,1.703,72
+70.0,60,point forecast − δ,patient 4,1.0,δ = 24 mg/dL,0.0,0.9973,0.0,0.767,25
+70.0,60,point forecast − δ,patient 4,2.0,δ = 24 mg/dL,0.0,0.9973,0.0,0.767,25
+70.0,60,point forecast − δ,patient 5,1.0,δ = 16 mg/dL,0.0175,0.9966,0.1,0.972,57
+70.0,60,point forecast − δ,patient 5,2.0,δ = 16 mg/dL,0.0175,0.9966,0.1,0.972,57
+54.0,30,c0 lower bound,pooled,1.0,level 0.45,0.2162,0.9977,0.1818,0.662,37
+54.0,30,c0 lower bound,pooled,2.0,level 0.55,0.3784,0.9946,0.1414,1.564,37
+54.0,30,c0 lower bound,patient 0,1.0,level 0.50,0.1,0.9972,0.1111,0.802,10
+54.0,30,c0 lower bound,patient 0,2.0,level 0.55,0.3,0.9958,0.2,1.203,10
+54.0,30,c0 lower bound,patient 1,1.0,level 0.65,,0.9978,0.0,0.639,0
+54.0,30,c0 lower bound,patient 1,2.0,level 0.75,,0.9937,0.0,1.811,0
+54.0,30,c0 lower bound,patient 2,1.0,level 0.45,0.2857,0.997,0.2222,0.86,7
+54.0,30,c0 lower bound,patient 2,2.0,level 0.60,0.8571,0.9932,0.2727,1.966,7
+54.0,30,c0 lower bound,patient 3,1.0,level 0.30,0.1818,0.9974,0.25,0.732,11
+54.0,30,c0 lower bound,patient 3,2.0,level 0.40,0.3636,0.9936,0.2105,1.83,11
+54.0,30,c0 lower bound,patient 4,1.0,level 0.65,0.25,0.9981,0.1667,0.544,4
+54.0,30,c0 lower bound,patient 4,2.0,level 0.70,0.25,0.9962,0.0909,1.087,4
+54.0,30,c0 lower bound,patient 5,1.0,level 0.75,0.0,0.9978,0.0,0.634,5
+54.0,30,c0 lower bound,patient 5,2.0,level 0.80,0.0,0.9956,0.0,1.268,5
+54.0,30,c1 lower bound,pooled,1.0,level 0.40,0.0541,0.9979,0.0571,0.607,37
+54.0,30,c1 lower bound,pooled,2.0,level 0.50,0.1081,0.994,0.0412,1.711,37
+54.0,30,c1 lower bound,patient 0,1.0,level 0.25,0.1,0.9983,0.1667,0.501,10
+54.0,30,c1 lower bound,patient 0,2.0,level 0.40,0.1,0.9962,0.0833,1.103,10
+54.0,30,c1 lower bound,patient 1,1.0,level 0.60,,0.9974,0.0,0.746,0
+54.0,30,c1 lower bound,patient 1,2.0,level 0.70,,0.9937,0.0,1.811,0
+54.0,30,c1 lower bound,patient 2,1.0,level 0.50,0.0,0.9966,0.0,0.983,7
+54.0,30,c1 lower bound,patient 2,2.0,level 0.60,0.0,0.994,0.0,1.72,7
+54.0,30,c1 lower bound,patient 3,1.0,level 0.30,0.0,0.9966,0.0,0.976,11
+54.0,30,c1 lower bound,patient 3,2.0,level 0.40,0.0909,0.994,0.0667,1.708,11
+54.0,30,c1 lower bound,patient 4,1.0,level 0.45,0.0,0.9977,0.0,0.652,4
+54.0,30,c1 lower bound,patient 4,2.0,level 0.50,0.25,0.9943,0.0625,1.631,4
+54.0,30,c1 lower bound,patient 5,1.0,level 0.60,0.0,0.9967,0.0,0.951,5
+54.0,30,c1 lower bound,patient 5,2.0,level 0.65,0.0,0.9952,0.0,1.373,5
+54.0,30,c2 lower bound,pooled,1.0,level 0.60,0.3243,0.9971,0.2069,0.846,37
+54.0,30,c2 lower bound,pooled,2.0,level 0.65,0.4054,0.9958,0.1875,1.196,37
+54.0,30,c2 lower bound,patient 0,1.0,level 0.45,0.2,0.9969,0.1818,0.902,10
+54.0,30,c2 lower bound,patient 0,2.0,level 0.55,0.3,0.9948,0.1667,1.504,10
+54.0,30,c2 lower bound,patient 1,1.0,level 0.65,,0.9978,0.0,0.639,0
+54.0,30,c2 lower bound,patient 1,2.0,level 0.75,,0.9937,0.0,1.811,0
+54.0,30,c2 lower bound,patient 2,1.0,level 0.45,0.2857,0.997,0.2222,0.86,7
+54.0,30,c2 lower bound,patient 2,2.0,level 0.60,0.8571,0.9932,0.2727,1.966,7
+54.0,30,c2 lower bound,patient 3,1.0,level 0.65,0.1818,0.9979,0.2857,0.61,11
+54.0,30,c2 lower bound,patient 3,2.0,level 0.65,0.1818,0.9979,0.2857,0.61,11
+54.0,30,c2 lower bound,patient 4,1.0,level 0.70,0.25,0.9966,0.1,0.978,4
+54.0,30,c2 lower bound,patient 4,2.0,level 0.75,0.25,0.9943,0.0625,1.631,4
+54.0,30,c2 lower bound,patient 5,1.0,level 0.75,0.0,0.9978,0.0,0.634,5
+54.0,30,c2 lower bound,patient 5,2.0,level 0.85,0.0,0.9938,0.0,1.796,5
+54.0,30,c3 lower bound,pooled,1.0,level 0.40,0.2973,0.9974,0.2157,0.736,37
+54.0,30,c3 lower bound,pooled,2.0,level 0.60,0.4865,0.9938,0.1565,1.784,37
+54.0,30,c3 lower bound,patient 0,1.0,level 0.35,0.1,0.9969,0.1,0.902,10
+54.0,30,c3 lower bound,patient 0,2.0,level 0.50,0.4,0.9934,0.1739,1.905,10
+54.0,30,c3 lower bound,patient 1,1.0,level 0.50,,0.9989,0.0,0.32,0
+54.0,30,c3 lower bound,patient 1,2.0,level 0.65,,0.9959,0.0,1.172,0
+54.0,30,c3 lower bound,patient 2,1.0,level 0.35,0.5714,0.9966,0.3333,0.983,7
+54.0,30,c3 lower bound,patient 2,2.0,level 0.50,0.8571,0.9936,0.2857,1.843,7
+54.0,30,c3 lower bound,patient 3,1.0,level 0.20,0.1818,0.9987,0.4,0.366,11
+54.0,30,c3 lower bound,patient 3,2.0,level 0.40,0.3636,0.9945,0.2353,1.586,11
+54.0,30,c3 lower bound,patient 4,1.0,level 0.60,1.0,0.997,0.3333,0.87,4
+54.0,30,c3 lower bound,patient 4,2.0,level 0.70,1.0,0.9947,0.2222,1.522,4
+54.0,30,c3 lower bound,patient 5,1.0,level 0.65,0.0,0.9971,0.0,0.845,5
+54.0,30,c3 lower bound,patient 5,2.0,level 0.65,0.0,0.9971,0.0,0.845,5
+54.0,30,c4 lower bound (one-sided),pooled,1.0,level 0.75,0.2162,0.9969,0.1404,0.901,37
+54.0,30,c4 lower bound (one-sided),pooled,2.0,level 0.75,0.2162,0.9969,0.1404,0.901,37
+54.0,30,c4 lower bound (one-sided),patient 0,1.0,level 0.75,0.2,0.9969,0.1818,0.902,10
+54.0,30,c4 lower bound (one-sided),patient 0,2.0,level 0.75,0.2,0.9969,0.1818,0.902,10
+54.0,30,c4 lower bound (one-sided),patient 1,1.0,level 0.80,,0.9993,0.0,0.213,0
+54.0,30,c4 lower bound (one-sided),patient 1,2.0,level 0.85,,0.9963,0.0,1.065,0
+54.0,30,c4 lower bound (one-sided),patient 2,1.0,level 0.75,0.1429,0.9979,0.1667,0.614,7
+54.0,30,c4 lower bound (one-sided),patient 2,2.0,level 0.80,0.8571,0.9944,0.3158,1.597,7
+54.0,30,c4 lower bound (one-sided),patient 3,1.0,level 0.65,0.1818,0.9966,0.2,0.976,11
+54.0,30,c4 lower bound (one-sided),patient 3,2.0,level 0.70,0.3636,0.9936,0.2105,1.83,11
+54.0,30,c4 lower bound (one-sided),patient 4,1.0,level 0.85,0.25,0.9974,0.125,0.761,4
+54.0,30,c4 lower bound (one-sided),patient 4,2.0,level 0.85,0.25,0.9974,0.125,0.761,4
+54.0,30,c4 lower bound (one-sided),patient 5,1.0,level 0.90,0.0,0.9971,0.0,0.845,5
+54.0,30,c4 lower bound (one-sided),patient 5,2.0,level 0.90,0.0,0.9971,0.0,0.845,5
+54.0,30,c5 lower bound,pooled,1.0,level 0.50,0.2162,0.9967,0.1333,0.957,37
+54.0,30,c5 lower bound,pooled,2.0,level 0.55,0.3784,0.9951,0.1538,1.416,37
+54.0,30,c5 lower bound,patient 0,1.0,level 0.50,0.1,0.9969,0.1,0.902,10
+54.0,30,c5 lower bound,patient 0,2.0,level 0.55,0.3,0.9965,0.2308,1.002,10
+54.0,30,c5 lower bound,patient 1,1.0,level 0.70,,0.997,0.0,0.852,0
+54.0,30,c5 lower bound,patient 1,2.0,level 0.75,,0.9941,0.0,1.704,0
+54.0,30,c5 lower bound,patient 2,1.0,level 0.45,0.1429,0.9974,0.1429,0.737,7
+54.0,30,c5 lower bound,patient 2,2.0,level 0.60,0.8571,0.9932,0.2727,1.966,7
+54.0,30,c5 lower bound,patient 3,1.0,level 0.35,0.1818,0.9966,0.2,0.976,11
+54.0,30,c5 lower bound,patient 3,2.0,level 0.40,0.3636,0.9949,0.25,1.464,11
+54.0,30,c5 lower bound,patient 4,1.0,level 0.55,0.0,0.9966,0.0,0.978,4
+54.0,30,c5 lower bound,patient 4,2.0,level 0.60,0.0,0.9958,0.0,1.196,4
+54.0,30,c5 lower bound,patient 5,1.0,level 0.65,0.0,0.9971,0.0,0.845,5
+54.0,30,c5 lower bound,patient 5,2.0,level 0.75,0.0,0.9938,0.0,1.796,5
+54.0,30,linear AR − δ,pooled,1.0,δ = 8 mg/dL,0.2703,0.997,0.1754,0.865,37
+54.0,30,linear AR − δ,pooled,2.0,δ = 12 mg/dL,0.4865,0.9943,0.1682,1.637,37
+54.0,30,linear AR − δ,patient 0,1.0,δ = 4 mg/dL,0.3,0.9972,0.2727,0.802,10
+54.0,30,linear AR − δ,patient 0,2.0,δ = 8 mg/dL,0.3,0.9955,0.1875,1.303,10
+54.0,30,linear AR − δ,patient 1,1.0,δ = 14 mg/dL,,0.997,0.0,0.852,0
+54.0,30,linear AR − δ,patient 1,2.0,δ = 16 mg/dL,,0.9945,0.0,1.598,0
+54.0,30,linear AR − δ,patient 2,1.0,δ = 8 mg/dL,0.2857,0.997,0.2222,0.86,7
+54.0,30,linear AR − δ,patient 2,2.0,δ = 16 mg/dL,0.8571,0.9932,0.2727,1.966,7
+54.0,30,linear AR − δ,patient 3,1.0,δ = 8 mg/dL,0.4545,0.997,0.4167,0.854,11
+54.0,30,linear AR − δ,patient 3,2.0,δ = 14 mg/dL,0.4545,0.9932,0.2381,1.952,11
+54.0,30,linear AR − δ,patient 4,1.0,δ = 18 mg/dL,0.75,0.9966,0.25,0.978,4
+54.0,30,linear AR − δ,patient 4,2.0,δ = 24 mg/dL,1.0,0.9936,0.1905,1.848,4
+54.0,30,linear AR − δ,patient 5,1.0,δ = 4 mg/dL,0.0,0.9971,0.0,0.845,5
+54.0,30,linear AR − δ,patient 5,2.0,δ = 10 mg/dL,0.0,0.9934,0.0,1.902,5
+54.0,30,point forecast − δ,pooled,1.0,δ = 10 mg/dL,0.2432,0.9972,0.1731,0.791,37
+54.0,30,point forecast − δ,pooled,2.0,δ = 12 mg/dL,0.3784,0.9945,0.14,1.582,37
+54.0,30,point forecast − δ,patient 0,1.0,δ = 10 mg/dL,0.1,0.9976,0.125,0.702,10
+54.0,30,point forecast − δ,patient 0,2.0,δ = 12 mg/dL,0.3,0.9951,0.1765,1.403,10
+54.0,30,point forecast − δ,patient 1,1.0,δ = 12 mg/dL,,0.9989,0.0,0.32,0
+54.0,30,point forecast − δ,patient 1,2.0,δ = 16 mg/dL,,0.9937,0.0,1.811,0
+54.0,30,point forecast − δ,patient 2,1.0,δ = 8 mg/dL,0.0,0.9979,0.0,0.614,7
+54.0,30,point forecast − δ,patient 2,2.0,δ = 14 mg/dL,0.8571,0.9932,0.2727,1.966,7
+54.0,30,point forecast − δ,patient 3,1.0,δ = 6 mg/dL,0.1818,0.9979,0.2857,0.61,11
+54.0,30,point forecast − δ,patient 3,2.0,δ = 8 mg/dL,0.3636,0.9949,0.25,1.464,11
+54.0,30,point forecast − δ,patient 4,1.0,δ = 24 mg/dL,0.25,0.997,0.1111,0.87,4
+54.0,30,point forecast − δ,patient 4,2.0,δ = 28 mg/dL,0.25,0.9943,0.0625,1.631,4
+54.0,30,point forecast − δ,patient 5,1.0,δ = 14 mg/dL,0.0,0.9971,0.0,0.845,5
+54.0,30,point forecast − δ,patient 5,2.0,δ = 16 mg/dL,0.0,0.9949,0.0,1.479,5
+54.0,60,c0 lower bound,pooled,1.0,level 0.50,0.0,0.9976,0.0,0.681,39
+54.0,60,c0 lower bound,pooled,2.0,level 0.55,0.0,0.9951,0.0,1.398,39
+54.0,60,c0 lower bound,patient 0,1.0,level 0.60,0.0,0.9972,0.0,0.802,11
+54.0,60,c0 lower bound,patient 0,2.0,level 0.65,0.0,0.9934,0.0,1.905,11
+54.0,60,c0 lower bound,patient 1,1.0,level 0.55,,0.9974,0.0,0.746,0
+54.0,60,c0 lower bound,patient 1,2.0,level 0.60,,0.9959,0.0,1.172,0
+54.0,60,c0 lower bound,patient 2,1.0,level 0.55,0.0,0.9983,0.0,0.491,8
+54.0,60,c0 lower bound,patient 2,2.0,level 0.60,0.0,0.994,0.0,1.72,8
+54.0,60,c0 lower bound,patient 3,1.0,level 0.35,0.0,0.997,0.0,0.856,11
+54.0,60,c0 lower bound,patient 3,2.0,level 0.40,0.0,0.9957,0.0,1.223,11
+54.0,60,c0 lower bound,patient 4,1.0,level 0.65,0.0,0.9977,0.0,0.652,4
+54.0,60,c0 lower bound,patient 4,2.0,level 0.65,0.0,0.9977,0.0,0.652,4
+54.0,60,c0 lower bound,patient 5,1.0,level 0.80,0.0,0.9967,0.0,0.951,5
+54.0,60,c0 lower bound,patient 5,2.0,level 0.80,0.0,0.9967,0.0,0.951,5
+54.0,60,c1 lower bound,pooled,1.0,level 0.30,0.0,0.9974,0.0,0.736,39
+54.0,60,c1 lower bound,pooled,2.0,level 0.35,0.0,0.9953,0.0,1.343,39
+54.0,60,c1 lower bound,patient 0,1.0,level 0.35,0.0,0.9986,0.0,0.401,11
+54.0,60,c1 lower bound,patient 0,2.0,level 0.40,0.0,0.9962,0.0,1.103,11
+54.0,60,c1 lower bound,patient 1,1.0,level 0.50,,0.997,0.0,0.852,0
+54.0,60,c1 lower bound,patient 1,2.0,level 0.60,,0.9956,0.0,1.278,0
+54.0,60,c1 lower bound,patient 2,1.0,level 0.35,0.0,0.997,0.0,0.86,8
+54.0,60,c1 lower bound,patient 2,2.0,level 0.40,0.0,0.9953,0.0,1.352,8
+54.0,60,c1 lower bound,patient 3,1.0,level 0.15,0.0,0.9974,0.0,0.734,11
+54.0,60,c1 lower bound,patient 3,2.0,level 0.20,0.0,0.994,0.0,1.712,11
+54.0,60,c1 lower bound,patient 4,1.0,level 0.30,0.0,0.9989,0.0,0.326,4
+54.0,60,c1 lower bound,patient 4,2.0,level 0.30,0.0,0.9989,0.0,0.326,4
+54.0,60,c1 lower bound,patient 5,1.0,level 0.55,0.0,0.9993,0.0,0.211,5
+54.0,60,c1 lower bound,patient 5,2.0,level 0.60,0.0,0.996,0.0,1.162,5
+54.0,60,c2 lower bound,pooled,1.0,level 0.50,0.0,0.998,0.0,0.57,39
+54.0,60,c2 lower bound,pooled,2.0,level 0.55,0.0,0.996,0.0,1.159,39
+54.0,60,c2 lower bound,patient 0,1.0,level 0.60,0.0,0.9972,0.0,0.802,11
+54.0,60,c2 lower bound,patient 0,2.0,level 0.65,0.0,0.9937,0.0,1.804,11
+54.0,60,c2 lower bound,patient 1,1.0,level 0.60,,0.9974,0.0,0.746,0
+54.0,60,c2 lower bound,patient 1,2.0,level 0.65,,0.9959,0.0,1.172,0
+54.0,60,c2 lower bound,patient 2,1.0,level 0.60,0.0,0.9974,0.0,0.737,8
+54.0,60,c2 lower bound,patient 2,2.0,level 0.60,0.0,0.9974,0.0,0.737,8
+54.0,60,c2 lower bound,patient 3,1.0,level 0.35,0.0,0.997,0.0,0.856,11
+54.0,60,c2 lower bound,patient 3,2.0,level 0.45,0.0,0.9936,0.0,1.834,11
+54.0,60,c2 lower bound,patient 4,1.0,level 0.65,0.0,0.9985,0.0,0.435,4
+54.0,60,c2 lower bound,patient 4,2.0,level 0.70,0.0,0.9947,0.0,1.522,4
+54.0,60,c2 lower bound,patient 5,1.0,level 0.80,0.0,0.9978,0.0,0.634,5
+54.0,60,c2 lower bound,patient 5,2.0,level 0.80,0.0,0.9978,0.0,0.634,5
+54.0,60,c3 lower bound,pooled,1.0,level 0.35,0.1026,0.9972,0.0833,0.81,39
+54.0,60,c3 lower bound,pooled,2.0,level 0.45,0.2564,0.9932,0.0862,1.95,39
+54.0,60,c3 lower bound,patient 0,1.0,level 0.35,0.0,0.9972,0.0,0.802,11
+54.0,60,c3 lower bound,patient 0,2.0,level 0.40,0.0,0.9944,0.0,1.604,11
+54.0,60,c3 lower bound,patient 1,1.0,level 0.40,,0.9978,0.0,0.639,0
+54.0,60,c3 lower bound,patient 1,2.0,level 0.50,,0.9941,0.0,1.704,0
+54.0,60,c3 lower bound,patient 2,1.0,level 0.40,0.0,0.9987,0.0,0.369,8
+54.0,60,c3 lower bound,patient 2,2.0,level 0.45,0.125,0.9949,0.0769,1.474,8
+54.0,60,c3 lower bound,patient 3,1.0,level 0.15,0.0,0.9991,0.0,0.245,11
+54.0,60,c3 lower bound,patient 3,2.0,level 0.25,0.1818,0.994,0.125,1.712,11
+54.0,60,c3 lower bound,patient 4,1.0,level 0.40,0.25,0.9985,0.2,0.435,4
+54.0,60,c3 lower bound,patient 4,2.0,level 0.50,0.25,0.994,0.0588,1.739,4
+54.0,60,c3 lower bound,patient 5,1.0,level 0.05,0.0,1.0,,0.0,5
+54.0,60,c3 lower bound,patient 5,2.0,level 0.05,0.0,1.0,,0.0,5
+54.0,60,c4 lower bound (one-sided),pooled,1.0,level 0.75,0.0,0.9979,0.0,0.607,39
+54.0,60,c4 lower bound (one-sided),pooled,2.0,level 0.80,0.0,0.9935,0.0,1.858,39
+54.0,60,c4 lower bound (one-sided),patient 0,1.0,level 0.80,0.0,0.9972,0.0,0.802,11
+54.0,60,c4 lower bound (one-sided),patient 0,2.0,level 0.80,0.0,0.9972,0.0,0.802,11
+54.0,60,c4 lower bound (one-sided),patient 1,1.0,level 0.05,,1.0,,0.0,0
+54.0,60,c4 lower bound (one-sided),patient 1,2.0,level 0.80,,0.9959,0.0,1.172,0
+54.0,60,c4 lower bound (one-sided),patient 2,1.0,level 0.80,0.0,0.9987,0.0,0.369,8
+54.0,60,c4 lower bound (one-sided),patient 2,2.0,level 0.85,0.0,0.9949,0.0,1.474,8
+54.0,60,c4 lower bound (one-sided),patient 3,1.0,level 0.65,0.0,0.997,0.0,0.856,11
+54.0,60,c4 lower bound (one-sided),patient 3,2.0,level 0.70,0.0,0.9949,0.0,1.468,11
+54.0,60,c4 lower bound (one-sided),patient 4,1.0,level 0.85,0.0,0.9977,0.0,0.652,4
+54.0,60,c4 lower bound (one-sided),patient 4,2.0,level 0.85,0.0,0.9977,0.0,0.652,4
+54.0,60,c4 lower bound (one-sided),patient 5,1.0,level 0.90,0.0,0.9978,0.0,0.634,5
+54.0,60,c4 lower bound (one-sided),patient 5,2.0,level 0.90,0.0,0.9978,0.0,0.634,5
+54.0,60,c5 lower bound,pooled,1.0,level 0.50,0.0,0.9976,0.0,0.681,39
+54.0,60,c5 lower bound,pooled,2.0,level 0.55,0.0,0.9947,0.0,1.509,39
+54.0,60,c5 lower bound,patient 0,1.0,level 0.60,0.0,0.9976,0.0,0.702,11
+54.0,60,c5 lower bound,patient 0,2.0,level 0.65,0.0,0.9944,0.0,1.604,11
+54.0,60,c5 lower bound,patient 1,1.0,level 0.60,,0.997,0.0,0.852,0
+54.0,60,c5 lower bound,patient 1,2.0,level 0.60,,0.997,0.0,0.852,0
+54.0,60,c5 lower bound,patient 2,1.0,level 0.40,0.0,0.9983,0.0,0.491,8
+54.0,60,c5 lower bound,patient 2,2.0,level 0.55,0.0,0.9944,0.0,1.597,8
+54.0,60,c5 lower bound,patient 3,1.0,level 0.30,0.0,0.997,0.0,0.856,11
+54.0,60,c5 lower bound,patient 3,2.0,level 0.40,0.0,0.9949,0.0,1.468,11
+54.0,60,c5 lower bound,patient 4,1.0,level 0.55,0.0,0.9977,0.0,0.652,4
+54.0,60,c5 lower bound,patient 4,2.0,level 0.65,0.25,0.9936,0.0556,1.848,4
+54.0,60,c5 lower bound,patient 5,1.0,level 0.70,0.0,0.9971,0.0,0.845,5
+54.0,60,c5 lower bound,patient 5,2.0,level 0.75,0.0,0.9952,0.0,1.373,5
+54.0,60,linear AR − δ,pooled,1.0,δ = 14 mg/dL,0.0256,0.9966,0.0185,0.975,39
+54.0,60,linear AR − δ,pooled,2.0,δ = 20 mg/dL,0.1795,0.9931,0.0614,1.969,39
+54.0,60,linear AR − δ,patient 0,1.0,not reached,,,,,
+54.0,60,linear AR − δ,patient 0,2.0,δ = 14 mg/dL,0.0,0.9934,0.0,1.905,11
+54.0,60,linear AR − δ,patient 1,1.0,δ = 18 mg/dL,,0.9982,0.0,0.533,0
+54.0,60,linear AR − δ,patient 1,2.0,δ = 24 mg/dL,,0.9945,0.0,1.598,0
+54.0,60,linear AR − δ,patient 2,1.0,δ = 14 mg/dL,0.0,0.9979,0.0,0.614,8
+54.0,60,linear AR − δ,patient 2,2.0,δ = 24 mg/dL,0.0,0.9932,0.0,1.966,8
+54.0,60,linear AR − δ,patient 3,1.0,δ = 14 mg/dL,0.0909,0.9966,0.1111,0.978,11
+54.0,60,linear AR − δ,patient 3,2.0,δ = 20 mg/dL,0.4545,0.9949,0.2941,1.468,11
+54.0,60,linear AR − δ,patient 4,1.0,δ = 28 mg/dL,0.0,0.9974,0.0,0.761,4
+54.0,60,linear AR − δ,patient 4,2.0,δ = 32 mg/dL,0.0,0.9947,0.0,1.522,4
+54.0,60,linear AR − δ,patient 5,1.0,δ = 10 mg/dL,0.0,0.9967,0.0,0.951,5
+54.0,60,linear AR − δ,patient 5,2.0,δ = 14 mg/dL,0.0,0.9934,0.0,1.902,5
+54.0,60,point forecast − δ,pooled,1.0,δ = 18 mg/dL,0.0,0.9978,0.0,0.626,39
+54.0,60,point forecast − δ,pooled,2.0,δ = 22 mg/dL,0.0,0.9939,0.0,1.748,39
+54.0,60,point forecast − δ,patient 0,1.0,δ = 26 mg/dL,0.0,0.9976,0.0,0.702,11
+54.0,60,point forecast − δ,patient 0,2.0,δ = 28 mg/dL,0.0,0.9962,0.0,1.103,11
+54.0,60,point forecast − δ,patient 1,1.0,δ = 18 mg/dL,,0.997,0.0,0.852,0
+54.0,60,point forecast − δ,patient 1,2.0,δ = 20 mg/dL,,0.9959,0.0,1.172,0
+54.0,60,point forecast − δ,patient 2,1.0,δ = 22 mg/dL,0.0,0.9974,0.0,0.737,8
+54.0,60,point forecast − δ,patient 2,2.0,δ = 24 mg/dL,0.0,0.9932,0.0,1.966,8
+54.0,60,point forecast − δ,patient 3,1.0,δ = 14 mg/dL,0.0,0.9966,0.0,0.978,11
+54.0,60,point forecast − δ,patient 3,2.0,δ = 16 mg/dL,0.0,0.9945,0.0,1.59,11
+54.0,60,point forecast − δ,patient 4,1.0,δ = 36 mg/dL,0.0,0.9977,0.0,0.652,4
+54.0,60,point forecast − δ,patient 4,2.0,δ = 40 mg/dL,0.0,0.9947,0.0,1.522,4
+54.0,60,point forecast − δ,patient 5,1.0,δ = 26 mg/dL,0.0,0.9978,0.0,0.634,5
+54.0,60,point forecast − δ,patient 5,2.0,δ = 28 mg/dL,0.0,0.9963,0.0,1.056,5
