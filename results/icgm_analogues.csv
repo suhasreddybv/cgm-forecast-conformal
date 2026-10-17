@@ -120,6 +120,28 @@ persistence,30,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/m
 "c3 upper bound, 90%",30,analogue of (b)(1)(v)(I),> 180,reference < 70,15477,5,0.323,,0,False,True,"violations; pct column is per 1,000 estimates"
 "c3 upper bound, 90%",30,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15477,48,0.31,,1.0,True,True,"wrong-direction share, limit is a maximum"
 "c3 upper bound, 90%",30,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15477,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,2701,245,9.07,8.2,85.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(B),70-180,±15%,10789,3183,29.5,28.79,70.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(C),> 180,±15%,2211,1239,56.04,54.3,80.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(D),<< 70,±40 mg/dL,2701,1956,72.42,70.98,98.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(E),70-180,±40%,10789,10296,95.43,95.09,99.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(F),> 180,±40%,2211,2198,99.41,99.08,99.0,True,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(G),whole range,±20%,15701,7242,46.12,45.47,87.0,False,True,
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(H),< 70,reference > 180,15701,18,1.146,,0,False,True,"violations; pct column is per 1,000 estimates"
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(I),> 180,reference < 70,15701,0,0.0,,0,True,True,"violations; pct column is per 1,000 estimates"
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15701,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 lower bound, 90%",30,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15701,58,0.369,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,0,0,nan,nan,85.0,,False,n < 100: not reportable (D-053)
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(B),70-180,±15%,8106,1810,22.33,21.58,70.0,False,True,
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(C),> 180,±15%,7595,3157,41.57,40.64,80.0,False,True,
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(D),<< 70,±40 mg/dL,0,0,nan,nan,98.0,,False,n < 100: not reportable (D-053)
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(E),70-180,±40%,8106,6066,74.83,74.03,99.0,False,True,
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(F),> 180,±40%,7595,6799,89.52,88.93,99.0,False,True,
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(G),whole range,±20%,15701,6997,44.56,43.91,87.0,False,True,
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(H),< 70,reference > 180,15701,0,0.0,,0,True,True,"violations; pct column is per 1,000 estimates"
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(I),> 180,reference < 70,15701,5,0.318,,0,False,True,"violations; pct column is per 1,000 estimates"
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15701,35,0.223,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 upper bound, 90%",30,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15701,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
 "c4 lower bound, 90%",30,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,1601,679,42.41,40.39,85.0,False,True,
 "c4 lower bound, 90%",30,analogue of (b)(1)(v)(B),70-180,±15%,11228,5905,52.59,51.82,70.0,False,True,
 "c4 lower bound, 90%",30,analogue of (b)(1)(v)(C),> 180,±15%,2872,2252,78.41,77.12,80.0,False,True,
@@ -252,6 +274,28 @@ persistence,60,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/m
 "c3 upper bound, 90%",60,analogue of (b)(1)(v)(I),> 180,reference < 70,15314,55,3.591,,0,False,True,"violations; pct column is per 1,000 estimates"
 "c3 upper bound, 90%",60,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15314,22,0.144,,1.0,True,True,"wrong-direction share, limit is a maximum"
 "c3 upper bound, 90%",60,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15314,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,4762,189,3.97,3.53,85.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(B),70-180,±15%,9871,1279,12.96,12.41,70.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(C),> 180,±15%,1068,325,30.43,28.17,80.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(D),<< 70,±40 mg/dL,4762,1611,33.83,32.71,98.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(E),70-180,±40%,9871,7487,75.85,75.13,99.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(F),> 180,±40%,1068,1025,95.97,94.86,99.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(G),whole range,±20%,15701,2863,18.23,17.73,87.0,False,True,
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(H),< 70,reference > 180,15701,136,8.662,,0,False,True,"violations; pct column is per 1,000 estimates"
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(I),> 180,reference < 70,15701,0,0.0,,0,True,True,"violations; pct column is per 1,000 estimates"
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15701,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 lower bound, 90%",60,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15701,19,0.121,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,0,0,nan,nan,85.0,,False,n < 100: not reportable (D-053)
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(B),70-180,±15%,5582,734,13.15,12.42,70.0,False,True,
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(C),> 180,±15%,10119,2011,19.87,19.23,80.0,False,True,
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(D),<< 70,±40 mg/dL,0,0,nan,nan,98.0,,False,n < 100: not reportable (D-053)
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(E),70-180,±40%,5582,2224,39.84,38.77,99.0,False,True,
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(F),> 180,±40%,10119,6233,61.6,60.8,99.0,False,True,
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(G),whole range,±20%,15701,3888,24.76,24.2,87.0,False,True,
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(H),< 70,reference > 180,15701,0,0.0,,0,True,True,"violations; pct column is per 1,000 estimates"
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(I),> 180,reference < 70,15701,40,2.548,,0,False,True,"violations; pct column is per 1,000 estimates"
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(J),all,"indicated > +1, true < −2 mg/dL/min",15701,12,0.076,,1.0,True,True,"wrong-direction share, limit is a maximum"
+"c5 upper bound, 90%",60,analogue of (b)(1)(v)(K),all,"indicated < −1, true > +2 mg/dL/min",15701,0,0.0,,1.0,True,True,"wrong-direction share, limit is a maximum"
 "c4 lower bound, 90%",60,analogue of (b)(1)(v)(A),<< 70,±15 mg/dL,2523,438,17.36,16.16,85.0,False,True,
 "c4 lower bound, 90%",60,analogue of (b)(1)(v)(B),70-180,±15%,11413,3296,28.88,28.19,70.0,False,True,
 "c4 lower bound, 90%",60,analogue of (b)(1)(v)(C),> 180,±15%,1765,817,46.29,44.34,80.0,False,True,

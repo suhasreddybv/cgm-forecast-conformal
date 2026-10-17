@@ -13,7 +13,7 @@ import re
 
 import numpy as np
 
-from src.conformal import c0, c1, c2, c3, c4, choose_gamma
+from src.conformal import c0, c1, c2, c3, c4, c5, choose_gamma
 from src.data.loader import COHORT_2020, REPO_ROOT
 from src.data.windows import HORIZONS, windows_for
 from src.eval.baselines import design, fit_ols
@@ -26,7 +26,7 @@ LEVEL = 0.90
 def estimators(sets, h):
     """name -> (reference, estimate, origin) pooled over the 2020 cohort."""
     ys, ps, origins, lins, pers = [], [], [], [], []
-    lowers = {m: [] for m in ("c0", "c1", "c2", "c3")}; uppers = {m: [] for m in lowers}
+    lowers = {m: [] for m in ("c0", "c1", "c2", "c3", "c5")}; uppers = {m: [] for m in lowers}
     alpha = 1 - LEVEL
     for pid in COHORT_2020:
         s = sets[(pid, h)]
@@ -37,7 +37,8 @@ def estimators(sets, h):
         ivs = {"c0": c0(s["cal_y"], s["cal_p"], s["p"], alpha),
                "c1": c1(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha),
                "c2": c2(s["cal_y"], s["cal_p"], s["p"], alpha),
-               "c3": c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha))}
+               "c3": c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha)),
+               "c5": c5(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)}
         for m, iv in ivs.items():
             lowers[m].append(iv.lower); uppers[m].append(iv.upper)
         lowers.setdefault("c4", []).append(c4(s["cal_y"], s["cal_p"], s["p"], alpha).lower)
@@ -84,7 +85,7 @@ def main() -> None:
     print(f"wrote results/icgm_analogues.csv ({len(rows)} rows)\n")
     print(f"{'estimator':<30}{'h':>4}" + "".join(f"{p:>14}" for p in ("(A) <70", "(B) 70-180", "(C) >180", "(D) <70/40", "(G) all 20%", "H | I", "J% | K%")))
     for h in (30, 60):
-        for name in ("final model, point forecast", "linear AR, point forecast", "persistence", "c0 lower bound, 90%", "c3 lower bound, 90%", "c4 lower bound, 90%", "c0 upper bound, 90%", "c3 upper bound, 90%"):
+        for name in ("final model, point forecast", "linear AR, point forecast", "persistence", "c0 lower bound, 90%", "c3 lower bound, 90%", "c4 lower bound, 90%", "c5 lower bound, 90%", "c0 upper bound, 90%", "c3 upper bound, 90%"):
             g = {re.search(r"\((\w)\)$", r["criterion"]).group(1): r for r in rows if r["estimator"] == name and r["horizon_min"] == h}
             def cell(p):
                 r = g[p]

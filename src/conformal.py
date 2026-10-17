@@ -16,6 +16,8 @@ regression is excluded because the model is frozen as a point forecaster.
       global quantile and says so.
   c4  one-sided lower bound on the signed residual yhat - y: lower = yhat - q(yhat - y),
       no upper bound. Does a signed score reach down where symmetric ones cannot?
+  c5  Mondrian on the signed rate of change at the origin (last two history slots): c0's
+      score calibrated per rate bin. The one permitted route to asymmetric reach.
   c3  adaptive conformal inference (Gibbs & Candes 2021): c0's score, with the miscoverage
       level updated online from recent miscoverage, alpha_{t+1} = alpha_t + gamma (alpha -
       err_t). No exchangeability assumption; tracks nominal coverage under drift and after
@@ -118,6 +120,48 @@ def c4(cal_y, cal_pred, pred, alpha) -> Intervals:
     q = conformal_quantile(cal_pred - cal_y, alpha)
     pred = np.asarray(pred, float)
     return Intervals(pred - q, np.full(len(pred), np.inf), "one-sided lower bound")
+
+
+RATE_EDGES = (-2.0, -1.0, 1.0)          # mg/dL/min: falling steeply | falling | flat | rising
+RATE_NAMES = ("falling steeply (<-2)", "falling (-2 to -1)", "flat (-1 to +1)", "rising (>+1)")
+
+
+def rate_at_origin(history, step_min: float = 5.0) -> np.ndarray:
+    """Signed rate of change at the forecast origin from the last two HISTORY slots only -
+    nothing at or after the origin enters (the target in particular does not)."""
+    h = np.asarray(history, float)
+    return (h[:, -1] - h[:, -2]) / step_min
+
+
+def rate_bin(history) -> np.ndarray:
+    """Index into RATE_NAMES; edges: exactly -2 -> 'falling', exactly -1 -> 'flat', exactly +1 -> 'flat'."""
+    r = rate_at_origin(history)
+    return np.searchsorted(np.array(RATE_EDGES), r, side="right") - np.where(r == 1.0, 1, 0)
+
+
+def c5(cal_y, cal_pred, cal_history, pred, history, alpha) -> Intervals:
+    """Mondrian on the rate of change at the origin (D-063): c0's symmetric score calibrated
+    separately within each rate bin. A bin with fewer than MIN_BIN calibration scores is
+    merged with its neighbour toward 'flat', and the note says so."""
+    scores = np.abs(cal_y - cal_pred)
+    cb, tb = rate_bin(cal_history), rate_bin(history)
+    counts = np.bincount(cb, minlength=4)
+    # merge sparse bins inward: 0 -> 1 -> 2 <- 3
+    merged = {b: b for b in range(4)}
+    notes = []
+    if counts[0] < MIN_BIN:
+        merged[0] = 1; notes.append(f"{RATE_NAMES[0]} ({counts[0]}) merged into {RATE_NAMES[1]}")
+    if counts[1] + (counts[0] if merged[0] == 1 else 0) < MIN_BIN:
+        merged[1] = 2; merged[0] = 2 if merged[0] == 1 else merged[0]; notes.append(f"{RATE_NAMES[1]} merged into {RATE_NAMES[2]}")
+    if counts[3] < MIN_BIN:
+        merged[3] = 2; notes.append(f"{RATE_NAMES[3]} ({counts[3]}) merged into {RATE_NAMES[2]}")
+    cb_m, tb_m = np.array([merged[b] for b in cb]), np.array([merged[b] for b in tb])
+    q = np.empty(len(pred))
+    for b in set(tb_m):
+        m = cb_m == b
+        q[tb_m == b] = conformal_quantile(scores[m], alpha) if m.any() else conformal_quantile(scores, alpha)
+    pred = np.asarray(pred, float)
+    return Intervals(pred - q, pred + q, "; ".join(notes))
 
 
 def c3(cal_y, cal_pred, y, pred, alpha, gamma) -> Intervals:

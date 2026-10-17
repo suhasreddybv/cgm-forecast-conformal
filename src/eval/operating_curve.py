@@ -31,7 +31,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-from src.conformal import c0, c1, c2, c3, c4, choose_gamma, onset_detection  # noqa: E402
+from src.conformal import c0, c1, c2, c3, c4, c5, choose_gamma, onset_detection  # noqa: E402
 from src.data.loader import COHORT_2020, REPO_ROOT  # noqa: E402
 from src.data.windows import HORIZONS  # noqa: E402
 from src.eval.coverage import aligned_windows, frozen_predictions, member_keys  # noqa: E402
@@ -44,6 +44,9 @@ DELTAS = np.arange(0, 61, 2, dtype=float)
 LEVELS_FINE = np.round(np.arange(0.05, 0.951, 0.05), 2)
 THRESHOLDS = (70.0, 54.0)
 FA_MARKS = (1.0, 2.0)
+
+
+N_BOOT = 2000
 
 
 def pooled_onset(parts: list[dict]) -> dict:
@@ -79,8 +82,8 @@ def curves(variant: str = "bglp", patients=COHORT_2020) -> list[dict]:
             for name, key in (("point forecast − δ", "p"), ("linear AR − δ", "p_lin")):
                 for d in DELTAS:
                     parts = [onset_detection(s["y"], s["origin"], s[key] - d, thr) for s in sets]
-                    rows.append(dict(threshold=thr, horizon_min=h * 5, curve=name, parameter=float(d), **pooled_onset(parts)))
-            for method in ("c0", "c1", "c2", "c3", "c4"):
+                    rows.append(dict(threshold=thr, horizon_min=h * 5, curve=name, parameter=float(d), **pooled_onset(parts), _parts=parts))
+            for method in ("c0", "c1", "c2", "c3", "c4", "c5"):
                 for level in LEVELS_FINE:
                     alpha = 1 - level
                     parts = []
@@ -89,6 +92,8 @@ def curves(variant: str = "bglp", patients=COHORT_2020) -> list[dict]:
                             iv = c0(s["cal_y"], s["cal_p"], s["p"], alpha)
                         elif method == "c4":
                             iv = c4(s["cal_y"], s["cal_p"], s["p"], alpha)
+                        elif method == "c5":
+                            iv = c5(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)
                         elif method == "c1":
                             iv = c1(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)
                         elif method == "c2":
@@ -98,7 +103,7 @@ def curves(variant: str = "bglp", patients=COHORT_2020) -> list[dict]:
                             iv = c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, g)
                         parts.append(onset_detection(s["y"], s["origin"], iv.lower, thr))
                     rows.append(dict(threshold=thr, horizon_min=h * 5, curve=f"{method} lower bound" + (" (one-sided)" if method == "c4" else ""),
-                                     parameter=float(level), **pooled_onset(parts)))
+                                     parameter=float(level), **pooled_onset(parts), _parts=parts))
     return rows
 
 
@@ -113,15 +118,99 @@ def sensitivity_at(rows: list[dict], thr: float, h: int, curve: str, fa: float) 
     return float(np.interp(fa, xs, ys))
 
 
+def curve_from_parts(rows: list[dict], thr: float, h: int, curve: str, idx) -> tuple[np.ndarray, np.ndarray]:
+    """The (false alarms/day, sensitivity) curve re-pooled over the patients in idx."""
+    pts = []
+    for r in rows:
+        if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == curve:
+            parts = [r["_parts"][i] for i in idx]
+            p = pooled_onset(parts)
+            if np.isfinite(p["false_alarms_per_day"]) and np.isfinite(p["sensitivity"]):
+                pts.append((p["false_alarms_per_day"], p["sensitivity"]))
+    pts.sort()
+    return np.array([a for a, _ in pts]), np.array([b for _, b in pts])
+
+
+def sens_at(xs, ys, fa):
+    if len(xs) < 2 or fa < xs.min() or fa > xs.max():
+        return float("nan")
+    return float(np.interp(fa, xs, ys))
+
+
+def claim_rule(rows: list[dict], n_patients: int, seed: int = 0) -> list[dict]:
+    """D-064: each method's sensitivity minus the point-forecast sweep's at 1 and 2 false
+    alarms per day, bootstrapped over patients."""
+    rng = np.random.default_rng(seed)
+    out = []
+    methods = sorted({r["curve"] for r in rows if "lower bound" in r["curve"]} | {"linear AR − δ"})
+    for thr in THRESHOLDS:
+        for h in (30, 60):
+            full = np.arange(n_patients)
+            ref_x, ref_y = curve_from_parts(rows, thr, h, "point forecast − δ", full)
+            for m in methods:
+                mx, my = curve_from_parts(rows, thr, h, m, full)
+                for fa in FA_MARKS:
+                    point = sens_at(mx, my, fa) - sens_at(ref_x, ref_y, fa)
+                    diffs = []
+                    for _ in range(N_BOOT):
+                        idx = rng.integers(0, n_patients, n_patients)
+                        bx, by = curve_from_parts(rows, thr, h, m, idx); rx, ry = curve_from_parts(rows, thr, h, "point forecast − δ", idx)
+                        diffs.append(sens_at(bx, by, fa) - sens_at(rx, ry, fa))
+                    diffs = np.array(diffs); fin = diffs[np.isfinite(diffs)]
+                    lo, hi = (np.percentile(fin, [2.5, 97.5]) if len(fin) > 100 else (float("nan"), float("nan")))
+                    verdict = ("not reached" if not np.isfinite(point) else "above the sweep" if lo > 0 else "below the sweep" if hi < 0 else "within variability")
+                    out.append(dict(threshold=thr, horizon_min=h, method=m, false_alarms_per_day=fa,
+                                    sensitivity=round(sens_at(mx, my, fa), 4), sweep_sensitivity=round(sens_at(ref_x, ref_y, fa), 4),
+                                    difference=round(point, 4) if np.isfinite(point) else "", ci_low=round(float(lo), 4) if np.isfinite(lo) else "",
+                                    ci_high=round(float(hi), 4) if np.isfinite(hi) else "", n_bootstrap_resolved=int(len(fin)), verdict=verdict))
+    return out
+
+
+def operating_points(rows: list[dict], n_patients: int) -> list[dict]:
+    """C5: at 1 and 2 false alarms per day, every method's sensitivity, specificity, PPV and
+    the setting that achieves it - the last setting on the curve at or below the rate -
+    pooled and per patient."""
+    out = []
+    curves = sorted({r["curve"] for r in rows})
+    for thr in THRESHOLDS:
+        for h in (30, 60):
+            for m in curves:
+                for scope, idx in [("pooled", np.arange(n_patients))] + [(f"patient {i}", np.array([i])) for i in range(n_patients)]:
+                    cand = []
+                    for r in rows:
+                        if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == m:
+                            p = pooled_onset([r["_parts"][i] for i in idx])
+                            parts = [r["_parts"][i] for i in idx]
+                            tn, fp, tp = sum(q["tn"] for q in parts), sum(q["fp"] for q in parts), sum(q["tp"] for q in parts)
+                            p["specificity"] = tn / (tn + fp) if tn + fp else float("nan"); p["ppv"] = tp / (tp + fp) if tp + fp else float("nan")
+                            cand.append((r["parameter"], p))
+                    for fa in FA_MARKS:
+                        ok = [(par, p) for par, p in cand if np.isfinite(p["false_alarms_per_day"]) and p["false_alarms_per_day"] <= fa]
+                        if not ok:
+                            out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=fa, setting="not reached",
+                                            sensitivity="", specificity="", ppv="", achieved_false_alarms_per_day="", n_onsets=""))
+                            continue
+                        par, p = max(ok, key=lambda t: t[1]["false_alarms_per_day"])
+                        out.append(dict(threshold=thr, horizon_min=h, method=m, scope=scope, false_alarms_per_day=fa,
+                                        setting=(f"δ = {par:.0f} mg/dL" if "δ" in m else f"level {par:.2f}"),
+                                        sensitivity=round(p["sensitivity"], 4), specificity=round(p["specificity"], 4),
+                                        ppv=round(p["ppv"], 4) if np.isfinite(p["ppv"]) else "", achieved_false_alarms_per_day=round(p["false_alarms_per_day"], 3),
+                                        n_onsets=p["n_onsets"]))
+    return out
+
+
 def figure(rows: list[dict], thr: float, out: Path, censored: bool) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
-    styles = {"point forecast − δ": ("#444444", "-"), "linear AR − δ": ("#999999", "--"),
+    styles = {"point forecast − δ": ("#222222", "-"), "linear AR − δ": ("#999999", "--"),
               "c0 lower bound": ("#1f77b4", "-"), "c1 lower bound": ("#ff7f0e", "-"), "c2 lower bound": ("#2ca02c", "-"), "c3 lower bound": ("#9467bd", "-"),
-              "c4 lower bound (one-sided)": ("#d62728", "-")}
+              "c4 lower bound (one-sided)": ("#d62728", "-"), "c5 lower bound": ("#8c564b", "-")}
     for ax, h in zip(axes, (30, 60)):
         for curve, (col, ls) in styles.items():
             pts = sorted((r["false_alarms_per_day"], r["sensitivity"]) for r in rows if r["threshold"] == thr and r["horizon_min"] == h and r["curve"] == curve)
-            ax.plot([p[0] for p in pts], [p[1] for p in pts], color=col, ls=ls, lw=1.6, marker="o", ms=2.5, label=curve)
+            xs, ys = np.array([p[0] for p in pts]), np.array([p[1] for p in pts])
+            s2 = sens_at(xs, ys, 2.0)
+            ax.plot(xs, ys, color=col, ls=ls, lw=3.0 if curve == "point forecast − δ" else 1.5, marker="o", ms=2.5,
+                    label=f"{curve} — {s2:.2f} at 2/day" if np.isfinite(s2) else f"{curve} — not reached at 2/day")
         for fa in FA_MARKS:
             ax.axvline(fa, color="black", lw=0.7, ls=":")
         ax.set_xscale("log"); ax.set_xlim(0.05, 200); ax.set_ylim(0, 1)
@@ -142,8 +231,20 @@ def main() -> None:
     root = Path(a.out_dir)
     (root / "results").mkdir(parents=True, exist_ok=True); (root / "figures").mkdir(parents=True, exist_ok=True)
     rows = curves()
+    n_pat = len(rows[0]["_parts"])
+    public = [{k: v for k, v in r.items() if k != "_parts"} for r in rows]
     with open(root / "results" / "operating_curve.csv", "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+        w = csv.DictWriter(f, fieldnames=list(public[0])); w.writeheader(); w.writerows(public)
+    claims = claim_rule(rows, n_pat)
+    with open(root / "results" / "operating_curve_claim.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(claims[0])); w.writeheader(); w.writerows(claims)
+    points = operating_points(rows, n_pat)
+    with open(root / "results" / "operating_points.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(points[0])); w.writeheader(); w.writerows(points)
+    print("\nclaim rule (D-064): sensitivity minus the point-forecast sweep at the same false-alarm rate, bootstrap over 6 patients")
+    for c in claims:
+        if c["threshold"] == 70.0 and c["false_alarms_per_day"] == 2.0:
+            print(f"  {c['horizon_min']:>3} min {c['method']:<28} sens {c['sensitivity']}  sweep {c['sweep_sensitivity']}  diff {c['difference']} [{c['ci_low']}, {c['ci_high']}]  -> {c['verdict']}")
     for thr, fn in ((70.0, "operating_curve.png"), (54.0, "operating_curve_54.png")):
         cens = any(r["censored"] for r in rows if r["threshold"] == thr)
         figure(rows, thr, root / "figures" / fn, cens)
@@ -151,7 +252,7 @@ def main() -> None:
     print(f"\n{'curve':<22}" + "".join(f"{f'{h} min @ {fa:.0f}/day':>16}" for h in (30, 60) for fa in FA_MARKS))
     for thr in THRESHOLDS:
         print(f"-- {thr:.0f} mg/dL")
-        for curve in ("point forecast − δ", "linear AR − δ", "c0 lower bound", "c1 lower bound", "c2 lower bound", "c3 lower bound", "c4 lower bound (one-sided)"):
+        for curve in ("point forecast − δ", "linear AR − δ", "c0 lower bound", "c1 lower bound", "c2 lower bound", "c3 lower bound", "c4 lower bound (one-sided)", "c5 lower bound"):
             print(f"{curve:<22}" + "".join(f"{sensitivity_at(rows, thr, h, curve, fa):>16.3f}" for h in (30, 60) for fa in FA_MARKS))
 
 

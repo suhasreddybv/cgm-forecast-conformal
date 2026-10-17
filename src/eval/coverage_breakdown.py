@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from scipy.stats import spearmanr  # noqa: E402
 
-from src.conformal import LEVELS, c0, c1, c2, c3, choose_gamma  # noqa: E402
+from src.conformal import LEVELS, RATE_NAMES, c0, c1, c2, c3, c5, choose_gamma, rate_bin  # noqa: E402
 from src.data.loader import COHORT_2020, COHORT_OF, PATIENTS, REPO_ROOT, load_patient  # noqa: E402
 from src.data.windows import HORIZONS, STEP_S, _series_for  # noqa: E402
 from src.eval.coverage import aligned_windows, frozen_predictions, member_keys  # noqa: E402
@@ -81,6 +81,8 @@ def _intervals(s: dict, method: str, alpha: float):
         return c1(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)
     if method == "c2":
         return c2(s["cal_y"], s["cal_p"], s["p"], alpha)
+    if method == "c5":
+        return c5(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha)
     g = choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha)
     return c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha, g)
 
@@ -133,12 +135,13 @@ def main() -> None:
         for h in HORIZONS:
             for level in LEVELS:
                 alpha = 1 - level
-                for method in ("c0", "c1", "c2", "c3"):
+                for method in ("c0", "c1", "c2", "c3", "c5"):
                     ivs = {pid: _intervals(sets[(pid, h)], method, alpha) for pid in PATIENTS}
                     for cohort, pids in (("2020", COHORT_2020), ("all12", PATIENTS)):
                         dims = {"true_glucose": (GLUCOSE_NAMES, lambda s: glucose_bin(s["y"])),
                                 "forecast_glucose": (GLUCOSE_NAMES, lambda s: glucose_bin(s["p"])),   # what Mondrian c2 conditions on
                                 "rate_of_change": (ROC_NAMES, lambda s: roc_bin(s["origin"], s["previous"])),
+                                "signed_rate": (RATE_NAMES, lambda s: rate_bin(s["hist"])),            # c5's conditioning variable
                                 "time_since_gap": (GAP_NAMES, lambda s: gap_bin(s["since_gap"]))}
                         for dim, (names, fn) in dims.items():
                             for b, name in enumerate(names):

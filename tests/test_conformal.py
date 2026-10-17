@@ -197,3 +197,42 @@ def test_c4_is_never_below_c0_and_is_tighter_for_the_same_one_sided_coverage():
     assert np.all(b.lower >= a.lower - 1e-9) and (pred - b.lower).mean() < (pred - a.lower).mean()
     assert abs(float(np.mean(y >= b.lower)) - 0.9) < 0.015
     assert float(np.mean(y >= a.lower)) > float(np.mean(y >= b.lower)), "c0's lower side over-covers"
+
+
+def test_c5_rate_bins_partition_and_use_history_only():
+    from src.conformal import RATE_NAMES, c5, rate_at_origin, rate_bin
+    hist = np.array([[100, 88], [100, 90], [100, 95], [100, 100], [100, 105], [100, 106.0]])   # rates -2.4, -2, -1, 0, +1, +1.2
+    assert [RATE_NAMES[i] for i in rate_bin(hist)] == ["falling steeply (<-2)", "falling (-2 to -1)", "flat (-1 to +1)",
+                                                        "flat (-1 to +1)", "flat (-1 to +1)", "rising (>+1)"]
+    rng = np.random.default_rng(9)
+    h = rng.normal(150, 30, (3000, 24))
+    b = rate_bin(h)
+    assert b.min() >= 0 and b.max() <= 3 and np.bincount(b, minlength=4).sum() == 3000
+    # history only: the origin slot is the last history slot; nothing after it exists in the input
+    tampered = h.copy(); tampered[:, :-2] = 1e6
+    assert np.array_equal(rate_at_origin(tampered), rate_at_origin(h)), "only the last two slots enter"
+
+
+def test_c5_holds_nominal_per_bin_with_bin_dependent_noise():
+    from src.conformal import c5, rate_bin
+    rng = np.random.default_rng(10)
+    def make(n):
+        prev = rng.uniform(100, 200, n); rate = rng.choice([-3.0, -1.5, 0.0, 2.0], n)
+        hist = np.stack([prev + rate * 5 * (k - 23) for k in range(24)], axis=1)   # slot 23 = origin
+        pred = hist[:, -1]
+        noise = np.where(rate < -2, 30.0, np.where(rate < -1, 20.0, np.where(rate <= 1, 8.0, 15.0)))
+        y = pred + rng.normal(0, 1, n) * noise
+        return hist, pred, y
+    ch, cp, cy = make(4000); th, tp, ty = make(8000)
+    iv = c5(cy, cp, ch, tp, th, 0.1)
+    assert iv.note == ""
+    b = rate_bin(th)
+    for k in range(4):
+        m = b == k
+        assert abs(coverage(ty[m], iv[m]) - 0.9) < 0.03, (k, coverage(ty[m], iv[m]))
+    assert iv.width[b == 0].mean() > 2 * iv.width[b == 2].mean()
+    # fixed-width c0 cannot hold the steep bin on the same data
+    assert coverage(ty[b == 0], c0(cy, cp, tp, 0.1)[b == 0]) < 0.85
+    # a sparse calibration bin is merged and reported
+    sparse = c5(cy[ch[:, -1] - ch[:, -2] > -12][:], cp[ch[:, -1] - ch[:, -2] > -12], ch[ch[:, -1] - ch[:, -2] > -12], tp, th, 0.1)
+    assert "merged" in sparse.note

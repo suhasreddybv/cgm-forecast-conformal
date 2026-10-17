@@ -9,7 +9,7 @@ import csv
 
 import numpy as np
 
-from src.conformal import c0, c3, c4, choose_gamma
+from src.conformal import c0, c3, c4, c5, choose_gamma
 from src.data.loader import COHORT_2020, REPO_ROOT
 from src.data.windows import HORIZONS
 from src.eval.coverage_breakdown import GLUCOSE_NAMES, MIN_N, glucose_bin, patient_sets
@@ -24,7 +24,7 @@ def main() -> None:
         for h in HORIZONS:
             for level in LEVELS:
                 alpha = 1 - level
-                per = {"c0": [], "c3": [], "c4": []}
+                per = {"c0": [], "c3": [], "c4": [], "c5": []}
                 ys, ps = [], []
                 for pid in COHORT_2020:
                     s = sets[(pid, h)]
@@ -32,6 +32,7 @@ def main() -> None:
                     per["c3"].append(c3(s["cal_y"], s["cal_p"], s["y"], s["p"], alpha,
                                         choose_gamma(s["fit_y"], s["fit_p"], s["cal_y"], s["cal_p"], alpha)).lower)
                     per["c4"].append(c4(s["cal_y"], s["cal_p"], s["p"], alpha).lower)
+                    per["c5"].append(c5(s["cal_y"], s["cal_p"], s["cal_hist"], s["p"], s["hist"], alpha).lower)
                     ys.append(s["y"]); ps.append(s["p"])
                 y, p = np.concatenate(ys), np.concatenate(ps)
                 b = glucose_bin(y)
@@ -48,12 +49,12 @@ def main() -> None:
     with open(REPO_ROOT / "results" / "c4_hypoglycaemic_bins.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
     print(f"wrote results/c4_hypoglycaemic_bins.csv ({len(rows)} rows)\n")
-    print(f"{'variant':<8}{'h':>4}{'bin':<8}" + "".join(f"{m + ' cov/below/dist':>22}" for m in ("c0", "c3", "c4")) + "   (90% level)")
+    print(f"{'variant':<8}{'h':>4}{'bin':<8}" + "".join(f"{m + ' cov/below/dist':>22}" for m in ("c0", "c3", "c4", "c5")) + "   (90% level)")
     for variant in ("bglp", "primary"):
         for h in HORIZONS:
             for name in GLUCOSE_NAMES[:3]:
                 line = f"{variant:<8}{h * 5:>4}{name:<8}"
-                for m in ("c0", "c3", "c4"):
+                for m in ("c0", "c3", "c4", "c5"):
                     r = next(r for r in rows if (r["method"], r["level"], r["variant"], r["horizon_min"], r["true_bin"]) == (m, 0.9, variant, h * 5, name))
                     cell = f"{r['one_sided_coverage']:.3f}/{r['miss_below']}/{r['median_distance_forecast_to_bound']:.0f}" if r["n"] else "—"
                     line += f"{cell + (f' n{r["n"]}' if m == 'c0' else ''):>22}"
