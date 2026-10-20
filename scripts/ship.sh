@@ -33,6 +33,7 @@ if grep -q '· `pending`$' docs/decisions.md; then
   TODAY=$(date +%Y-%m-%d)
   sed -i '' "s/^- \*\*Date \/ commit:\*\* $TODAY · \`pending\`$/- **Date \/ commit:** $TODAY · \`$H\`/" docs/decisions.md
   echo "stamped $(grep -c "\`$H\`" docs/decisions.md) entries with $H; $(grep -c '· `pending`$' docs/decisions.md) still pending (other dates)"
+  git diff --quiet docs/decisions.md && { echo "no entry dated today to stamp; done"; git log --oneline -2; exit 0; }
   "$PY" -m pytest -q tests/test_decision_log.py > /dev/null
   git add docs/decisions.md
   git -c core.hooksPath=.git/hooks commit -q -m "docs: record commit hash $H in the decision log
