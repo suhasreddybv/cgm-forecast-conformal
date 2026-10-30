@@ -17,12 +17,12 @@ cd "$(git rev-parse --show-toplevel)"
 export PYTHONPATH=.
 PY=.venv/bin/python
 # every repository's data root is pointed at nothing, so only the data-free tests run
-export OHIO_T1DM_ROOT=/nonexistent BIG_IDEAS_ROOT=/nonexistent
+export OHIO_T1DM_ROOT=/nonexistent BIG_IDEAS_ROOT=/nonexistent PPG_DALIA_ROOT=/nonexistent   # every repo's dataset hidden: the data-free suite
 N=$("$PY" -m pytest -q --co 2>&1 | tail -1 | grep -oE "^[0-9]+")
 "$PY" -m pytest -q > /tmp/ship_pytest.log 2>&1          # under set -e a failure stops here
 tail -1 /tmp/ship_pytest.log
 S=$(grep -oE "[0-9]+ skipped" /tmp/ship_pytest.log | grep -oE "[0-9]+" || echo 0)
-sed -i '' -E "s/pytest                              # [0-9]+ tests; [0-9]+ need the dataset and skip without it/pytest                              # $N tests; $S need the dataset and skip without it/" README.md
+sed -i '' -E "s/(pytest +# )[0-9]+ tests; [0-9]+ need the dataset/\1$N tests; $S need the dataset/" README.md   # any spacing before the #
 git add -A
 git -c core.hooksPath=.git/hooks commit -q -F "$MSG"
 H=$(git log -1 --format=%h); echo "commit $H"
